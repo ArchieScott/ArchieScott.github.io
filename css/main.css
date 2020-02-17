@@ -1272,7 +1272,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #fffbff;
+  background: #bd0e82;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -2815,3 +2815,198 @@ ul.breadcrumb li + li:last-child {
     margin: 8px 0 0;
   }
 }
+body {
+  background: url("https://i.loli.net/2020/02/17/hRGw7zfecA42mFv.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+  background-color: rgba(0,0,0,0.5);
+}
+@media (min-width: 1200px) {
+  .post-body {
+    font-size: 1em;
+  }
+}
+.post-body h2 {
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+.post-body h3 {
+  font-size: 1.2em;
+}
+.reward-container button {
+  height: 35px;
+  width: 35px;
+  padding: 1.5px 0 0;
+  background: #222;
+  border-radius: 5px;
+  -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  -moz-box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  transition: 0.2s ease-out;
+}
+.reward-container button:hover {
+  background: #26aca3;
+}
+.post-copyright {
+  background-color: #f9f9f9;
+  border-left: 0px;
+  list-style: none;
+  margin: 2em 0 0;
+  padding: 0.5em 1em;
+  border: 1px solid #ddd;
+}
+.site-title {
+  font-size: 2em;
+  font-weight: bold;
+}
+.menu .menu-item a {
+  font-size: 1em;
+}
+.menu .menu-item a:hover {
+  color: #699;
+  border-bottom-color: #699;
+}
+.site-author-name {
+  font-family: 'Comic Sans MS', sans-serif;
+  font-size: 1.5em;
+}
+.site-nav-toggle {
+  top: 0;
+  transform: translateY(78%);
+}
+/* //调节header空白
+    .header-inner {
+        +desktop() {
+            padding-top: 100px;
+            padding-bottom: 70px;
+        }
+        +mobile() {
+            padding-top: 30px;
+            padding-bottom: 30px;
+        }
+    }
+
+    //导航按钮高度需要跟着header调整
+    .site-nav-toggle {
+        +mobile() {
+            top: 30px;
+        }
+    } 
+
+    // 头部inner
+    .header-inner {
+        padding: 4em 0 2em;
+    }
+
+    // 站点描述
+    .site-description {
+        font-size: 1em;
+    }
+
+    //TOC目录默认只显示两级目录
+    .nav-level-2 > .nav-child {
+        display: none !important;
+    }
+
+    //导航按钮高度需要跟着header调整
+    .content {
+        +desktop() {
+            padding-top: 0px;
+        }
+    }
+
+    // 菜单栏
+    .menu {
+        margin-top: 2em;
+        padding-left: 0;
+        text-align: center;
+        background: rgba(0, 0, 0, 0.5); //菜单栏背景色
+        margin-left: auto;
+        margin-right: auto;
+        border-radius: 1em; // 圆角化
+    }
+    
+
+        //文章内图片样式
+    .post-body img {
+        border: 1px solid #ddd;
+        box-sizing: border-box;
+        padding: 0px;
+        border-radius: 3px;
+        box-shadow: 4px 4px 4px 0px #ddd;
+    }
+
+    .content {
+        border-radius: 20px;
+        padding: 30px 60px 30px 60px;
+        background:rgba(255, 255, 255, 1) none repeat scroll !important;
+    }
+
+    #lv-container {
+        border-radius: 20px;
+        padding: 30px 60px 30px 60px;
+        background:rgba(255, 255, 255, 0.8) none repeat scroll !important;
+    }
+
+    //底部上下篇导航留空
+    .post-nav-item {
+        padding: 10px 0px 10px 0px
+    }
+
+    //隐藏社交图标前的圆点
+    .links-of-author a,
+    .links-of-author .exturl {
+        &:before {
+            display: none;
+        }
+    }
+
+    //修改不蒜子数据颜色
+    .busuanzi-value {
+        color: #1890ff;
+    }
+
+    //主标题颜色
+    .brand{
+        color: #494d4d;
+        background-color: transparent;;
+    }
+
+    //副标题颜色
+    .site-subtitle {
+        margin-top: 10px;
+        font-size: 13px;
+        color: #4b5f61;
+    }
+
+    body {   
+        background:url(/images/BZ2.jpg);
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-position: center;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    #sidebar {
+        background:url(/images/SJBZ4.jpg);
+        background-size: cover;
+        background-position:center;
+        background-repeat:no-repeat;
+        p,span,a {color: rgba(255, 255, 255, 1);}
+    }
+
+    .content {
+        border-radius: 20px;
+        padding: 30px 60px 30px 60px;
+        background:rgba(255, 255, 255, 0.8) none repeat scroll !important;
+    }
+
+    #lv-container {
+        border-radius: 20px;
+        padding: 30px 60px 30px 60px;
+        background:rgba(255, 255, 255, 0.8) none repeat scroll !important;
+    }
+} */
