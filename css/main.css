@@ -1272,7 +1272,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #bd0e82;
+  background: #7a33ff;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -2870,11 +2870,20 @@ body {
 }
 .site-author-name {
   font-family: 'Comic Sans MS', sans-serif;
-  font-size: 1.5em;
+  font-size: 1.2em;
 }
 .site-nav-toggle {
   top: 0;
   transform: translateY(78%);
+}
+* {
+  cursor: url("/images/mouse.ico"), auto !important;
+}
+:active {
+  cursor: url("/images/mouselc.ico"), auto !important;
+}
+:link {
+  cursor: url("/images/mousept.ico"), auto !important;
 }
 /* //调节header空白
     .header-inner {
