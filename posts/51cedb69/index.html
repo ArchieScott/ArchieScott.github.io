@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.ico">
+  <link rel="mask-icon" href="/images/newlogo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"github.com","root":"/","scheme":"Mist","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="LeetCode 887 动态规划  题目链接：CLICK ME">
+<meta property="og:type" content="article">
+<meta property="og:title" content="鸡蛋掉落 - 换一种角度的动态规划">
+<meta property="og:url" content="https://github.com/ArchieScott/posts/51cedb69/index.html">
+<meta property="og:site_name" content="夏の終わり">
+<meta property="og:description" content="LeetCode 887 动态规划  题目链接：CLICK ME">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-02-15T11:34:38.000Z">
+<meta property="article:modified_time" content="2020-02-15T14:20:56.621Z">
+<meta property="article:author" content="Archie Scott">
+<meta property="article:tag" content="LeetCode">
+<meta property="article:tag" content="Dynamic Programming">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://github.com/ArchieScott/posts/51cedb69/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>鸡蛋掉落 - 换一种角度的动态规划 | 夏の終わり</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">夏の終わり</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Summer is Over</p>
+  </div>
+
+  <div class="site-nav-right"></div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-top">
+
+    <a href="/top/" rel="section"><i class="fa fa-fw fa-signal"></i>top</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/ArchieScott" class="github-corner" title="进来看看 ((٩(&#x2F;&#x2F;̀Д&#x2F;́&#x2F;)۶))" aria-label="进来看看 ((٩(&#x2F;&#x2F;̀Д&#x2F;́&#x2F;)۶))"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://github.com/ArchieScott/posts/51cedb69/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+      <meta itemprop="name" content="Archie Scott">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="夏の終わり">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          鸡蛋掉落 - 换一种角度的动态规划
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-02-15 19:34:38 / 修改时间：22:20:56" itemprop="dateCreated datePublished" datetime="2020-02-15T19:34:38+08:00">2020-02-15</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/LeetCode/" itemprop="url" rel="index">
+                    <span itemprop="name">LeetCode</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span id="/posts/51cedb69/" class="post-meta-item leancloud_visitors" data-flag-title="鸡蛋掉落 - 换一种角度的动态规划" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/posts/51cedb69/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/posts/51cedb69/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <ul>
+<li>LeetCode 887</li>
+<li>动态规划</li>
+</ul>
+<p>题目链接：<a href="https://leetcode-cn.com/problems/super-egg-drop/" target="_blank" rel="noopener">CLICK ME</a></p>
+<a id="more"></a>
+
+<p>你将获得 <em>K</em> 个鸡蛋，并可以使用一栋从 <em>1</em> 到 <em>N</em> 共有 <em>N</em> 层楼的建筑。</p>
+<p>每个蛋的功能都是一样的，如果一个蛋碎了，你就不能再把它掉下去。</p>
+<p>你知道存在楼层 <em>F</em> ，满足 <em>0 &lt;= F &lt;= N</em> 任何从高于 <em>F</em> 的楼层落下的鸡蛋都会碎，从 <em>F</em> 楼层或比它低的楼层落下的鸡蛋都不会破。</p>
+<p>每次移动，你可以取一个鸡蛋（如果你有完整的鸡蛋）并把它从任一楼层 <em>X</em> 扔下（满足 <em>1 &lt;= X &lt;= N</em>）。</p>
+<p>你的目标是<strong>确切地知道</strong> <em>F</em> 的值是多少。</p>
+<p>无论 <em>F</em> 的初始值如何，求确定 <em>F</em> 的值的<strong>最小移动次数</strong>是多少。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Input:</span><br><span class="line">K = <span class="number">1</span>, N = <span class="number">2</span></span><br><span class="line"></span><br><span class="line">Output:</span><br><span class="line"><span class="number">2</span></span><br></pre></td></tr></table></figure>
+
+<p>解题思路：</p>
+<p>首先弄清题意。<br>现在我们有 <em>K</em> 个鸡蛋，<em>N</em> 层楼，我们需要找到一层楼，假设是 <em>F</em>，这层楼之下的楼扔鸡蛋都不会碎，而从包括这层楼开始的 <em>F ~ N</em> 层楼扔鸡蛋都会碎，我们需要在最少的次数内找到这层楼。</p>
+<p>那直接二分查找不行吗，直接 <code>logN + 1</code> 次出结果？<br>当然是不行的，因为鸡蛋不够，只有 <em>K</em> 个，假设 <em>K = 1*，如果我在 *N/2</em> 楼扔，鸡蛋碎了，那么就没有办法继续试了，也就是说，如果只有一个鸡蛋，那么只能从 <em>1</em> 楼一直试到 <em>N</em> 楼，看第一次是碎在哪里，最差的情况下必须要尝试 <em>N</em> 次，这也是题目中提到的确切知道 <em>F</em> 的值的要求。至少要尝试 <em>N</em> 次才能保证确切地知道准确的楼层。</p>
+<p>对于这种类型的题目，如果一开始想不到动态规划，我们就用最简单的方法，暴力递归尝试。</p>
+<p>先假设 <code>P(K, N)</code> 表示有 <em>K</em> 个鸡蛋 <em>N</em> 层楼条件下的最少尝试次数，先看两个 <em>base case</em>：</p>
+<ul>
+<li><p>当 <em>N = 0</em> 时，没有楼层，鸡蛋肯定不会碎，不用尝试直接返回 <em>0</em>，<code>P(K, 0) = 0</code>；</p>
+</li>
+<li><p>当 <em>K = 1</em> 时，只有一个鸡蛋，只能挨层试，返回 <em>N</em>，<code>P(1, N) = N</code>；</p>
+</li>
+</ul>
+<p>当 <em>N &gt; 0</em> 且 <em>K &gt; 1</em> 时，假设我们从第 <em>i</em> 层楼开始尝试第一个鸡蛋，那么存在两种情况：</p>
+<ul>
+<li><p>鸡蛋碎了，那么第 <em>i</em> 层楼之上的楼层就不用尝试了，还剩下 <em>i - 1</em> 层楼，剩下 <em>K - 1</em> 个鸡蛋，所以总的尝试的次数变为 <code>1 + P(K - 1, i - 1)</code>；</p>
+</li>
+<li><p>鸡蛋没碎，那么第 <em>i</em> 层楼以下的楼层就不用尝试了，还剩下 <em>N - i</em> 层楼，剩下 <em>K</em> 个鸡蛋，所以总的尝试次数变为 <code>1 + P(K, N - i)</code>；</p>
+</li>
+</ul>
+<p>到这里需要注意了，因为我们需要知道确切的楼层，也就是说需要考虑最差的情况 - 即尝试次数最多的情况，所以我们需要取 <code>max{P(K - 1, i - 1), P(K, N - i)} + 1</code>，而这只是第一次扔在 <em>i</em> 位置的情况，<em>i</em> 的取值范围为 <em>1 ~ N*，在所有的尝试中我们要找到次数最少的那种，所以可以得到递推式 <code>P(K, N) = min{max{P(K - 1, i - 1), P(K, N - i)}(1 &lt;= i &lt;= N)} + 1</code>，添加一个 *hashmap</em> 用于子问题的存储，时间复杂度可以达到 O(K * N^2^)，代码如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">superEggDrop</span><span class="params">(<span class="keyword">int</span> K, <span class="keyword">int</span> N)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (K &lt; <span class="number">1</span> || N &lt; <span class="number">1</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">process</span>(K, N);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">process</span><span class="params">(<span class="keyword">int</span> K, <span class="keyword">int</span> N)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (N == <span class="number">0</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span> (K == <span class="number">1</span>)</span><br><span class="line">            <span class="keyword">return</span> N;</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">string</span> mapKey = <span class="built_in">std</span>::to_string(K) + <span class="string">"_"</span> + <span class="built_in">std</span>::to_string(N);</span><br><span class="line">        <span class="keyword">if</span> (resMap.<span class="built_in">find</span>(mapKey) != resMap.<span class="built_in">end</span>())</span><br><span class="line">            <span class="keyword">return</span> resMap[mapKey];</span><br><span class="line">        <span class="keyword">int</span> minTimes = INT_MAX;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; N + <span class="number">1</span>; ++i) &#123;</span><br><span class="line">            minTimes = <span class="built_in">std</span>::<span class="built_in">min</span>(minTimes, <span class="built_in">std</span>::<span class="built_in">max</span>(<span class="built_in">process</span>(K - <span class="number">1</span>, i - <span class="number">1</span>), <span class="built_in">process</span>(K, N - i)));</span><br><span class="line">        &#125;</span><br><span class="line">        resMap[mapKey] = minTimes + <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">return</span> minTimes + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">unordered_map</span>&lt;<span class="built_in">std</span>::<span class="built_in">string</span>, <span class="keyword">int</span>&gt; resMap;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>问题到这里结束了吗，当然没有，上面这个代码虽然对，但是超时了，而就算改写成动态规划，时间复杂度仍然是没有变化的，我们可以试一下，用一个 <code>(K + 1) * (N + 1)</code> 的矩阵画出所有的可能性，那么 <em>K = 1</em> 的整行的 <code>dp[1][j] = j</code>；然后从左至右，从上到下更新矩阵中的值，变量 <em>t</em> 用于循环当前只有 <em>i</em> 层楼的时候，从第 <em>1</em> 层一直尝试到第 <em>i</em> 层，每次尝试都更新最小值，尝试完 <em>j</em> 个棋子 <em>i</em> 层楼后将结果填入 <code>dp[j][i]</code> 中，最后填入的 <code>dp[K][N]</code> 即为答案。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">superEggDrop</span><span class="params">(<span class="keyword">int</span> K, <span class="keyword">int</span> N)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (K &lt; <span class="number">1</span> || N &lt; <span class="number">1</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span> (K == <span class="number">1</span>)</span><br><span class="line">            <span class="keyword">return</span> N;</span><br><span class="line">        <span class="function"><span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; <span class="title">dp</span><span class="params">(K + <span class="number">1</span>, <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;(N + <span class="number">1</span>, <span class="number">0</span>))</span></span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= N; ++j) &#123;</span><br><span class="line">            dp[<span class="number">1</span>][j] = j;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= N; ++i) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">2</span>; j &lt;= K; ++j) &#123;</span><br><span class="line">                <span class="keyword">int</span> <span class="built_in">min</span> = INT_MAX;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> t = <span class="number">1</span>; t &lt;= i; ++t) &#123;</span><br><span class="line">                    <span class="built_in">min</span> = <span class="built_in">std</span>::<span class="built_in">min</span>(<span class="built_in">min</span>, <span class="built_in">std</span>::<span class="built_in">max</span>(dp[j - <span class="number">1</span>][t - <span class="number">1</span>], dp[j][i - t]));</span><br><span class="line">                &#125;</span><br><span class="line">                dp[j][i] = <span class="built_in">min</span> + <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[K][N];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>正常的题目做到这里已经足够了，然而这仍然挡不住有二逼愿意在 <em>10000</em> 层楼扔鸡蛋的情况，是的，这种做法仍然是超时的。</p>
+<p>我们换一种思路，<strong>题目中给出了 <em>K</em> 个鸡蛋 <em>N</em> 层楼让我们求最差情况下最少的尝试次数，这个问题等价于 <em>K</em> 个鸡蛋尝试 <em>M</em> 次最多能尝试出 <em>N</em> 层楼，它们只是一个逆否命题</strong>。</p>
+<p>我们假设 <em>K</em> 个鸡蛋扔 <em>M</em> 次<strong>最多可以确定 <em>F</em> 层楼</strong>，<em>M</em> 越大 <em>F</em> 也越大，同样的，当 <em>M</em> 相同时，<em>K</em> 越多 <em>F</em> 也越大，也就是说矩阵向 <em>x</em> 方向和 <em>y</em> 方向都是非递减的，我们只需要判断确定的楼层数是否首次大于给定的楼层数就能判断当前的 <em>M</em> 是多少。</p>
+<p>先看 <em>base case</em>：</p>
+<ul>
+<li><p>当 <em>K = 0</em> 时，没有鸡蛋，确认不了；</p>
+</li>
+<li><p>当 <em>K = 1</em> 时，扔 <em>M</em> 次最多能确定 <em>M</em> 层楼；</p>
+</li>
+<li><p>当 <em>M = 0</em> 时，一次不扔，确认不了；</p>
+</li>
+</ul>
+<p>我们用 <code>dp[i][j]</code> 来表示 <em>i</em> 个鸡蛋扔 <em>j</em> 次最多能够确定的最多楼层数，既然楼层数最多，说明从第 <em>1</em> 次到第 <em>j</em> 次，每次扔鸡蛋的楼层都是最优的，假设第 <em>1</em> 次在 <em>F</em> 层扔：</p>
+<ul>
+<li><p>如果第 <em>1</em> 个鸡蛋碎了，那就看 <em>i - 1</em> 个鸡蛋扔 <em>j - 1</em> 次最多能确定多少层楼，即 <code>dp[i - 1][j - 1]</code></p>
+</li>
+<li><p>如果第 <em>1</em> 个鸡蛋没有碎，那就看 <em>i</em> 个鸡蛋扔 <em>j - 1</em> 次最多能确定多少层楼，即 <code>dp[i][j - 1]</code></p>
+</li>
+</ul>
+<p>两种情况分别是向上能确定的最多楼层数量和向下能确定的最多楼层数量，注意这两个值都是最优的，也是唯一的，再加上本层楼，最后能得到 <code>dp[i][j] = dp[i - 1][j - 1] + dp[i][j - 1] + 1</code>，代码如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">superEggDrop</span><span class="params">(<span class="keyword">int</span> K, <span class="keyword">int</span> N)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (K &lt; <span class="number">1</span> || N &lt; <span class="number">1</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> throwTimes = log2N(N) + <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span> (K &gt;= throwTimes)</span><br><span class="line">            <span class="keyword">return</span> throwTimes;</span><br><span class="line">        <span class="function"><span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">dp</span><span class="params">(K, <span class="number">0</span>)</span></span>;</span><br><span class="line">        <span class="keyword">int</span> res = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (<span class="number">1</span>) &#123;</span><br><span class="line">            res++;</span><br><span class="line">            <span class="comment">// previous 保存 dp[i - 1][j - 1] 的值</span></span><br><span class="line">            <span class="comment">// 由于是从左至右更新的</span></span><br><span class="line">            <span class="comment">// dp[i] 是通过之前的 dp[i] 来更新当前的 dp[i]</span></span><br><span class="line">            <span class="keyword">int</span> previous = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; K; ++i) &#123;</span><br><span class="line">                <span class="keyword">int</span> temp = dp[i];</span><br><span class="line">                dp[i] = dp[i] + previous + <span class="number">1</span>;</span><br><span class="line">                <span class="keyword">if</span> (dp[i] &gt;= N) &#123;</span><br><span class="line">                    <span class="keyword">return</span> res;</span><br><span class="line">                &#125;</span><br><span class="line">                previous = temp;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">log2N</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> res = <span class="number">-1</span>;</span><br><span class="line">        <span class="keyword">while</span> (n) &#123;</span><br><span class="line">            res++;</span><br><span class="line">            n &gt;&gt;= <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>代码中还有一点小的优化，当鸡蛋数量大于 <code>log2N(N)</code> 时，直接二分扔蛋就行了。</p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>赏颗卤蛋呗 ๑乛◡乛๑</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.png" alt="Archie Scott 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.jpg" alt="Archie Scott 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Archie Scott
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://github.com/ArchieScott/posts/51cedb69/" title="鸡蛋掉落 - 换一种角度的动态规划">https://github.com/ArchieScott/posts/51cedb69/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/LeetCode/" rel="tag"># LeetCode</a>
+              <a href="/tags/Dynamic-Programming/" rel="tag"># Dynamic Programming</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/posts/79da2c09/" rel="next" title="方阵中战斗力最弱的 K 行 - 使用 Multimap">
+      方阵中战斗力最弱的 K 行 - 使用 Multimap <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Archie Scott"
+      src="/images/avatar.jpeg">
+  <p class="site-author-name" itemprop="name">Archie Scott</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ArchScott" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ArchScott"><i class="fa fa-fw fa-github"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zhousc91@163.com" title="E-Mail → mailto:zhousc91@163.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://steamcommunity.com/id/zhousc91/" title="steam → https:&#x2F;&#x2F;steamcommunity.com&#x2F;id&#x2F;zhousc91&#x2F;" rel="noopener" target="_blank"><i class="fa fa-fw fa-steam"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://blog.csdn.net/zhousc91" title="csdn → https:&#x2F;&#x2F;blog.csdn.net&#x2F;zhousc91" rel="noopener" target="_blank"><i class="fa fa-fw fa-contao"></i></a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-battery-1"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Archie Scott</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.7.1
+  </div>
+
+        
+
+
+
+
+
+
+  <script>
+  function leancloudSelector(url) {
+    url = encodeURI(url);
+    return document.getElementById(url).querySelector('.leancloud-visitors-count');
+  }
+  if (CONFIG.page.isPost) {
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.getAttribute('id'));
+      var title = visitors.getAttribute('data-flag-title');
+
+      Counter('get', `/classes/Counter?where=${JSON.stringify({ url })}`)
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .then(response => response.json())
+              .then(() => {
+                leancloudSelector(url).innerText = counter.time + 1;
+              })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              })
+          } else {
+              Counter('post', '/classes/Counter', { title: title, url: url, time: 1 })
+                .then(response => response.json())
+                .then(() => {
+                  leancloudSelector(url).innerText = 1;
+                })
+                .catch(error => {
+                  console.error('Failed to create', error);
+                });
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+  } else {
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.getAttribute('id'));
+      });
+
+      Counter('get', `/classes/Counter?where=${JSON.stringify({ url: { '$in': entries } })}`)
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length === 0) {
+            document.querySelectorAll('.leancloud_visitors .leancloud-visitors-count').forEach(element => {
+              element.innerText = 0;
+            });
+            return;
+          }
+          for (let item of results) {
+            let { url, time } = item;
+            leancloudSelector(url).innerText = time;
+          }
+          for (let url of entries) {
+            var element = leancloudSelector(url);
+            if (element.innerText == '') {
+              element.innerText = 0;
+            }
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+  }
+
+  fetch('https://app-router.leancloud.cn/2/route?appId=')
+    .then(response => response.json())
+    .then(({ api_server }) => {
+      var Counter = (method, url, data) => {
+        return fetch(`https://${api_server}/1.1${url}`, {
+          method: method,
+          headers: {
+            'X-LC-Id'     : '',
+            'X-LC-Key'    : '',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : '8Q0H1FlCSwH5h7HQWC46LjKJ-MdYXbMMI',
+      appKey     : 'j08JUoxyhUwEvKHN2JOA6w98',
+      placeholder: "404 Not Found",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>
