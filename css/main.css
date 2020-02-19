@@ -1272,7 +1272,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #7a33ff;
+  background: #99ffd7;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -2884,6 +2884,12 @@ body {
 }
 :link {
   cursor: url("/images/mousept.ico"), auto !important;
+}
+.header-inner {
+  opacity: 0.9;
+}
+.main-inner {
+  opacity: 0.9;
 }
 /* //调节header空白
     .header-inner {
