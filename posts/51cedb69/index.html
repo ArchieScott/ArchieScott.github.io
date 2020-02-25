@@ -28,10 +28,10 @@
 <meta property="og:description" content="LeetCode 887 动态规划  题目链接：CLICK ME">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-02-15T11:34:38.000Z">
-<meta property="article:modified_time" content="2020-02-15T14:20:56.621Z">
+<meta property="article:modified_time" content="2020-02-25T04:37:11.505Z">
 <meta property="article:author" content="Archie Scott">
 <meta property="article:tag" content="LeetCode">
-<meta property="article:tag" content="Dynamic Programming">
+<meta property="article:tag" content="Dynamic-Programming">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="https://github.com/ArchieScott/posts/51cedb69/">
@@ -134,12 +134,12 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">6</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">7</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">11</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">13</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -214,10 +214,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-02-15 19:34:38 / 修改时间：22:20:56" itemprop="dateCreated datePublished" datetime="2020-02-15T19:34:38+08:00">2020-02-15</time>
+              <time title="创建时间：2020-02-15 19:34:38" itemprop="dateCreated datePublished" datetime="2020-02-15T19:34:38+08:00">2020-02-15</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-02-25 12:37:11" itemprop="dateModified" datetime="2020-02-25T12:37:11+08:00">2020-02-25</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -283,55 +289,55 @@
 <p>题目链接：<a href="https://leetcode-cn.com/problems/super-egg-drop/" target="_blank" rel="noopener">CLICK ME</a></p>
 <a id="more"></a>
 
-<p>你将获得 <em>K</em> 个鸡蛋，并可以使用一栋从 <em>1</em> 到 <em>N</em> 共有 <em>N</em> 层楼的建筑。</p>
+<p>你将获得 K 个鸡蛋，并可以使用一栋从 1 到 N 共有 N 层楼的建筑。</p>
 <p>每个蛋的功能都是一样的，如果一个蛋碎了，你就不能再把它掉下去。</p>
-<p>你知道存在楼层 <em>F</em> ，满足 <em>0 &lt;= F &lt;= N</em> 任何从高于 <em>F</em> 的楼层落下的鸡蛋都会碎，从 <em>F</em> 楼层或比它低的楼层落下的鸡蛋都不会破。</p>
-<p>每次移动，你可以取一个鸡蛋（如果你有完整的鸡蛋）并把它从任一楼层 <em>X</em> 扔下（满足 <em>1 &lt;= X &lt;= N</em>）。</p>
-<p>你的目标是<strong>确切地知道</strong> <em>F</em> 的值是多少。</p>
-<p>无论 <em>F</em> 的初始值如何，求确定 <em>F</em> 的值的<strong>最小移动次数</strong>是多少。</p>
+<p>你知道存在楼层 F，满足 0 &lt;= F &lt;= N，任何从高于 F 的楼层落下的鸡蛋都会碎，从 F 楼层或比它低的楼层落下的鸡蛋都不会破。</p>
+<p>每次移动，你可以取一个鸡蛋（如果你有完整的鸡蛋）并把它从任一楼层 X 扔下（满足 1 &lt;= X &lt;= N）。</p>
+<p>你的目标是<strong>确切地知道</strong> F 的值是多少。</p>
+<p>无论 F 的初始值如何，求确定 F 的值的<strong>最小移动次数</strong>是多少。</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Input:</span><br><span class="line">K = <span class="number">1</span>, N = <span class="number">2</span></span><br><span class="line"></span><br><span class="line">Output:</span><br><span class="line"><span class="number">2</span></span><br></pre></td></tr></table></figure>
 
 <p>解题思路：</p>
-<p>首先弄清题意。<br>现在我们有 <em>K</em> 个鸡蛋，<em>N</em> 层楼，我们需要找到一层楼，假设是 <em>F</em>，这层楼之下的楼扔鸡蛋都不会碎，而从包括这层楼开始的 <em>F ~ N</em> 层楼扔鸡蛋都会碎，我们需要在最少的次数内找到这层楼。</p>
-<p>那直接二分查找不行吗，直接 <code>logN + 1</code> 次出结果？<br>当然是不行的，因为鸡蛋不够，只有 <em>K</em> 个，假设 <em>K = 1*，如果我在 *N/2</em> 楼扔，鸡蛋碎了，那么就没有办法继续试了，也就是说，如果只有一个鸡蛋，那么只能从 <em>1</em> 楼一直试到 <em>N</em> 楼，看第一次是碎在哪里，最差的情况下必须要尝试 <em>N</em> 次，这也是题目中提到的确切知道 <em>F</em> 的值的要求。至少要尝试 <em>N</em> 次才能保证确切地知道准确的楼层。</p>
+<p>首先弄清题意。<br>现在我们有 K 个鸡蛋，N 层楼，我们需要找到一层楼，假设是 F，这层楼之下的楼扔鸡蛋都不会碎，而从包括这层楼开始的 F ~ N 层楼扔鸡蛋都会碎，我们需要在最少的次数内找到这层楼。</p>
+<p>那直接二分查找不行吗，直接 <code>logN + 1</code> 次出结果？<br>当然是不行的，因为鸡蛋不够，只有 K 个，假设 K = 1，如果我在 N/2 楼扔，鸡蛋碎了，那么就没有办法继续试了，也就是说，<strong>如果只有一个鸡蛋，那么只能从 1 楼一直试到 N 楼，看第一次是碎在哪里，最差的情况下必须要尝试 N 次</strong>，这也是题目中提到的确切知道 F 的值的要求。至少要尝试 N 次才能保证确切地知道准确的楼层。</p>
 <p>对于这种类型的题目，如果一开始想不到动态规划，我们就用最简单的方法，暴力递归尝试。</p>
-<p>先假设 <code>P(K, N)</code> 表示有 <em>K</em> 个鸡蛋 <em>N</em> 层楼条件下的最少尝试次数，先看两个 <em>base case</em>：</p>
+<p>先假设 <code>P(K, N)</code> 表示有 K 个鸡蛋 N 层楼条件下的最少尝试次数，先看两个 base case：</p>
 <ul>
-<li><p>当 <em>N = 0</em> 时，没有楼层，鸡蛋肯定不会碎，不用尝试直接返回 <em>0</em>，<code>P(K, 0) = 0</code>；</p>
+<li><p>当 N = 0 时，没有楼层，鸡蛋肯定不会碎，不用尝试直接返回 0，<code>P(K, 0) = 0</code>；</p>
 </li>
-<li><p>当 <em>K = 1</em> 时，只有一个鸡蛋，只能挨层试，返回 <em>N</em>，<code>P(1, N) = N</code>；</p>
+<li><p>当 K = 1 时，只有一个鸡蛋，只能挨层试，返回 N，<code>P(1, N) = N</code>；</p>
 </li>
 </ul>
-<p>当 <em>N &gt; 0</em> 且 <em>K &gt; 1</em> 时，假设我们从第 <em>i</em> 层楼开始尝试第一个鸡蛋，那么存在两种情况：</p>
+<p>当 N &gt; 0 且 K &gt; 1 时，假设我们从第 i 层楼开始尝试第一个鸡蛋，那么存在两种情况：</p>
 <ul>
-<li><p>鸡蛋碎了，那么第 <em>i</em> 层楼之上的楼层就不用尝试了，还剩下 <em>i - 1</em> 层楼，剩下 <em>K - 1</em> 个鸡蛋，所以总的尝试的次数变为 <code>1 + P(K - 1, i - 1)</code>；</p>
+<li><p>鸡蛋碎了，那么第 i 层楼之上的楼层就不用尝试了，还剩下 i - 1 层楼，剩下 K - 1 个鸡蛋，所以总的尝试的次数变为 <code>1 + P(K - 1, i - 1)</code>；</p>
 </li>
-<li><p>鸡蛋没碎，那么第 <em>i</em> 层楼以下的楼层就不用尝试了，还剩下 <em>N - i</em> 层楼，剩下 <em>K</em> 个鸡蛋，所以总的尝试次数变为 <code>1 + P(K, N - i)</code>；</p>
+<li><p>鸡蛋没碎，那么第 i 层楼以下的楼层就不用尝试了，还剩下 N - i 层楼，剩下 K 个鸡蛋，所以总的尝试次数变为 <code>1 + P(K, N - i)</code>；</p>
 </li>
 </ul>
-<p>到这里需要注意了，因为我们需要知道确切的楼层，也就是说需要考虑最差的情况 - 即尝试次数最多的情况，所以我们需要取 <code>max{P(K - 1, i - 1), P(K, N - i)} + 1</code>，而这只是第一次扔在 <em>i</em> 位置的情况，<em>i</em> 的取值范围为 <em>1 ~ N*，在所有的尝试中我们要找到次数最少的那种，所以可以得到递推式 <code>P(K, N) = min{max{P(K - 1, i - 1), P(K, N - i)}(1 &lt;= i &lt;= N)} + 1</code>，添加一个 *hashmap</em> 用于子问题的存储，时间复杂度可以达到 O(K * N^2^)，代码如下：</p>
+<p>到这里需要注意了，因为我们需要知道确切的楼层，也就是说需要考虑最差的情况 - 即尝试次数最多的情况，所以我们需要取 <code>max{P(K - 1, i - 1), P(K, N - i)} + 1</code>，而这只是第一次扔在 i 位置的情况，i 的取值范围为 1 ~ N，在所有的尝试中我们要找到次数最少的那种，所以可以得到递推式 <code>P(K, N) = min{max{P(K - 1, i - 1), P(K, N - i)}(1 &lt;= i &lt;= N)} + 1</code>，添加一个 <code>unordered_map</code> 用于子问题的存储，时间复杂度可以达到 O(K * N^2^)，代码如下：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">superEggDrop</span><span class="params">(<span class="keyword">int</span> K, <span class="keyword">int</span> N)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (K &lt; <span class="number">1</span> || N &lt; <span class="number">1</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">process</span>(K, N);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">process</span><span class="params">(<span class="keyword">int</span> K, <span class="keyword">int</span> N)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (N == <span class="number">0</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span> (K == <span class="number">1</span>)</span><br><span class="line">            <span class="keyword">return</span> N;</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">string</span> mapKey = <span class="built_in">std</span>::to_string(K) + <span class="string">"_"</span> + <span class="built_in">std</span>::to_string(N);</span><br><span class="line">        <span class="keyword">if</span> (resMap.<span class="built_in">find</span>(mapKey) != resMap.<span class="built_in">end</span>())</span><br><span class="line">            <span class="keyword">return</span> resMap[mapKey];</span><br><span class="line">        <span class="keyword">int</span> minTimes = INT_MAX;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; N + <span class="number">1</span>; ++i) &#123;</span><br><span class="line">            minTimes = <span class="built_in">std</span>::<span class="built_in">min</span>(minTimes, <span class="built_in">std</span>::<span class="built_in">max</span>(<span class="built_in">process</span>(K - <span class="number">1</span>, i - <span class="number">1</span>), <span class="built_in">process</span>(K, N - i)));</span><br><span class="line">        &#125;</span><br><span class="line">        resMap[mapKey] = minTimes + <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">return</span> minTimes + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">unordered_map</span>&lt;<span class="built_in">std</span>::<span class="built_in">string</span>, <span class="keyword">int</span>&gt; resMap;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
-<p>问题到这里结束了吗，当然没有，上面这个代码虽然对，但是超时了，而就算改写成动态规划，时间复杂度仍然是没有变化的，我们可以试一下，用一个 <code>(K + 1) * (N + 1)</code> 的矩阵画出所有的可能性，那么 <em>K = 1</em> 的整行的 <code>dp[1][j] = j</code>；然后从左至右，从上到下更新矩阵中的值，变量 <em>t</em> 用于循环当前只有 <em>i</em> 层楼的时候，从第 <em>1</em> 层一直尝试到第 <em>i</em> 层，每次尝试都更新最小值，尝试完 <em>j</em> 个棋子 <em>i</em> 层楼后将结果填入 <code>dp[j][i]</code> 中，最后填入的 <code>dp[K][N]</code> 即为答案。</p>
+<p>问题到这里结束了吗，当然没有，上面这个代码虽然对，但是超时了，而就算改写成动态规划，时间复杂度仍然是没有变化的，我们可以试一下，用一个 (K + 1) * (N + 1) 的矩阵画出所有的可能性，那么 K = 1 的整行的 <code>dp[1][j] = j</code>；然后从左至右，从上到下更新矩阵中的值，变量 t 用于循环当前只有 i 层楼的时候，从第 1 层一直尝试到第 i 层，每次尝试都更新最小值，尝试完 j 个棋子 i 层楼后将结果填入 <code>dp[j][i]</code> 中，最后填入的 <code>dp[K][N]</code> 即为答案。</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">superEggDrop</span><span class="params">(<span class="keyword">int</span> K, <span class="keyword">int</span> N)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (K &lt; <span class="number">1</span> || N &lt; <span class="number">1</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span> (K == <span class="number">1</span>)</span><br><span class="line">            <span class="keyword">return</span> N;</span><br><span class="line">        <span class="function"><span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; <span class="title">dp</span><span class="params">(K + <span class="number">1</span>, <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;(N + <span class="number">1</span>, <span class="number">0</span>))</span></span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= N; ++j) &#123;</span><br><span class="line">            dp[<span class="number">1</span>][j] = j;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= N; ++i) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">2</span>; j &lt;= K; ++j) &#123;</span><br><span class="line">                <span class="keyword">int</span> <span class="built_in">min</span> = INT_MAX;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> t = <span class="number">1</span>; t &lt;= i; ++t) &#123;</span><br><span class="line">                    <span class="built_in">min</span> = <span class="built_in">std</span>::<span class="built_in">min</span>(<span class="built_in">min</span>, <span class="built_in">std</span>::<span class="built_in">max</span>(dp[j - <span class="number">1</span>][t - <span class="number">1</span>], dp[j][i - t]));</span><br><span class="line">                &#125;</span><br><span class="line">                dp[j][i] = <span class="built_in">min</span> + <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[K][N];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
-<p>正常的题目做到这里已经足够了，然而这仍然挡不住有二逼愿意在 <em>10000</em> 层楼扔鸡蛋的情况，是的，这种做法仍然是超时的。</p>
+<p>正常的题目做到这里已经足够了，然而这仍然挡不住有二逼愿意在 10000 层楼扔鸡蛋的情况，是的，这种做法仍然是超时的。</p>
 <p>我们换一种思路，<strong>题目中给出了 <em>K</em> 个鸡蛋 <em>N</em> 层楼让我们求最差情况下最少的尝试次数，这个问题等价于 <em>K</em> 个鸡蛋尝试 <em>M</em> 次最多能尝试出 <em>N</em> 层楼，它们只是一个逆否命题</strong>。</p>
-<p>我们假设 <em>K</em> 个鸡蛋扔 <em>M</em> 次<strong>最多可以确定 <em>F</em> 层楼</strong>，<em>M</em> 越大 <em>F</em> 也越大，同样的，当 <em>M</em> 相同时，<em>K</em> 越多 <em>F</em> 也越大，也就是说矩阵向 <em>x</em> 方向和 <em>y</em> 方向都是非递减的，我们只需要判断确定的楼层数是否首次大于给定的楼层数就能判断当前的 <em>M</em> 是多少。</p>
-<p>先看 <em>base case</em>：</p>
+<p>我们假设 K 个鸡蛋扔 M 次<strong>最多可以确定 F 层楼</strong>，M 越大 F 也越大，同样的，当 M 相同时，K 越多 F 也越大，也就是说矩阵向 x 方向和 y 方向都是非递减的，我们只需要判断确定的楼层数是否首次大于给定的楼层数就能判断当前的 M 是多少。</p>
+<p>先看 base case：</p>
 <ul>
-<li><p>当 <em>K = 0</em> 时，没有鸡蛋，确认不了；</p>
+<li><p>当 K = 0 时，没有鸡蛋，确认不了；</p>
 </li>
-<li><p>当 <em>K = 1</em> 时，扔 <em>M</em> 次最多能确定 <em>M</em> 层楼；</p>
+<li><p>当 K = 1 时，扔 M 次最多能确定 M 层楼；</p>
 </li>
-<li><p>当 <em>M = 0</em> 时，一次不扔，确认不了；</p>
+<li><p>当 M = 0 时，一次不扔，确认不了；</p>
 </li>
 </ul>
-<p>我们用 <code>dp[i][j]</code> 来表示 <em>i</em> 个鸡蛋扔 <em>j</em> 次最多能够确定的最多楼层数，既然楼层数最多，说明从第 <em>1</em> 次到第 <em>j</em> 次，每次扔鸡蛋的楼层都是最优的，假设第 <em>1</em> 次在 <em>F</em> 层扔：</p>
+<p>我们用 <code>dp[i][j]</code> 来表示 i 个鸡蛋扔 j 次最多能够确定的最多楼层数，既然楼层数最多，说明从第 1 次到第 j 次，每次扔鸡蛋的楼层都是最优的，假设第 1 次在 F 层扔：</p>
 <ul>
-<li><p>如果第 <em>1</em> 个鸡蛋碎了，那就看 <em>i - 1</em> 个鸡蛋扔 <em>j - 1</em> 次最多能确定多少层楼，即 <code>dp[i - 1][j - 1]</code></p>
+<li><p>如果第 1 个鸡蛋碎了，那就看 i - 1 个鸡蛋扔 j - 1 次最多能确定多少层楼，即 <code>dp[i - 1][j - 1]</code></p>
 </li>
-<li><p>如果第 <em>1</em> 个鸡蛋没有碎，那就看 <em>i</em> 个鸡蛋扔 <em>j - 1</em> 次最多能确定多少层楼，即 <code>dp[i][j - 1]</code></p>
+<li><p>如果第 1 个鸡蛋没有碎，那就看 i 个鸡蛋扔 j - 1 次最多能确定多少层楼，即 <code>dp[i][j - 1]</code></p>
 </li>
 </ul>
 <p>两种情况分别是向上能确定的最多楼层数量和向下能确定的最多楼层数量，注意这两个值都是最优的，也是唯一的，再加上本层楼，最后能得到 <code>dp[i][j] = dp[i - 1][j - 1] + dp[i][j - 1] + 1</code>，代码如下：</p>
@@ -392,7 +398,7 @@
           
           <div class="post-tags">
               <a href="/tags/LeetCode/" rel="tag"><i class="fa fa-tag"></i> LeetCode</a>
-              <a href="/tags/Dynamic-Programming/" rel="tag"><i class="fa fa-tag"></i> Dynamic Programming</a>
+              <a href="/tags/Dynamic-Programming/" rel="tag"><i class="fa fa-tag"></i> Dynamic-Programming</a>
           </div>
 
         
@@ -402,7 +408,7 @@
     <div class="post-nav">
       <div class="post-nav-item"></div>
       <div class="post-nav-item">
-    <a href="/posts/79da2c09/" rel="next" title="方阵中战斗力最弱的 K 行 - 使用 Multimap">
+    <a href="/posts/aee030d2/" rel="next" title="方阵中战斗力最弱的 K 行 - 使用 Multimap">
       方阵中战斗力最弱的 K 行 - 使用 Multimap <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
@@ -480,7 +486,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-count">7</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -489,7 +495,7 @@
         <span class="site-state-item-name">分类</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-count">13</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>
@@ -545,13 +551,13 @@
       <i class="fa fa-area-chart"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">29k</span>
+    <span title="站点总字数">43k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">27 分钟</span>
+    <span title="站点阅读时长">39 分钟</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.0
   </div>
