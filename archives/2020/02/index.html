@@ -530,8 +530,7 @@
       var url = decodeURI(visitors.getAttribute('id'));
       var title = visitors.getAttribute('data-flag-title');
 
-      //Counter('get', `/classes/Counter?where=${JSON.stringify({ url })}`)
-      Counter('get', `/classes/Counter?where=${encodeURIComponent(JSON.stringify({ url }))}&limit=1`)
+      Counter('get', `/classes/Counter?where=${JSON.stringify({ url })}`)
         .then(response => response.json())
         .then(({ results }) => {
           if (results.length > 0) {
@@ -566,8 +565,7 @@
         return decodeURI(element.getAttribute('id'));
       });
 
-      //Counter('get', `/classes/Counter?where=${JSON.stringify({ url: { '$in': entries } })}`)
-      Counter('get', `/classes/Counter?where=${encodeURIComponent(JSON.stringify({ url: { '$in': entries } }))}`)
+      Counter('get', `/classes/Counter?where=${JSON.stringify({ url: { '$in': entries } })}`)
         .then(response => response.json())
         .then(({ results }) => {
           if (results.length === 0) {
@@ -592,8 +590,8 @@
         });
     }
   }
-
-  fetch('https://app-router.leancloud.cn/2/route?appId=')
+  fetch('https://app-router.leancloud.app/2/route?appId=')
+  //fetch('https://app-router.leancloud.cn/2/route?appId=')
     .then(response => response.json())
     .then(({ api_server }) => {
       var Counter = (method, url, data) => {
