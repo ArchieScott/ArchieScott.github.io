@@ -12,7 +12,7 @@
 
 <link rel="stylesheet" href="/css/main.css">
 
-
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
 <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
 
 <script id="hexo-configurations">
@@ -28,7 +28,7 @@
 <meta property="og:description" content="C++ 与 Java 的区别">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-02-15T15:21:41.000Z">
-<meta property="article:modified_time" content="2020-02-25T04:45:32.359Z">
+<meta property="article:modified_time" content="2020-02-25T09:53:00.736Z">
 <meta property="article:author" content="Archie Scott">
 <meta property="article:tag" content="C&#x2F;C++">
 <meta property="article:tag" content="Programming-Language">
@@ -222,7 +222,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-02-25 12:45:32" itemprop="dateModified" datetime="2020-02-25T12:45:32+08:00">2020-02-25</time>
+                <time title="修改时间：2020-02-25 17:53:00" itemprop="dateModified" datetime="2020-02-25T17:53:00+08:00">2020-02-25</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -283,19 +283,39 @@
 
       
         <ul>
-<li>C++ 与 Java 的区别<a id="more"></a>
-
-</li>
+<li>C++ 与 Java 的区别</li>
 </ul>
+<a id="more"></a>
 <p>在做 C/C++ 开发的时候也会经常接触到 Java 相关的代码与知识，下面总结一下它们两者之间的区别：</p>
-<h2 id="编译运行方式的区别"><a href="#编译运行方式的区别" class="headerlink" title="编译运行方式的区别"></a>编译运行方式的区别</h2><p>C++ 先将代码编译成二进制文件，这个二进制文件是和平台有关的，所以常说 <strong>C++ 不是跨平台的</strong>，操作系统将这个二进制文件读入内存执行。<br>Java 是将源文件 .java 编译成 .class 字节码，再<strong>通过 Jvm 将字节码载入内存中翻译执行</strong>。所以 Java 的跨平台是通过与平台无关的字节码实现的。<br>因为 Jvm 加载字节码后是一边翻译一边执行的，执行效率会略低于 C++，但是在硬件成本极低的现在执行效率的差异已经被拉到很低了。</p>
-<h2 id="资源管理方式的区别"><a href="#资源管理方式的区别" class="headerlink" title="资源管理方式的区别"></a>资源管理方式的区别</h2><p>C++ 没有垃圾回收机制，因此 C++ 在堆上开辟了一段新空间存放数据之后还需要手动释放空间。<br>对于一些生命周期模糊的对象，C++11 之后使用了改进版的智能指针来管理 new 出来的对象，释放对象的任务交给智能指针自动完成，整个过程使用的是 RAII 技术，感兴趣的朋友可以参考上一篇智能指针的文章。<br>Java 中有垃圾回收机制，堆中申请的空间 GC 会自动回收，而 Java 没有析构函数，也几乎很少用 RAII 来管理资源。</p>
-<h2 id="错误处理方式的区别"><a href="#错误处理方式的区别" class="headerlink" title="错误处理方式的区别"></a>错误处理方式的区别</h2><p>C++ 出于历史原因（Google 编码风格）或是性能原因（异常抛出导致系统实时性受损）可以不使用异常，因为如果使用异常，代码中可能出现大量的 <code>try{...}catch{...}</code> 语句，代码将会变得冗长难读，而且<strong>在泛型编程的代码中我们甚至不知道可能会出现哪些异常</strong>。<br>所以 <strong>C++17 之后，C++ 对异常的处理标准变成了我们只能声明某些函数不能抛出异常</strong>。在运行之前，无论是代码声明还是编译器都不能发现异常。<br>Java 中如果一个函数抛出异常，则强制它的调用方必须要处理异常。</p>
-<h2 id="变量语义的区别"><a href="#变量语义的区别" class="headerlink" title="变量语义的区别"></a>变量语义的区别</h2><p>C++ 中所有的变量缺省都是值语义，如果不使用指针或者引用，变量不会引用一个堆上的对象。<br>值语义的生命周期管理简单，因为它们都是 <em>stack object</em>，但是通过指针或引用来操作堆上对象的时候，C++ 就需要考虑所指对象是否成功释放。<strong>智能指针能够将引用语义转化为值语义来解决上述对象生命周期的问题</strong>。由于 <em>memory locality</em>，C++ 的值语义在性能上具有极大的优势。<br>Java 中大部分变量则是引用语义，栈空间的变量都是引用类型，因此如果发生拷贝都是浅拷贝。</p>
-<h2 id="申请对象方式的区别"><a href="#申请对象方式的区别" class="headerlink" title="申请对象方式的区别"></a>申请对象方式的区别</h2><p>变量语义的区别带来了申请对象方式的区别。<br>C++ 可以自由控制对象是在堆上分配还是在栈上分配，堆上分配时间不确定，而栈上分配速度极快。<br>Java 提倡所有对象都在堆上分配（原生类型也有对应的封装类），由 GC 统一管理对象生命周期。</p>
-<h2 id="对外暴露接口的区别"><a href="#对外暴露接口的区别" class="headerlink" title="对外暴露接口的区别"></a>对外暴露接口的区别</h2><p>C++ 除了<strong>模板类需要将接口和实现都放在头文件中</strong>，其他情况下都是<strong>头文件提供对外接口，源文件实现对外接口</strong>。<br>Java 主要是通过继承和多态来实现自定义接口。</p>
-<h2 id="引用外部类与依赖关系的区别"><a href="#引用外部类与依赖关系的区别" class="headerlink" title="引用外部类与依赖关系的区别"></a>引用外部类与依赖关系的区别</h2><p>C++ 的头文件机制会引入大量不相关的代码依赖，编译过程中经常出现某个依赖的头文件不匹配，但是却找不到是如何使用这个头文件的，同样的，链接时也会出现库版本不对或者库的编译参数不匹配等错误。<br>Java 的 import 机制以及 package 机制能够很好地解决上面的问题，用到哪个类就 import 哪个类，用到的库文件也能够编译成一个 .jar 包用于外部 import，简单高效。</p>
-<h2 id="编程范式的区别"><a href="#编程范式的区别" class="headerlink" title="编程范式的区别"></a>编程范式的区别</h2><p>C++ 是一门多范式的编程语言，支持面向过程编程、面向对象编程、泛型编程、函数式编程，开发灵活性高。<br>Java 支持面向对象编程，或许还有泛型？</p>
+<h2 id="编译运行方式的区别">编译运行方式的区别</h2>
+<p>C++ 先将代码编译成二进制文件，这个二进制文件是和平台有关的，所以常说 <strong>C++ 不是跨平台的</strong>，操作系统将这个二进制文件读入内存执行。<br>
+Java 是将源文件 .java 编译成 .class 字节码，再<strong>通过 Jvm 将字节码载入内存中翻译执行</strong>。所以 Java 的跨平台是通过与平台无关的字节码实现的。<br>
+因为 Jvm 加载字节码后是一边翻译一边执行的，执行效率会略低于 C++，但是在硬件成本极低的现在执行效率的差异已经被拉到很低了。</p>
+<h2 id="资源管理方式的区别">资源管理方式的区别</h2>
+<p>C++ 没有垃圾回收机制，因此 C++ 在堆上开辟了一段新空间存放数据之后还需要手动释放空间。<br>
+对于一些生命周期模糊的对象，C++11 之后使用了改进版的智能指针来管理 new 出来的对象，释放对象的任务交给智能指针自动完成，整个过程使用的是 RAII 技术，感兴趣的朋友可以参考上一篇智能指针的文章。<br>
+Java 中有垃圾回收机制，堆中申请的空间 GC 会自动回收，而 Java 没有析构函数，也几乎很少用 RAII 来管理资源。</p>
+<h2 id="错误处理方式的区别">错误处理方式的区别</h2>
+<p>C++ 出于历史原因（Google 编码风格）或是性能原因（异常抛出导致系统实时性受损）可以不使用异常，因为如果使用异常，代码中可能出现大量的 <code>try{...}catch{...}</code> 语句，代码将会变得冗长难读，而且<strong>在泛型编程的代码中我们甚至不知道可能会出现哪些异常</strong>。<br>
+所以 <strong>C<ins>17 之后，C</ins> 对异常的处理标准变成了我们只能声明某些函数不能抛出异常</strong>。在运行之前，无论是代码声明还是编译器都不能发现异常。<br>
+Java 中如果一个函数抛出异常，则强制它的调用方必须要处理异常。</p>
+<h2 id="变量语义的区别">变量语义的区别</h2>
+<p>C++ 中所有的变量缺省都是值语义，如果不使用指针或者引用，变量不会引用一个堆上的对象。<br>
+值语义的生命周期管理简单，因为它们都是 <em>stack object</em>，但是通过指针或引用来操作堆上对象的时候，C++ 就需要考虑所指对象是否成功释放。<strong>智能指针能够将引用语义转化为值语义来解决上述对象生命周期的问题</strong>。由于 <em>memory locality</em>，C++ 的值语义在性能上具有极大的优势。<br>
+Java 中大部分变量则是引用语义，栈空间的变量都是引用类型，因此如果发生拷贝都是浅拷贝。</p>
+<h2 id="申请对象方式的区别">申请对象方式的区别</h2>
+<p>变量语义的区别带来了申请对象方式的区别。<br>
+C++ 可以自由控制对象是在堆上分配还是在栈上分配，堆上分配时间不确定，而栈上分配速度极快。<br>
+Java 提倡所有对象都在堆上分配（原生类型也有对应的封装类），由 GC 统一管理对象生命周期。</p>
+<h2 id="对外暴露接口的区别">对外暴露接口的区别</h2>
+<p>C++ 除了<strong>模板类需要将接口和实现都放在头文件中</strong>，其他情况下都是<strong>头文件提供对外接口，源文件实现对外接口</strong>。<br>
+Java 主要是通过继承和多态来实现自定义接口。</p>
+<h2 id="引用外部类与依赖关系的区别">引用外部类与依赖关系的区别</h2>
+<p>C++ 的头文件机制会引入大量不相关的代码依赖，编译过程中经常出现某个依赖的头文件不匹配，但是却找不到是如何使用这个头文件的，同样的，链接时也会出现库版本不对或者库的编译参数不匹配等错误。<br>
+Java 的 import 机制以及 package 机制能够很好地解决上面的问题，用到哪个类就 import 哪个类，用到的库文件也能够编译成一个 .jar 包用于外部 import，简单高效。</p>
+<h2 id="编程范式的区别">编程范式的区别</h2>
+<p>C++ 是一门多范式的编程语言，支持面向过程编程、面向对象编程、泛型编程、函数式编程，开发灵活性高。<br>
+Java 支持面向对象编程，或许还有泛型？</p>
 <p>以上，Java 与 C++ 相比，社区更加活跃，工具也更加丰富，开源库也多，难怪在讲究速度与效率的互联网行业如此受欢迎。</p>
 
     </div>
@@ -448,12 +468,16 @@
         </a>
       </div>
       <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
         <span class="site-state-item-count">4</span>
-        <span class="site-state-item-name">分类</span>
+        <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
         <span class="site-state-item-count">13</span>
-        <span class="site-state-item-name">标签</span>
+        <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
 </div>
