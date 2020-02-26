@@ -1,10 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>在博客中显示文章阅读量排行</title>
+    <url>/posts/a510178f/</url>
+    <content><![CDATA[<blockquote>
+<p>解决 Hexo 博客升级后文章阅读量排行失效的问题</p>
+</blockquote>
+<a id="more"></a>
+<p>博客从 <code>Hexo-3.8</code> <code>Next-6.7.0</code> 更新到了 <code>Hexo-4.2</code> <code>Next-7.7.1</code> 之后，原来的文章阅读量排行失效了，<code>F12</code> 发现下面的 URL 报错 <code>401 - unauthorized</code>：<br>
+<code>https://us.leancloud.cn/1.1/classes/Comment?redirectByAPI=cn</code></p>
+<p>错误原因是原 SDK 版本太低，将 <code>top/index.md</code> 中的<br>
+<code>&lt;script src=&quot;https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js&quot;&gt;&lt;/script&gt;</code><br>
+修改为：<br>
+<code>&lt;script src=&quot;https://cdn1.lncld.net/static/js/3.10.0/av-min.js&quot;&gt;&lt;/script&gt;</code></p>
+<p>重新 hexo 三连，问题解决。</p>
+<p>完整代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">&lt;div id=<span class="string">"top"</span>&gt;&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">&lt;script src="https:/</span><span class="regexp">/cdn1.lncld.net/</span><span class="keyword">static</span>/js/<span class="number">3.10</span><span class="number">.0</span>/av-min.js<span class="string">"&gt;&lt;/script&gt;</span></span><br><span class="line"><span class="string">&lt;script&gt;</span></span><br><span class="line"><span class="string">AV.initialize("</span>APP-ID<span class="string">", "</span>APP-KEY<span class="string">");</span></span><br><span class="line"><span class="string">&lt;/script&gt;</span></span><br><span class="line"><span class="string">&lt;script type="</span>text/javascript<span class="string">"&gt;</span></span><br><span class="line"><span class="string">  var time=0</span></span><br><span class="line"><span class="string">  var title="</span><span class="string">"</span></span><br><span class="line"><span class="string">  var url="</span><span class="string">"</span></span><br><span class="line"><span class="string">  var query = new AV.Query('Counter');</span></span><br><span class="line"><span class="string">  query.notEqualTo('id',0);</span></span><br><span class="line"><span class="string">  query.descending('time');</span></span><br><span class="line"><span class="string">  query.limit(1000);</span></span><br><span class="line"><span class="string">  query.find().then(function (todo) &#123;</span></span><br><span class="line"><span class="string">    for (var i=0;i&lt;1000;i++)&#123;</span></span><br><span class="line"><span class="string">      var result=todo[i].attributes;</span></span><br><span class="line"><span class="string">      time=result.time;</span></span><br><span class="line"><span class="string">      title=result.title;</span></span><br><span class="line"><span class="string">      url=result.url;</span></span><br><span class="line"><span class="string">      var content="</span>&lt;p&gt;<span class="string">"+"</span>&lt;font color=<span class="string">'#1C1C1C'</span>&gt;<span class="string">"+"</span>&lt;<span class="regexp">/font&gt;"+"&lt;a href='"+"https:/</span><span class="regexp">/archiescott.github.io/</span><span class="string">"+url+"</span><span class="string">'&gt;"+title+"&lt;/a&gt;"+"&lt;br&gt;"+"阅读次数："+time+"&lt;br&gt;"+"&lt;/p&gt;";</span></span><br><span class="line"><span class="string">      document.getElementById("top").innerHTML+=content</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">  &#125;, function (error) &#123;</span></span><br><span class="line"><span class="string">    console.log("error");</span></span><br><span class="line"><span class="string">  &#125;);</span></span><br><span class="line"><span class="string">&lt;/script&gt;</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Blog</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+        <tag>Next</tag>
+        <tag>Blog</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>C++ 中的 syncPrimitives：lock</title>
     <url>/posts/47473230/</url>
-    <content><![CDATA[<ul>
-<li>介绍 C++11 的通用锁管理</li>
+    <content><![CDATA[<blockquote>
+<ul>
 <li>最基础的锁管理 lock_guard</li>
 <li>支持同时锁定多个互斥量的 lock 方法</li>
 <li>通过 lock 方法批量管理互斥量的 scoped_lock</li>
@@ -13,6 +39,7 @@
 <li>支持多种 locktag 管理的共享型 shared_lock</li>
 <li>保证只执行一次的 call_once 方法</li>
 </ul>
+</blockquote>
 <a id="more"></a>
 <h2 id="std-lock-guard">std::lock_guard</h2>
 <h3 id="std-lock-guard-特性"><code>std::lock_guard</code> 特性</h3>
@@ -102,13 +129,14 @@
   <entry>
     <title>C++ 中的 syncPrimitives：mutex</title>
     <url>/posts/2f6c672d/</url>
-    <content><![CDATA[<ul>
-<li>介绍 C++11 的互斥量 mutex</li>
+    <content><![CDATA[<blockquote>
+<ul>
 <li>最基础的互斥量 mutex</li>
 <li>能够定时尝试上锁的互斥量 timed_mutex</li>
 <li>可重入的 recursive_mutex 与 recursive_timed_mutex</li>
 <li>同时支持独占与共享管理的 shared_mutex 与 shared_timed_mutex</li>
 </ul>
+</blockquote>
 <a id="more"></a>
 <p>最近在撸日志库的时候发现了 C++11 竟然有这么多的 <code>mutex</code> 类型与 <code>lock</code> 类型，本篇先总结一下 <code>mutex</code> 类型。<br>
 本文中的示例均来自 <em>CppReference</em>，仅添加部分注释，不再做特殊说明。</p>
@@ -171,12 +199,13 @@
   <entry>
     <title>C++ 和 Java：区别到底在哪里</title>
     <url>/posts/54e19ff4/</url>
-    <content><![CDATA[<ul>
-<li>C++ 与 Java 的区别</li>
+    <content><![CDATA[<blockquote>
+<ul>
 <li>从语言特性上来说，主要是变量语义与编程范式的区别</li>
 <li>从编码方式上来说，它们申请对象的方式、资源管理、错误处理都不太相同</li>
 <li>从编译运行上来说，它们编译运行的方式、对外暴露接口的方式、引用外部类的方式也不一样</li>
 </ul>
+</blockquote>
 <a id="more"></a>
 <p>在做 C/C++ 开发的时候也会经常接触到 Java 相关的代码与知识，下面总结一下它们两者之间的区别：</p>
 <h2 id="变量语义的区别">变量语义的区别</h2>
@@ -221,12 +250,14 @@ Java 是将源文件 .java 编译成 .class 字节码，再<strong>通过 Jvm �
   <entry>
     <title>从 RAII 到 smartPtr：智能指针剖析</title>
     <url>/posts/3a3d14bc/</url>
-    <content><![CDATA[<ul>
+    <content><![CDATA[<blockquote>
+<ul>
 <li>介绍了 RAII 的基本概念</li>
 <li>介绍了智能指针的基本概念</li>
 <li>实现了 auto_ptr / unique_ptr / shared_ptr</li>
 <li>介绍了智能指针的 Deleter 与多线程下的应用</li>
 </ul>
+</blockquote>
 <a id="more"></a>
 <h2 id="RAII-的基本概念">RAII 的基本概念</h2>
 <h3 id="什么是堆">什么是堆</h3>
@@ -390,13 +421,15 @@ Java 是将源文件 .java 编译成 .class 字节码，再<strong>通过 Jvm �
   <entry>
     <title>使用简单的逻辑方法进行独立思考【转】</title>
     <url>/posts/8cfab1d1/</url>
-    <content><![CDATA[<ul>
+    <content><![CDATA[<blockquote>
+<ul>
 <li>可考证的数据很重要很重要很重要</li>
 <li>理解集合的包含与被包含，以小见大往往不具有科学性严谨性</li>
 <li>谨慎颠倒因果关系的事情与混淆无关事情之间的因果关系</li>
 <li>做事要找到靠谱的基准线</li>
 <li>思考要深入，要高维</li>
 </ul>
+</blockquote>
 <a id="more"></a>
 <p>这是一个非常复杂的世界，这个世界上有很多各式各样的观点和思维方式，作为一个程序员的我，也会有程序员的思维方式，程序员的思维方式更接近数学的思维方式，数学的思维方式让可以很容易地理清楚这个混乱的世界，其实，并不需要太复杂的数学逻辑，只需要使用一些简单的数学方法，就可以大幅提升自己的认识能力，所以，在这里，记录一篇我自己的思维方式，一方面给大家做个参考，另一方面也供更高阶的人给我进行指正。算是“开源我的思维方式”，开放不仅仅是为了输出，更是为了看看有没有更好的方式。</p>
 <p>我的思维方式中，使用数学逻辑的方式进行思考，通常来说，我会使用五步思考的方式：</p>
@@ -427,12 +460,14 @@ Java 是将源文件 .java 编译成 .class 字节码，再<strong>通过 Jvm �
   <entry>
     <title>方阵中战斗力最弱的 K 行 - 使用 Multimap</title>
     <url>/posts/aee030d2/</url>
-    <content><![CDATA[<ul>
+    <content><![CDATA[<blockquote>
+<ul>
 <li>LeetCode 1341</li>
 <li>Multimap</li>
 </ul>
-<p>题目链接：<a href="https://leetcode-cn.com/problems/the-k-weakest-rows-in-a-matrix/" target="_blank" rel="noopener">CLICK ME</a></p>
+</blockquote>
 <a id="more"></a>
+<p>题目链接：<a href="https://leetcode-cn.com/problems/the-k-weakest-rows-in-a-matrix/" target="_blank" rel="noopener">CLICK ME</a></p>
 <p>给你一个大小为 m * n 的方阵 mat，方阵由若干军人和平民组成，分别用 0 和 1 表示。<br>
 请你返回方阵中战斗力最弱的 k 行的索引，按从最弱到最强排序。</p>
 <p>如果第 i 行的军人数量少于第 j 行，或者两行军人数量相同但 i 小于 j，那么我们认为第 i 行的战斗力比第 j 行弱。</p>
@@ -468,12 +503,14 @@ Java 是将源文件 .java 编译成 .class 字节码，再<strong>通过 Jvm �
   <entry>
     <title>鸡蛋掉落 - 换一种角度的动态规划</title>
     <url>/posts/51cedb69/</url>
-    <content><![CDATA[<ul>
+    <content><![CDATA[<blockquote>
+<ul>
 <li>LeetCode 887</li>
 <li>动态规划</li>
 </ul>
-<p>题目链接：<a href="https://leetcode-cn.com/problems/super-egg-drop/" target="_blank" rel="noopener">CLICK ME</a></p>
+</blockquote>
 <a id="more"></a>
+<p>题目链接：<a href="https://leetcode-cn.com/problems/super-egg-drop/" target="_blank" rel="noopener">CLICK ME</a></p>
 <p>你将获得 K 个鸡蛋，并可以使用一栋从 1 到 N 共有 N 层楼的建筑。</p>
 <p>每个蛋的功能都是一样的，如果一个蛋碎了，你就不能再把它掉下去。</p>
 <p>你知道存在楼层 F，满足 0 &lt;= F &lt;= N，任何从高于 F 的楼层落下的鸡蛋都会碎，从 F 楼层或比它低的楼层落下的鸡蛋都不会破。</p>
