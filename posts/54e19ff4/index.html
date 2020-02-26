@@ -20,15 +20,15 @@
     var CONFIG = {"hostname":"github.com","root":"/","scheme":"Gemini","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="C++ 与 Java 的区别">
+  <meta name="description" content="C++ 与 Java 的区别 从语言特性上来说，主要是变量语义与编程范式的区别； 从编码方式上来说，它们申请对象的方式、资源管理、错误处理都不太相同； 从编译运行上来说，它们编译运行的方式、对外暴露接口的方式、引用外部类的方式也不一样；">
 <meta property="og:type" content="article">
 <meta property="og:title" content="C++ 和 Java：区别到底在哪里">
 <meta property="og:url" content="https://github.com/ArchieScott/posts/54e19ff4/index.html">
 <meta property="og:site_name" content="夏の終わり">
-<meta property="og:description" content="C++ 与 Java 的区别">
+<meta property="og:description" content="C++ 与 Java 的区别 从语言特性上来说，主要是变量语义与编程范式的区别； 从编码方式上来说，它们申请对象的方式、资源管理、错误处理都不太相同； 从编译运行上来说，它们编译运行的方式、对外暴露接口的方式、引用外部类的方式也不一样；">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-02-15T15:21:41.000Z">
-<meta property="article:modified_time" content="2020-02-25T09:53:00.736Z">
+<meta property="article:modified_time" content="2020-02-26T02:02:36.482Z">
 <meta property="article:author" content="Archie Scott">
 <meta property="article:tag" content="C&#x2F;C++">
 <meta property="article:tag" content="Programming-Language">
@@ -222,7 +222,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-02-25 17:53:00" itemprop="dateModified" datetime="2020-02-25T17:53:00+08:00">2020-02-25</time>
+                <time title="修改时间：2020-02-26 10:02:36" itemprop="dateModified" datetime="2020-02-26T10:02:36+08:00">2020-02-26</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -263,7 +263,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.5k</span>
+              <span>1.6k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -284,13 +284,23 @@
       
         <ul>
 <li>C++ 与 Java 的区别</li>
+<li>从语言特性上来说，主要是变量语义与编程范式的区别；</li>
+<li>从编码方式上来说，它们申请对象的方式、资源管理、错误处理都不太相同；</li>
+<li>从编译运行上来说，它们编译运行的方式、对外暴露接口的方式、引用外部类的方式也不一样；</li>
 </ul>
 <a id="more"></a>
 <p>在做 C/C++ 开发的时候也会经常接触到 Java 相关的代码与知识，下面总结一下它们两者之间的区别：</p>
-<h2 id="编译运行方式的区别">编译运行方式的区别</h2>
-<p>C++ 先将代码编译成二进制文件，这个二进制文件是和平台有关的，所以常说 <strong>C++ 不是跨平台的</strong>，操作系统将这个二进制文件读入内存执行。<br>
-Java 是将源文件 .java 编译成 .class 字节码，再<strong>通过 Jvm 将字节码载入内存中翻译执行</strong>。所以 Java 的跨平台是通过与平台无关的字节码实现的。<br>
-因为 Jvm 加载字节码后是一边翻译一边执行的，执行效率会略低于 C++，但是在硬件成本极低的现在执行效率的差异已经被拉到很低了。</p>
+<h2 id="变量语义的区别">变量语义的区别</h2>
+<p>C++ 中所有的变量缺省都是值语义，如果不使用指针或者引用，变量不会引用一个堆上的对象。<br>
+值语义的生命周期管理简单，因为它们都是 <em>stack object</em>，但是通过指针或引用来操作堆上对象的时候，C++ 就需要考虑所指对象是否成功释放。<strong>智能指针能够将引用语义转化为值语义来解决上述对象生命周期的问题</strong>。由于 <em>memory locality</em>，C++ 的值语义在性能上具有极大的优势。<br>
+Java 中大部分变量则是引用语义，栈空间的变量都是引用类型，因此如果发生拷贝都是浅拷贝。</p>
+<h2 id="编程范式的区别">编程范式的区别</h2>
+<p>C++ 是一门多范式的编程语言，支持面向过程编程、面向对象编程、泛型编程、函数式编程，开发灵活性高。<br>
+Java 支持面向对象编程，或许还有泛型？</p>
+<h2 id="申请对象方式的区别">申请对象方式的区别</h2>
+<p>变量语义的区别带来了申请对象方式的区别。<br>
+C++ 可以自由控制对象是在堆上分配还是在栈上分配，堆上分配时间不确定，而栈上分配速度极快。<br>
+Java 提倡所有对象都在堆上分配（原生类型也有对应的封装类），由 GC 统一管理对象生命周期。</p>
 <h2 id="资源管理方式的区别">资源管理方式的区别</h2>
 <p>C++ 没有垃圾回收机制，因此 C++ 在堆上开辟了一段新空间存放数据之后还需要手动释放空间。<br>
 对于一些生命周期模糊的对象，C++11 之后使用了改进版的智能指针来管理 new 出来的对象，释放对象的任务交给智能指针自动完成，整个过程使用的是 RAII 技术，感兴趣的朋友可以参考上一篇智能指针的文章。<br>
@@ -299,23 +309,16 @@ Java 中有垃圾回收机制，堆中申请的空间 GC 会自动回收，而 J
 <p>C++ 出于历史原因（Google 编码风格）或是性能原因（异常抛出导致系统实时性受损）可以不使用异常，因为如果使用异常，代码中可能出现大量的 <code>try{...}catch{...}</code> 语句，代码将会变得冗长难读，而且<strong>在泛型编程的代码中我们甚至不知道可能会出现哪些异常</strong>。<br>
 所以 <strong>C<ins>17 之后，C</ins> 对异常的处理标准变成了我们只能声明某些函数不能抛出异常</strong>。在运行之前，无论是代码声明还是编译器都不能发现异常。<br>
 Java 中如果一个函数抛出异常，则强制它的调用方必须要处理异常。</p>
-<h2 id="变量语义的区别">变量语义的区别</h2>
-<p>C++ 中所有的变量缺省都是值语义，如果不使用指针或者引用，变量不会引用一个堆上的对象。<br>
-值语义的生命周期管理简单，因为它们都是 <em>stack object</em>，但是通过指针或引用来操作堆上对象的时候，C++ 就需要考虑所指对象是否成功释放。<strong>智能指针能够将引用语义转化为值语义来解决上述对象生命周期的问题</strong>。由于 <em>memory locality</em>，C++ 的值语义在性能上具有极大的优势。<br>
-Java 中大部分变量则是引用语义，栈空间的变量都是引用类型，因此如果发生拷贝都是浅拷贝。</p>
-<h2 id="申请对象方式的区别">申请对象方式的区别</h2>
-<p>变量语义的区别带来了申请对象方式的区别。<br>
-C++ 可以自由控制对象是在堆上分配还是在栈上分配，堆上分配时间不确定，而栈上分配速度极快。<br>
-Java 提倡所有对象都在堆上分配（原生类型也有对应的封装类），由 GC 统一管理对象生命周期。</p>
 <h2 id="对外暴露接口的区别">对外暴露接口的区别</h2>
 <p>C++ 除了<strong>模板类需要将接口和实现都放在头文件中</strong>，其他情况下都是<strong>头文件提供对外接口，源文件实现对外接口</strong>。<br>
 Java 主要是通过继承和多态来实现自定义接口。</p>
 <h2 id="引用外部类与依赖关系的区别">引用外部类与依赖关系的区别</h2>
 <p>C++ 的头文件机制会引入大量不相关的代码依赖，编译过程中经常出现某个依赖的头文件不匹配，但是却找不到是如何使用这个头文件的，同样的，链接时也会出现库版本不对或者库的编译参数不匹配等错误。<br>
 Java 的 import 机制以及 package 机制能够很好地解决上面的问题，用到哪个类就 import 哪个类，用到的库文件也能够编译成一个 .jar 包用于外部 import，简单高效。</p>
-<h2 id="编程范式的区别">编程范式的区别</h2>
-<p>C++ 是一门多范式的编程语言，支持面向过程编程、面向对象编程、泛型编程、函数式编程，开发灵活性高。<br>
-Java 支持面向对象编程，或许还有泛型？</p>
+<h2 id="编译运行方式的区别">编译运行方式的区别</h2>
+<p>C++ 先将代码编译成二进制文件，这个二进制文件是和平台有关的，所以常说 <strong>C++ 不是跨平台的</strong>，操作系统将这个二进制文件读入内存执行。<br>
+Java 是将源文件 .java 编译成 .class 字节码，再<strong>通过 Jvm 将字节码载入内存中翻译执行</strong>。所以 Java 的跨平台是通过与平台无关的字节码实现的。<br>
+因为 Jvm 加载字节码后是一边翻译一边执行的，执行效率会略低于 C++，但是在硬件成本极低的现在执行效率的差异已经被拉到很低了。</p>
 <p>以上，Java 与 C++ 相比，社区更加活跃，工具也更加丰富，开源库也多，难怪在讲究速度与效率的互联网行业如此受欢迎。</p>
 
     </div>
@@ -447,7 +450,7 @@ Java 支持面向对象编程，或许还有泛型？</p>
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#编译运行方式的区别"><span class="nav-text">编译运行方式的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#资源管理方式的区别"><span class="nav-text">资源管理方式的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#错误处理方式的区别"><span class="nav-text">错误处理方式的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#变量语义的区别"><span class="nav-text">变量语义的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#申请对象方式的区别"><span class="nav-text">申请对象方式的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对外暴露接口的区别"><span class="nav-text">对外暴露接口的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引用外部类与依赖关系的区别"><span class="nav-text">引用外部类与依赖关系的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编程范式的区别"><span class="nav-text">编程范式的区别</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#变量语义的区别"><span class="nav-text">变量语义的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编程范式的区别"><span class="nav-text">编程范式的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#申请对象方式的区别"><span class="nav-text">申请对象方式的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#资源管理方式的区别"><span class="nav-text">资源管理方式的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#错误处理方式的区别"><span class="nav-text">错误处理方式的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对外暴露接口的区别"><span class="nav-text">对外暴露接口的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引用外部类与依赖关系的区别"><span class="nav-text">引用外部类与依赖关系的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编译运行方式的区别"><span class="nav-text">编译运行方式的区别</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -532,13 +535,13 @@ Java 支持面向对象编程，或许还有泛型？</p>
       <i class="fa fa-area-chart"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">43k</span>
+    <span title="站点总字数">44k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">39 分钟</span>
+    <span title="站点阅读时长">40 分钟</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.0
   </div>
@@ -573,100 +576,6 @@ Java 支持面向对象编程，或许还有泛型？</p>
 
 
 
-  <script>
-  function leancloudSelector(url) {
-    url = encodeURI(url);
-    return document.getElementById(url).querySelector('.leancloud-visitors-count');
-  }
-  if (CONFIG.page.isPost) {
-    function addCount(Counter) {
-      var visitors = document.querySelector('.leancloud_visitors');
-      var url = decodeURI(visitors.getAttribute('id'));
-      var title = visitors.getAttribute('data-flag-title');
-
-      Counter('get', `/classes/Counter?where=${JSON.stringify({ url })}`)
-        .then(response => response.json())
-        .then(({ results }) => {
-          if (results.length > 0) {
-            var counter = results[0];
-            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
-              .then(response => response.json())
-              .then(() => {
-                leancloudSelector(url).innerText = counter.time + 1;
-              })
-              .catch(error => {
-                console.error('Failed to save visitor count', error);
-              })
-          } else {
-              Counter('post', '/classes/Counter', { title: title, url: url, time: 1 })
-                .then(response => response.json())
-                .then(() => {
-                  leancloudSelector(url).innerText = 1;
-                })
-                .catch(error => {
-                  console.error('Failed to create', error);
-                });
-          }
-        })
-        .catch(error => {
-          console.error('LeanCloud Counter Error', error);
-        });
-    }
-  } else {
-    function showTime(Counter) {
-      var visitors = document.querySelectorAll('.leancloud_visitors');
-      var entries = [...visitors].map(element => {
-        return decodeURI(element.getAttribute('id'));
-      });
-
-      Counter('get', `/classes/Counter?where=${JSON.stringify({ url: { '$in': entries } })}`)
-        .then(response => response.json())
-        .then(({ results }) => {
-          if (results.length === 0) {
-            document.querySelectorAll('.leancloud_visitors .leancloud-visitors-count').forEach(element => {
-              element.innerText = 0;
-            });
-            return;
-          }
-          for (let item of results) {
-            let { url, time } = item;
-            leancloudSelector(url).innerText = time;
-          }
-          for (let url of entries) {
-            var element = leancloudSelector(url);
-            if (element.innerText == '') {
-              element.innerText = 0;
-            }
-          }
-        })
-        .catch(error => {
-          console.error('LeanCloud Counter Error', error);
-        });
-    }
-  }
-  fetch('https://app-router.leancloud.app/2/route?appId=')
-  //fetch('https://app-router.leancloud.cn/2/route?appId=')
-    .then(response => response.json())
-    .then(({ api_server }) => {
-      var Counter = (method, url, data) => {
-        return fetch(`https://${api_server}/1.1${url}`, {
-          method: method,
-          headers: {
-            'X-LC-Id'     : '',
-            'X-LC-Key'    : '',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data)
-        });
-      };
-      if (CONFIG.page.isPost) {
-        if (CONFIG.hostname !== location.hostname) return;
-        addCount(Counter);
-      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
-        showTime(Counter);
-      }
-    });
-  </script>
 
 
       </div>
@@ -745,7 +654,7 @@ NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
       avatar     : 'mm',
       meta       : guest,
       pageSize   : '10' || 10,
-      visitor    : false,
+      visitor    : true,
       lang       : 'zh-cn' || 'zh-cn',
       path       : location.pathname,
       recordIP   : true,

@@ -209,10 +209,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-02-25 09:36:42 / 修改时间：20:15:46" itemprop="dateCreated datePublished" datetime="2020-02-25T09:36:42+08:00">2020-02-25</time>
+              <time title="创建时间：2020-02-25 09:36:42" itemprop="dateCreated datePublished" datetime="2020-02-25T09:36:42+08:00">2020-02-25</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-02-26 10:14:32" itemprop="dateModified" datetime="2020-02-26T10:14:32+08:00">2020-02-26</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -272,7 +278,14 @@
 
       
           <ul>
-<li>介绍 C++11 的通用锁管理 lockguard</li>
+<li>介绍 C++11 的通用锁管理</li>
+<li>最基础的锁管理 lock_guard</li>
+<li>支持同时锁定多个互斥量的 lock 方法</li>
+<li>通过 lock 方法批量管理互斥量的 scoped_lock</li>
+<li>支持同时尝试锁定多个互斥量的 try_lock 方法</li>
+<li>支持多种 locktag 管理的独占型 unique_lock</li>
+<li>支持多种 locktag 管理的共享型 shared_lock</li>
+<li>保证只执行一次的 call_once 方法</li>
 </ul>
           <!--noindex-->
             <div class="post-button">
@@ -331,7 +344,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-02-25 20:15:52" itemprop="dateModified" datetime="2020-02-25T20:15:52+08:00">2020-02-25</time>
+                <time title="修改时间：2020-02-26 10:08:01" itemprop="dateModified" datetime="2020-02-26T10:08:01+08:00">2020-02-26</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -372,7 +385,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>6.1k</span>
+              <span>6.2k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -393,6 +406,10 @@
       
           <ul>
 <li>介绍 C++11 的互斥量 mutex</li>
+<li>最基础的互斥量 mutex</li>
+<li>能够定时尝试上锁的互斥量 timed_mutex</li>
+<li>可重入的 recursive_mutex 与 recursive_timed_mutex</li>
+<li>同时支持独占与共享管理的 shared_mutex 与 shared_timed_mutex</li>
 </ul>
           <!--noindex-->
             <div class="post-button">
@@ -451,7 +468,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-02-25 17:53:00" itemprop="dateModified" datetime="2020-02-25T17:53:00+08:00">2020-02-25</time>
+                <time title="修改时间：2020-02-26 10:02:36" itemprop="dateModified" datetime="2020-02-26T10:02:36+08:00">2020-02-26</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -492,7 +509,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.5k</span>
+              <span>1.6k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -513,6 +530,9 @@
       
           <ul>
 <li>C++ 与 Java 的区别</li>
+<li>从语言特性上来说，主要是变量语义与编程范式的区别；</li>
+<li>从编码方式上来说，它们申请对象的方式、资源管理、错误处理都不太相同；</li>
+<li>从编译运行上来说，它们编译运行的方式、对外暴露接口的方式、引用外部类的方式也不一样；</li>
 </ul>
           <!--noindex-->
             <div class="post-button">
@@ -1165,13 +1185,13 @@
       <i class="fa fa-area-chart"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">43k</span>
+    <span title="站点总字数">44k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">39 分钟</span>
+    <span title="站点阅读时长">40 分钟</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.0
   </div>
@@ -1206,100 +1226,6 @@
 
 
 
-  <script>
-  function leancloudSelector(url) {
-    url = encodeURI(url);
-    return document.getElementById(url).querySelector('.leancloud-visitors-count');
-  }
-  if (CONFIG.page.isPost) {
-    function addCount(Counter) {
-      var visitors = document.querySelector('.leancloud_visitors');
-      var url = decodeURI(visitors.getAttribute('id'));
-      var title = visitors.getAttribute('data-flag-title');
-
-      Counter('get', `/classes/Counter?where=${JSON.stringify({ url })}`)
-        .then(response => response.json())
-        .then(({ results }) => {
-          if (results.length > 0) {
-            var counter = results[0];
-            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
-              .then(response => response.json())
-              .then(() => {
-                leancloudSelector(url).innerText = counter.time + 1;
-              })
-              .catch(error => {
-                console.error('Failed to save visitor count', error);
-              })
-          } else {
-              Counter('post', '/classes/Counter', { title: title, url: url, time: 1 })
-                .then(response => response.json())
-                .then(() => {
-                  leancloudSelector(url).innerText = 1;
-                })
-                .catch(error => {
-                  console.error('Failed to create', error);
-                });
-          }
-        })
-        .catch(error => {
-          console.error('LeanCloud Counter Error', error);
-        });
-    }
-  } else {
-    function showTime(Counter) {
-      var visitors = document.querySelectorAll('.leancloud_visitors');
-      var entries = [...visitors].map(element => {
-        return decodeURI(element.getAttribute('id'));
-      });
-
-      Counter('get', `/classes/Counter?where=${JSON.stringify({ url: { '$in': entries } })}`)
-        .then(response => response.json())
-        .then(({ results }) => {
-          if (results.length === 0) {
-            document.querySelectorAll('.leancloud_visitors .leancloud-visitors-count').forEach(element => {
-              element.innerText = 0;
-            });
-            return;
-          }
-          for (let item of results) {
-            let { url, time } = item;
-            leancloudSelector(url).innerText = time;
-          }
-          for (let url of entries) {
-            var element = leancloudSelector(url);
-            if (element.innerText == '') {
-              element.innerText = 0;
-            }
-          }
-        })
-        .catch(error => {
-          console.error('LeanCloud Counter Error', error);
-        });
-    }
-  }
-  fetch('https://app-router.leancloud.app/2/route?appId=')
-  //fetch('https://app-router.leancloud.cn/2/route?appId=')
-    .then(response => response.json())
-    .then(({ api_server }) => {
-      var Counter = (method, url, data) => {
-        return fetch(`https://${api_server}/1.1${url}`, {
-          method: method,
-          headers: {
-            'X-LC-Id'     : '',
-            'X-LC-Key'    : '',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data)
-        });
-      };
-      if (CONFIG.page.isPost) {
-        if (CONFIG.hostname !== location.hostname) return;
-        addCount(Counter);
-      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
-        showTime(Counter);
-      }
-    });
-  </script>
 
 
       </div>
@@ -1378,7 +1304,7 @@ NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
       avatar     : 'mm',
       meta       : guest,
       pageSize   : '10' || 10,
-      visitor    : false,
+      visitor    : true,
       lang       : 'zh-cn' || 'zh-cn',
       path       : location.pathname,
       recordIP   : true,
