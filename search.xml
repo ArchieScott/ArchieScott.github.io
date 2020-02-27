@@ -7,10 +7,16 @@
 <ul>
 <li>C++ Quiz 题解 101~200 整理</li>
 <li>有趣的题目：</li>
-<li>227 284</li>
+<li>225 227 284</li>
 </ul>
 </blockquote>
 <a id="more"></a>
+<h4 id="Q-225">Q 225</h4>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">X</span> &#123;</span></span><br><span class="line">    X() &#123; <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"1"</span>; &#125;</span><br><span class="line">    X(<span class="keyword">const</span> X &amp;) &#123; <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"3"</span>; &#125;</span><br><span class="line">    ~X() &#123; <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"2"</span>; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">()</span> </span>&#123; <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"4"</span>; &#125;</span><br><span class="line"></span><br><span class="line">&#125; object;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    X(object);</span><br><span class="line">    object.f();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>A</strong>：11422<br>
+首先，<code>struct X {...} object;</code> 定义了一个 X 类型的 object，调用 1 次构造函数；<br>
+<code>X(object)</code> 是一个新变量 object 的声明，而不是复制构造一个 X 对象，如果写成 <code>X object</code> 就很清楚了，局部变量覆盖掉了全局变量，调用 1 次构造函数；<br>
+最后别忘了调用两次析构函数。</p>
 <h4 id="Q-227">Q 227</h4>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> Func = <span class="keyword">int</span>();</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">S</span> &#123;</span></span><br><span class="line">    Func f;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">S::f</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> <span class="number">1</span>; &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    S s;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; s.f();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><strong>A</strong>：1<br>
