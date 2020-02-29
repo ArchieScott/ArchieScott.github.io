@@ -28,7 +28,7 @@
 <meta property="og:description" content="C++ Quiz 题解 101~200 整理 有趣的题目： 217 225 227 249 284">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-02-27T06:59:21.000Z">
-<meta property="article:modified_time" content="2020-02-28T12:40:55.469Z">
+<meta property="article:modified_time" content="2020-02-29T00:38:10.930Z">
 <meta property="article:author" content="Archie Scott">
 <meta property="article:tag" content="C&#x2F;C++">
 <meta property="article:tag" content="C++ Quiz">
@@ -135,12 +135,12 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">11</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">12</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">17</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">19</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -223,7 +223,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-02-28 20:40:55" itemprop="dateModified" datetime="2020-02-28T20:40:55+08:00">2020-02-28</time>
+                <time title="修改时间：2020-02-29 08:38:10" itemprop="dateModified" datetime="2020-02-29T08:38:10+08:00">2020-02-29</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -264,14 +264,14 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2.7k</span>
+              <span>3.1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>2 分钟</span>
+              <span>3 分钟</span>
             </span>
 
         </div>
@@ -297,6 +297,10 @@
 本题的关键在于 a 是否是 i 的引用。<br>
 条件表达式的类型和值类别都取决于第二和第三个表达式的类型和值类别，如果两者都是左值，结果会是左值，但是此时 i 和 1 分别是左值与右值。<br>
 按照 <a href="https://timsong-cpp.github.io/cppwp/n4659/expr.cond" target="_blank" rel="noopener">expr.cond 8.16.6</a> 能够得出表达式 i &gt; 0 ? i : 1 的结果是一个纯右值，也就是临时量，因此 a 绑定的是一个临时变量，对 i 的修改不会影响到 a 的值。</p>
+<h4 id="Q-219">Q 219</h4>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="function">T <span class="title">sum</span><span class="params">(T arg)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> arg;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> ...Args&gt;</span><br><span class="line"><span class="function">T <span class="title">sum</span><span class="params">(T arg, Args... args)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> arg + sum&lt;T&gt;(args...);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">auto</span> n1 = sum(<span class="number">0.5</span>, <span class="number">1</span>, <span class="number">0.5</span>, <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">auto</span> n2 = sum(<span class="number">1</span>, <span class="number">0.5</span>, <span class="number">1</span>, <span class="number">0.5</span>);</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; n1 &lt;&lt; n2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>A</strong>：32<br>
+<code>T sum(T arg, Args... args)</code> 是一个迭代类型的函数模板，它会一直调用自身一直到 base case <code>T sum(T arg)</code>，当 T 的类型没有被指定时，它会被推导为 <code>sum</code> 的第一个参数，那么当 <code>sum</code> 迭代的时候，T 已经指定了相关类型，对于 n1 来说是 <code>double</code>，对于 n2 来说是 <code>int</code>。</p>
 <h4 id="Q-220">Q 220</h4>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">f</span><span class="params">()</span> </span>&#123; <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">'f'</span>; <span class="keyword">return</span> <span class="literal">false</span>; &#125;</span><br><span class="line"><span class="function"><span class="keyword">char</span> <span class="title">g</span><span class="params">()</span> </span>&#123; <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">'g'</span>; <span class="keyword">return</span> <span class="string">'g'</span>; &#125;</span><br><span class="line"><span class="function"><span class="keyword">char</span> <span class="title">h</span><span class="params">()</span> </span>&#123; <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">'h'</span>; <span class="keyword">return</span> <span class="string">'h'</span>; &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">char</span> result = f() ? g() : h();</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><strong>A</strong>：ffh<br>
@@ -401,7 +405,10 @@
     <a href="/posts/467b42a7/" rel="prev" title="C++ Quiz 题解 101~200">
       <i class="fa fa-chevron-left"></i> C++ Quiz 题解 101~200
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/posts/1f8822d7/" rel="next" title="Windows 下配置 CLion + Cygwin 开发环境">
+      Windows 下配置 CLion + Cygwin 开发环境 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -462,7 +469,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-217"><span class="nav-text">Q 217</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-220"><span class="nav-text">Q 220</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-222"><span class="nav-text">Q 222</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-225"><span class="nav-text">Q 225</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-227"><span class="nav-text">Q 227</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-230"><span class="nav-text">Q 230</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-248"><span class="nav-text">Q 248</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-249"><span class="nav-text">Q 249</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-284"><span class="nav-text">Q 284</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-217"><span class="nav-text">Q 217</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-219"><span class="nav-text">Q 219</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-220"><span class="nav-text">Q 220</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-222"><span class="nav-text">Q 222</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-225"><span class="nav-text">Q 225</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-227"><span class="nav-text">Q 227</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-230"><span class="nav-text">Q 230</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-248"><span class="nav-text">Q 248</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-249"><span class="nav-text">Q 249</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-284"><span class="nav-text">Q 284</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -478,7 +485,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-count">12</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -491,7 +498,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-count">19</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -547,13 +554,13 @@
       <i class="fa fa-area-chart"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">55k</span>
+    <span title="站点总字数">57k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">50 分钟</span>
+    <span title="站点阅读时长">52 分钟</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.0
   </div>
