@@ -1,9 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>合并排序数组 - 双指针遍历</title>
+    <url>/posts/fca51ef9/</url>
+    <content><![CDATA[<blockquote>
+<ul>
+<li>LeetCode 88</li>
+<li>Array</li>
+</ul>
+</blockquote>
+<a id="more"></a>
+<p>题目链接：<a href="https://leetcode-cn.com/problems/merge-sorted-array/" target="_blank" rel="noopener">CLICK ME</a></p>
+<p>给定两个有序整数数组 nums1 和 nums2，将 nums2 合并到 nums1 中，使得 num1 成为一个有序数组。</p>
+<p>初始化 nums1 和 nums2 的元素数量分别为 m 和 n。<br>
+你可以假设 nums1 有足够的空间（空间大小大于或等于 m + n）来保存 nums2 中的元素。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">Input:</span><br><span class="line">nums1 = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>], m = <span class="number">3</span></span><br><span class="line">nums2 = [<span class="number">2</span>,<span class="number">5</span>,<span class="number">6</span>],       n = <span class="number">3</span></span><br><span class="line"></span><br><span class="line">Output:</span><br><span class="line">[<span class="number">1</span>,<span class="number">2</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">6</span>]</span><br></pre></td></tr></table></figure>
+<p>分别从后向前遍历两个数组，如果 num1 遍历到头了，就将 num2 剩下的元素复制到 num1 中。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">merge</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums1, <span class="keyword">int</span> m, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums2, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> curIdx = --m + --n + <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span>(m &gt;= <span class="number">0</span> &amp;&amp; n &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">            nums1[curIdx--] = nums1[m] &gt; nums2[n] ? nums1[m--] : nums2[n--];</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (n &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">            nums1[curIdx--] = nums2[n--];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>LeetCode</category>
+      </categories>
+      <tags>
+        <tag>LeetCode</tag>
+        <tag>Array</tag>
+        <tag>Double-Pointer</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>CMake 项目链接时找不到静态库</title>
     <url>/posts/1c6f4546/</url>
-    <content><![CDATA[<p>最近在用 cmake 管理项目的时候，写完 test 后发现无论如何都没有办法链接成功，报错内容如下：</p>
+    <content><![CDATA[<blockquote>
+<ul>
+<li>解决 CLion 项目链接时找不到链接库的问题</li>
+</ul>
+</blockquote>
+<a id="more"></a>
+<p>最近在用 cmake 管理项目的时候，写完 test 后发现无论如何都没有办法链接成功，报错内容如下：</p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">/usr/bin/ld: can<span class="number">'</span>t <span class="built_in">find</span> -lTripod_Lib</span><br><span class="line">error: ld returned <span class="number">1</span> <span class="built_in">exit</span> status</span><br></pre></td></tr></table></figure>
 <p><code>Tripod_Lib</code> 是之前生成的静态库，放在 lib 目录下。</p>
 <p>手动用 g++ 命令测试能够成功编译链接，看来真的是因为找不到库😓</p>
@@ -263,6 +296,10 @@ C++ 规范<strong>首先会比较哪一个模板的转换序列更佳</strong>�
 <p><strong>A</strong>：未定义行为<br>
 修改字符串字面量是未定义行为，实际上，字符串字面量的存储是在只读存储区内。<br>
 此外，对于使用 <code>const_cast</code> 去除 <code>const</code> 限定的目的绝对不是为了修改它的内容，只是出于无奈。</p>
+<h4 id="Q-191">Q 191</h4>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> A&#123;</span><br><span class="line">    <span class="keyword">extern</span> <span class="string">"C"</span> <span class="keyword">int</span> x;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> B&#123;</span><br><span class="line">    <span class="keyword">extern</span> <span class="string">"C"</span> <span class="keyword">int</span> x;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> A::x = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; B::x;</span><br><span class="line">    A::x=<span class="number">1</span>;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; B::x;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>A</strong>：01<br>
+出现在不同命名空间范围内的具有相同名称的变量的两个声明指的是同一个变量。</p>
 ]]></content>
       <categories>
         <category>C/C++</category>
@@ -331,6 +368,10 @@ a 不是 constexpr，因此 a 的初始化是动态的并且具有全局作用�
 <p><strong>A</strong>：121<br>
 虽然 <code>foo()</code> 是虚函数，但是在基类的构造和析构函数调用时不会执行，因为此时的派生类不存在。<br>
 基类析构函数写成虚函数是为了防止基类指针在析构派生类对象时只能析构基类对象造成内存泄露。</p>
+<h4 id="Q-030">Q 030</h4>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">X</span> &#123;</span></span><br><span class="line">    X() &#123; <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"X"</span>; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123; <span class="function">X <span class="title">x</span><span class="params">()</span></span>; &#125;</span><br></pre></td></tr></table></figure>
+<p><strong>A</strong>：输出为空<br>
+<code>X x()</code> 是函数原型，不是实例化类 X，如果要输出 X，可以将代码修改为 <code>X x{}</code></p>
 <h4 id="Q-031">Q 031</h4>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">X</span> &#123;</span></span><br><span class="line">    X() &#123; <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"X"</span>; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Y</span> &#123;</span></span><br><span class="line">    Y(<span class="keyword">const</span> X &amp;x) &#123; <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"Y"</span>; &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">()</span> </span>&#123; <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"f"</span>; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="function">Y <span class="title">y</span><span class="params">(X())</span></span>;</span><br><span class="line">    y.f();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><strong>A</strong>：编译错误<br>
