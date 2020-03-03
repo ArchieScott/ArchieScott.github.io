@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>CMake 项目链接时找不到静态库</title>
+    <url>/posts/1c6f4546/</url>
+    <content><![CDATA[<p>最近在用 cmake 管理项目的时候，写完 test 后发现无论如何都没有办法链接成功，报错内容如下：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">/usr/bin/ld: can<span class="number">'</span>t <span class="built_in">find</span> -lTripod_Lib</span><br><span class="line">error: ld returned <span class="number">1</span> <span class="built_in">exit</span> status</span><br></pre></td></tr></table></figure>
+<p><code>Tripod_Lib</code> 是之前生成的静态库，放在 lib 目录下。</p>
+<p>手动用 g++ 命令测试能够成功编译链接，看来真的是因为找不到库😓</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">g++ test/test.cc -o tb -I ./src ./lib/Tripod_Lib.a</span><br></pre></td></tr></table></figure>
+<p>折磨了两天，最终还是在 <a href="https://cmake.org/cmake/help/v3.15/command/link_directories.html" target="_blank" rel="noopener">官方文档</a> 上找到了原因：<br>
+<em>Specify the paths in which the linker should search for libraries. <strong>The command will apply only to targets created after it is called.</strong></em></p>
+<p>也是就说，<code>link_directories()</code> 需要放在 <code>add_library()</code> 和 <code>add_executable()</code> 的前面。<br>
+此外还要注意，最后链接的静态库名字里要带上 .a 的。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">cmake_minimum_required(VERSION <span class="number">3.15</span>)</span><br><span class="line">project(Tripod)</span><br><span class="line"></span><br><span class="line"><span class="built_in">set</span>(CMAKE_CXX_STANDARD <span class="number">20</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">set</span>(EXECUTABLE_OUTPUT_PATH $&#123;PROJECT_SOURCE_DIR&#125;/bin)</span><br><span class="line"><span class="built_in">set</span>(LIBRARY_OUTPUT_PATH $&#123;PROJECT_SOURCE_DIR&#125;/lib)</span><br><span class="line"></span><br><span class="line"><span class="built_in">set</span>(CMAKE_DEBUG_POSTFIX <span class="string">"_Base"</span>)</span><br><span class="line"></span><br><span class="line">aux_source_directory($&#123;PROJECT_SOURCE_DIR&#125;/src SRC_DIR)</span><br><span class="line"></span><br><span class="line">link_directories($&#123;PROJECT_SOURCE_DIR&#125;/lib)</span><br><span class="line"></span><br><span class="line">add_library(_Tripod STATIC $&#123;SRC_DIR&#125;)</span><br><span class="line"></span><br><span class="line">add_executable(Tripod test/test.cc)</span><br><span class="line"></span><br><span class="line">target_link_libraries(Tripod lib_Tripod$&#123;CMAKE_DEBUG_POSTFIX&#125;.a)</span><br></pre></td></tr></table></figure>
+<p>必须要吐槽 Cmake 的文档里真是一个例子都没有啊，看完之后模棱两可的东西大把，好像被人在嘴里硬塞了一把屎一样，数学课本都还有例题呢，坑货😡😡😡</p>
+]]></content>
+      <categories>
+        <category>Tools</category>
+      </categories>
+      <tags>
+        <tag>CMake</tag>
+        <tag>Debug</tag>
+        <tag>Tools</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Windows 下配置 CLion + Cygwin 开发环境</title>
     <url>/posts/1f8822d7/</url>
     <content><![CDATA[<blockquote>

@@ -20,15 +20,22 @@
     var CONFIG = {"hostname":"github.com","root":"/","scheme":"Gemini","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="夏の終わり">
-<meta property="og:url" content="https://github.com/ArchieScott/tags/Perception/index.html">
+  <meta name="description" content="最近在用 cmake 管理项目的时候，写完 test 后发现无论如何都没有办法链接成功，报错内容如下： 12&#x2F;usr&#x2F;bin&#x2F;ld: can&#39;t find -lTripod_Liberror: ld returned 1 exit status Tripod_Lib 是之前生成的静态库，放在 lib 目录下。 手动用 g++ 命令测试能够成功编译链接，看来真的是因为找不到库😓 1g++ test">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CMake 项目链接时找不到静态库">
+<meta property="og:url" content="https://github.com/ArchieScott/posts/1c6f4546/index.html">
 <meta property="og:site_name" content="夏の終わり">
+<meta property="og:description" content="最近在用 cmake 管理项目的时候，写完 test 后发现无论如何都没有办法链接成功，报错内容如下： 12&#x2F;usr&#x2F;bin&#x2F;ld: can&#39;t find -lTripod_Liberror: ld returned 1 exit status Tripod_Lib 是之前生成的静态库，放在 lib 目录下。 手动用 g++ 命令测试能够成功编译链接，看来真的是因为找不到库😓 1g++ test">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-03-03T09:49:17.000Z">
+<meta property="article:modified_time" content="2020-03-03T12:44:00.928Z">
 <meta property="article:author" content="Archie Scott">
+<meta property="article:tag" content="CMake">
+<meta property="article:tag" content="Debug">
+<meta property="article:tag" content="Tools">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://github.com/ArchieScott/tags/Perception/">
+<link rel="canonical" href="https://github.com/ArchieScott/posts/1c6f4546/">
 
 
 <script id="page-configurations">
@@ -36,11 +43,11 @@
   CONFIG.page = {
     sidebar: "",
     isHome: false,
-    isPost: false
+    isPost: true
   };
 </script>
 
-  <title>标签: Perception | 夏の終わり</title>
+  <title>CMake 项目链接时找不到静态库 | 夏の終わり</title>
   
 
 
@@ -181,54 +188,188 @@
           <div class="content">
             
 
+  <div class="posts-expand">
+      
   
   
-  
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        <h1 class="collection-header">Perception
-          <small>标签</small>
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://github.com/ArchieScott/posts/1c6f4546/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+      <meta itemprop="name" content="Archie Scott">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="夏の終わり">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          CMake 项目链接时找不到静态库
         </h1>
-      </div>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-03-03 17:49:17 / 修改时间：20:44:00" itemprop="dateCreated datePublished" datetime="2020-03-03T17:49:17+08:00">2020-03-03</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Tools/" itemprop="url" rel="index">
+                    <span itemprop="name">Tools</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span id="/posts/1c6f4546/" class="post-meta-item leancloud_visitors" data-flag-title="CMake 项目链接时找不到静态库" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/posts/1c6f4546/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/posts/1c6f4546/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <h1 class="collection-header">2020</h1>
+        <p>最近在用 cmake 管理项目的时候，写完 test 后发现无论如何都没有办法链接成功，报错内容如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/ld: can<span class="number">'</span>t <span class="built_in">find</span> -lTripod_Lib</span><br><span class="line">error: ld returned <span class="number">1</span> <span class="built_in">exit</span> status</span><br></pre></td></tr></table></figure>
+<p><code>Tripod_Lib</code> 是之前生成的静态库，放在 lib 目录下。</p>
+<p>手动用 g++ 命令测试能够成功编译链接，看来真的是因为找不到库😓</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">g++ test/test.cc -o tb -I ./src ./lib/Tripod_Lib.a</span><br></pre></td></tr></table></figure>
+<p>折磨了两天，最终还是在 <a href="https://cmake.org/cmake/help/v3.15/command/link_directories.html" target="_blank" rel="noopener">官方文档</a> 上找到了原因：<br>
+<em>Specify the paths in which the linker should search for libraries. <strong>The command will apply only to targets created after it is called.</strong></em></p>
+<p>也是就说，<code>link_directories()</code> 需要放在 <code>add_library()</code> 和 <code>add_executable()</code> 的前面。<br>
+此外还要注意，最后链接的静态库名字里要带上 .a 的。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">cmake_minimum_required(VERSION <span class="number">3.15</span>)</span><br><span class="line">project(Tripod)</span><br><span class="line"></span><br><span class="line"><span class="built_in">set</span>(CMAKE_CXX_STANDARD <span class="number">20</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">set</span>(EXECUTABLE_OUTPUT_PATH $&#123;PROJECT_SOURCE_DIR&#125;/bin)</span><br><span class="line"><span class="built_in">set</span>(LIBRARY_OUTPUT_PATH $&#123;PROJECT_SOURCE_DIR&#125;/lib)</span><br><span class="line"></span><br><span class="line"><span class="built_in">set</span>(CMAKE_DEBUG_POSTFIX <span class="string">"_Base"</span>)</span><br><span class="line"></span><br><span class="line">aux_source_directory($&#123;PROJECT_SOURCE_DIR&#125;/src SRC_DIR)</span><br><span class="line"></span><br><span class="line">link_directories($&#123;PROJECT_SOURCE_DIR&#125;/lib)</span><br><span class="line"></span><br><span class="line">add_library(_Tripod STATIC $&#123;SRC_DIR&#125;)</span><br><span class="line"></span><br><span class="line">add_executable(Tripod test/test.cc)</span><br><span class="line"></span><br><span class="line">target_link_libraries(Tripod lib_Tripod$&#123;CMAKE_DEBUG_POSTFIX&#125;.a)</span><br></pre></td></tr></table></figure>
+<p>必须要吐槽 Cmake 的文档里真是一个例子都没有啊，看完之后模棱两可的东西大把，好像被人在嘴里硬塞了一把屎一样，数学课本都还有例题呢，坑货😡😡😡</p>
+
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-02-15T21:48:15+08:00"
-              content="2020-02-15">
-          02-15
-        </time>
+    
+    
+    <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">
+        -------------本文结束 <i class="fa fa-paw"></i> 感谢阅读-------------
+        </div>
+    
+</div>
+        <div class="reward-container">
+  <div>赏颗卤蛋呗 ๑乛◡乛๑</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.png" alt="Archie Scott 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.jpg" alt="Archie Scott 支付宝">
+        <p>支付宝</p>
       </div>
 
-      <h2 class="post-title">
-          <a class="post-title-link" href="/posts/8cfab1d1/" itemprop="url">
-            <span itemprop="name">使用简单的逻辑方法进行独立思考【转】</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-    </div>
   </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Archie Scott
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://github.com/ArchieScott/posts/1c6f4546/" title="CMake 项目链接时找不到静态库">https://github.com/ArchieScott/posts/1c6f4546/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/CMake/" rel="tag"><i class="fa fa-tag"></i> CMake</a>
+              <a href="/tags/Debug/" rel="tag"><i class="fa fa-tag"></i> Debug</a>
+              <a href="/tags/Tools/" rel="tag"><i class="fa fa-tag"></i> Tools</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/posts/1f8822d7/" rel="prev" title="Windows 下配置 CLion + Cygwin 开发环境">
+      <i class="fa fa-chevron-left"></i> Windows 下配置 CLion + Cygwin 开发环境
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
   
   
   
 
-  
-
+  </div>
 
 
           </div>
           
+    <div class="comments" id="valine-comments"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
