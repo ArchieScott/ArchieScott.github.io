@@ -20,15 +20,15 @@
     var CONFIG = {"hostname":"github.com","root":"/","scheme":"Gemini","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="C++ Quiz 题解 101~200 整理 有趣的题目： 217 225 227 233 249 284">
+  <meta name="description" content="C++ Quiz 题解 101~200 整理 有趣的题目： 217 225 227 233 249 264 284">
 <meta property="og:type" content="article">
 <meta property="og:title" content="C++ Quiz 题解 201~300">
 <meta property="og:url" content="https://github.com/ArchieScott/posts/7651320d/index.html">
 <meta property="og:site_name" content="夏の終わり">
-<meta property="og:description" content="C++ Quiz 题解 101~200 整理 有趣的题目： 217 225 227 233 249 284">
+<meta property="og:description" content="C++ Quiz 题解 101~200 整理 有趣的题目： 217 225 227 233 249 264 284">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-02-27T06:59:21.000Z">
-<meta property="article:modified_time" content="2020-03-02T05:37:13.280Z">
+<meta property="article:modified_time" content="2020-03-04T06:33:50.262Z">
 <meta property="article:author" content="Archie Scott">
 <meta property="article:tag" content="C&#x2F;C++">
 <meta property="article:tag" content="C++ Quiz">
@@ -135,12 +135,12 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">14</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">15</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">24</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">25</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -223,7 +223,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-02 13:37:13" itemprop="dateModified" datetime="2020-03-02T13:37:13+08:00">2020-03-02</time>
+                <time title="修改时间：2020-03-04 14:33:50" itemprop="dateModified" datetime="2020-03-04T14:33:50+08:00">2020-03-04</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -264,7 +264,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>5k</span>
+              <span>5.4k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -287,7 +287,7 @@
 <ul>
 <li>C++ Quiz 题解 101~200 整理</li>
 <li>有趣的题目：</li>
-<li>217 225 227 233 249 284</li>
+<li>217 225 227 233 249 264 284</li>
 </ul>
 </blockquote>
 <a id="more"></a>
@@ -360,6 +360,13 @@ C++ 规范<strong>首先会比较哪一个模板的转换序列更佳</strong>�
 <p><strong>A</strong>：程序输出未定<br>
 两个 <code>char</code> 类型的和并不是唯一确定的，虽然能肯定结果不是 <code>char</code>。<br>
 在运算之前操作数会进行通用类型转换，而 <code>char</code> 在不同的场合可能会被提升为 <code>int</code> 或 <code>unsigned int</code>。</p>
+<h4 id="Q-264">Q 264</h4>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">C</span> &#123;</span></span><br><span class="line">    C() = <span class="keyword">default</span>;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> C c;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; c.i;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>A</strong>：编译错误<br>
+由于 c 是 const 并且有默认构造函数，是不能默认初始化 c 的。<br>
+C++ 标准规定，如果程序调用 <code>const</code> 限定类型 T 对象的默认初始化，那么 T 应该是 - <em>const-default-constructible</em> - 常量默认可构造的，常量默认可构造指的是<strong>类类型 T 的默认初始化调用了用户提供的 T 的构造函数</strong>或者<strong>每个直接的非变量非静态数据成员有默认成员初始化</strong>，如果要将本题修改正确有两种方法：<br>
+给 <code>int i</code> 一个初始值 <code>int i{0}</code>；<br>
+为 C 提供构造函数，移除 <code>= default</code>，执行 <code>C::C() = default</code>。</p>
 <h4 id="Q-265">Q 265</h4>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(<span class="keyword">char</span>*&amp;&amp;)</span> </span>&#123; <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="number">1</span>; &#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(<span class="keyword">char</span>*&amp;)</span> </span>&#123; <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="number">2</span>; &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">char</span> c = <span class="string">'a'</span>;</span><br><span class="line">    f(&amp;c);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><strong>A</strong>：1<br>
@@ -499,7 +506,7 @@ C++ 规范<strong>首先会比较哪一个模板的转换序列更佳</strong>�
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-217"><span class="nav-text">Q 217</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-219"><span class="nav-text">Q 219</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-220"><span class="nav-text">Q 220</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-222"><span class="nav-text">Q 222</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-225"><span class="nav-text">Q 225</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-227"><span class="nav-text">Q 227</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-229"><span class="nav-text">Q 229</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-230"><span class="nav-text">Q 230</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-233"><span class="nav-text">Q 233</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-248"><span class="nav-text">Q 248</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-249"><span class="nav-text">Q 249</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-250"><span class="nav-text">Q 250</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-259"><span class="nav-text">Q 259</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-265"><span class="nav-text">Q 265</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-284"><span class="nav-text">Q 284</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-217"><span class="nav-text">Q 217</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-219"><span class="nav-text">Q 219</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-220"><span class="nav-text">Q 220</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-222"><span class="nav-text">Q 222</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-225"><span class="nav-text">Q 225</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-227"><span class="nav-text">Q 227</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-229"><span class="nav-text">Q 229</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-230"><span class="nav-text">Q 230</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-233"><span class="nav-text">Q 233</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-248"><span class="nav-text">Q 248</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-249"><span class="nav-text">Q 249</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-250"><span class="nav-text">Q 250</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-259"><span class="nav-text">Q 259</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-264"><span class="nav-text">Q 264</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-265"><span class="nav-text">Q 265</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-284"><span class="nav-text">Q 284</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -515,7 +522,7 @@ C++ 规范<strong>首先会比较哪一个模板的转换序列更佳</strong>�
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-count">15</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -528,7 +535,7 @@ C++ 规范<strong>首先会比较哪一个模板的转换序列更佳</strong>�
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-count">25</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -584,13 +591,13 @@ C++ 规范<strong>首先会比较哪一个模板的转换序列更佳</strong>�
       <i class="fa fa-area-chart"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">64k</span>
+    <span title="站点总字数">68k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">58 分钟</span>
+    <span title="站点阅读时长">1:02</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.0
   </div>
