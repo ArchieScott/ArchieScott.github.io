@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.ico">
+  <link rel="mask-icon" href="/images/newlogo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"github.com","root":"/","scheme":"Gemini","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="LeetCode 322 LeetCode 3 LeetCode 4 Dynamic-Programming DFS Sliding-Window Divide-Conquer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LeetCode Everyday - 零钱兑换、无重复字符的最长子串、寻找两个有序数组中位数">
+<meta property="og:url" content="https://github.com/ArchieScott/posts/2193f84b/index.html">
+<meta property="og:site_name" content="夏の終わり">
+<meta property="og:description" content="LeetCode 322 LeetCode 3 LeetCode 4 Dynamic-Programming DFS Sliding-Window Divide-Conquer">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-03-08T04:02:58.000Z">
+<meta property="article:modified_time" content="2020-03-08T15:02:07.715Z">
+<meta property="article:author" content="Archie Scott">
+<meta property="article:tag" content="LeetCode">
+<meta property="article:tag" content="DFS">
+<meta property="article:tag" content="Sliding-Window">
+<meta property="article:tag" content="Array">
+<meta property="article:tag" content="Dynamic-Programming">
+<meta property="article:tag" content="Divide-Conquer">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://github.com/ArchieScott/posts/2193f84b/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>LeetCode Everyday - 零钱兑换、无重复字符的最长子串、寻找两个有序数组中位数 | 夏の終わり</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">夏の終わり</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Summer is Over</p>
+  </div>
+
+  <div class="site-nav-right"></div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-top">
+
+    <a href="/top/" rel="section"><i class="fa fa-fw fa-signal"></i>排行</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">6</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">17</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">34</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/ArchieScott" class="github-corner" title="进来看看 ((٩(&#x2F;&#x2F;̀Д&#x2F;́&#x2F;)۶))" aria-label="进来看看 ((٩(&#x2F;&#x2F;̀Д&#x2F;́&#x2F;)۶))"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://github.com/ArchieScott/posts/2193f84b/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+      <meta itemprop="name" content="Archie Scott">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="夏の終わり">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          LeetCode Everyday - 零钱兑换、无重复字符的最长子串、寻找两个有序数组中位数
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-03-08 12:02:58 / 修改时间：23:02:07" itemprop="dateCreated datePublished" datetime="2020-03-08T12:02:58+08:00">2020-03-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/LeetCode/" itemprop="url" rel="index">
+                    <span itemprop="name">LeetCode</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span id="/posts/2193f84b/" class="post-meta-item leancloud_visitors" data-flag-title="LeetCode Everyday - 零钱兑换、无重复字符的最长子串、寻找两个有序数组中位数" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/posts/2193f84b/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/posts/2193f84b/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>4.3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<ul>
+<li>LeetCode 322</li>
+<li>LeetCode 3</li>
+<li>LeetCode 4</li>
+<li>Dynamic-Programming</li>
+<li>DFS</li>
+<li>Sliding-Window</li>
+<li>Divide-Conquer</li>
+</ul>
+</blockquote>
+<a id="more"></a>
+<p><strong>LCOF 322</strong>：<a href="https://leetcode-cn.com/problems/coin-change/comments/" target="_blank" rel="noopener">CLICK ME</a></p>
+<p>给定不同面额的硬币 coins 和一个总金额 amount。编写一个函数来计算可以凑成总金额所需的最少的硬币个数。如果没有任何一种硬币组合能组成总金额，返回 -1。</p>
+<p>解题思路一：<br>
+首先，这题回溯一定会超时，因此采用动态规划来进行优化，这里定义两个变量，一个是选用硬币的序号，另一个是总金额。<br>
+定义 dp 数组，里面的元素 dp[j] 表示要达到总金额 j 时最少使用的硬币数量。<br>
+假设使用下标为 0 ~ i-1 那一行的最少硬币数量已经确定，此时需要更新第 i 行的最少硬币数量，第 i 个硬币有放或者不放两个选项，我们选其中更少的那个更新 dp[j]，有 <code>dp[j] = std::min(dp[j], dp[j - coins[i]] + 1)</code>，不难看出 dp[j] 的值其实也是依赖它的上一个状态，也就是 dp[j - coins[i]] 的，所以最后 dp 数组会更新 <code>coins.size() * amounts</code> 次。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">coinChange</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; coins, <span class="keyword">int</span> amount)</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">dp</span><span class="params">(amount + <span class="number">1</span>, INT_MAX)</span></span>;</span><br><span class="line">        dp[<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; coins.<span class="built_in">size</span>(); ++i) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = coins[i]; j &lt;= amount; ++j) &#123;</span><br><span class="line">                <span class="keyword">if</span> (dp[j-coins[i]] != INT_MAX) &#123;</span><br><span class="line">                    dp[j] = <span class="built_in">std</span>::<span class="built_in">min</span>(dp[j], dp[j-coins[i]] + <span class="number">1</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[amount] == INT_MAX ? <span class="number">-1</span> : dp[amount];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>解题思路二：<br>
+优化回溯，本质是 DFS + 剪枝。<br>
+首先先对硬币大小排序，如果要硬币数量尽可能的少，当然要先用大面额的硬币，这里需要注意，不能用贪心，因为贪心只是局部最优，我们要取得全局最优，只能把所有的情况都递归完。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 待补充</span></span><br></pre></td></tr></table></figure>
+<p><strong>LeetCode 3</strong>：<a href="https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/comments/" target="_blank" rel="noopener">CLICK ME</a></p>
+<p>给定一个字符串，请你找出其中不含有重复字符的<strong>最长子串</strong>的长度。</p>
+<p>解题思路：<br>
+这种类型的题目有一种类似的套路，对于字符串中下标为 i 的字符 str[i]，我们去寻找以该字符结尾的最长不重复子串有多长，当判断到最后一个字符时，也就找到了答案，时间复杂度一般都为 O(n)。<br>
+本题中，我们需要使用一个哈希表和一个变量 pre，哈希表中存储的是某一个字符在字符串中最近一次出现的下标，变量 pre 表示必须以 str[i-1] 结尾的情况下，最长不重复子串的起始下标的前一个下标，即 pre+1 ~ i-1 这个子串是不重复的。<br>
+此时来看 str[i] 有两种情况，第一种 pre+1 ~ i-1 中有 str[i]，也就是哈希表中的 map[str[i]] 大于 pre，此时的不重复子串范围为 map[str[i]] ~ i，需要把 pre 更新为 map[str[i]]，而如果 map[str[i]] 小于 pre，不重复子串范围为 pre ~ i。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">lengthOfLongestSubstring</span><span class="params">(<span class="built_in">string</span> s)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (s.<span class="built_in">size</span>() &lt; <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">unordered_map</span>&lt;<span class="keyword">char</span>, <span class="keyword">int</span>&gt; charMap;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> pre = <span class="number">-1</span>;</span><br><span class="line">        <span class="keyword">int</span> curLen = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> res = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; s.<span class="built_in">size</span>(); ++i) &#123;</span><br><span class="line">            <span class="keyword">if</span> (charMap.<span class="built_in">find</span>(s[i]) == charMap.<span class="built_in">end</span>()) &#123;</span><br><span class="line">                charMap[s[i]] = <span class="number">-1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            pre = <span class="built_in">std</span>::<span class="built_in">max</span>(pre, charMap[s[i]]);</span><br><span class="line">            curLen = i - pre;</span><br><span class="line">            res = <span class="built_in">std</span>::<span class="built_in">max</span>(res, curLen);</span><br><span class="line">            charMap[s[i]] = i;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><strong>LeetCode 4</strong>：<a href="https://leetcode-cn.com/problems/median-of-two-sorted-arrays/" target="_blank" rel="noopener">CLICK ME</a></p>
+<p>给定两个大小为 m 和 n 的<strong>有序数组</strong> nums1 和 nums2。</p>
+<p>请你找出这两个有序数组的中位数，并且要求算法的时间复杂度为 O(log(m + n))。</p>
+<p>你可以假设 nums1 和 nums2 不会同时为空。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Input:</span><br><span class="line">nums1 = [<span class="number">1</span>, <span class="number">3</span>]</span><br><span class="line">nums2 = [<span class="number">2</span>]</span><br><span class="line"></span><br><span class="line">Output:</span><br><span class="line"><span class="number">2.0</span></span><br></pre></td></tr></table></figure>
+<p>解题思路：<br>
+看到对数时间复杂度，应该想到利用二分的方式查找中位数。<br>
+首先，在任一位置 i 将长度为 m 的数组 A 划分成两个部分：<br>
+leftA            |            rightA<br>
+A[0],A[1],…      A[i-1] |  A[i],A[i+1],…A[m - 1]<br>
+由于 A 有 m 个元素，所以有 m + 1 种划分方式，len(leftA) = i，len(rightA) = m - i<br>
+采用同样的方式，将 B 也划分为两部分：<br>
+leftB            |            rightB<br>
+B[0],B[1],…      B[j-1] |   B[j],B[j+1],…B[n - 1]<br>
+同样的，len(leftB) = j，len(rightB) = n - j</p>
+<p>将 leftA 和 leftB 放入一个集合，将 rightA 和 rightB 放入一个集合。再把这两个集合分别命名为 leftPart 和 rightPart。<br>
+leftPart         |            rightPart<br>
+A[0],A[1],…      A[i-1] |  A[i],A[i+1],…A[m - 1]<br>
+B[0],B[1],…      B[j-1] |  B[j],B[j+1],…B[n - 1]<br>
+当左右两边的长度大致相等的时候，划分效率是最高的，也就是说，如果满足下面两个条件：<br>
+len(leftPart) = len(rightPart);     // m + n 为奇数时不成立<br>
+max(leftPart) &lt;= min(rightPart);    // 左半边的最大值小于右半边的最小值<br>
+就能够推断出：<br>
+median = (max(leftPart) + min(rightPart))/2<br>
+因为此时相当于一个数组左右两边数量相等，中位数就是位于中间两个数和的平均数</p>
+<p>如果要满足上面的假设，需要确保这两个条件满足：<br>
+i + j = 偶数时：m - i + n - j 奇数时：m - i + n - j + 1<br>
+为了保证 j 不为负数，我们可以假设 n &gt;= m，只需要使 i = 0 ~ m，j = (m + n + 1)/2 - i 此时奇偶都成立<br>
+B[j] &gt;= A[i-1] 并且 A[i] &gt;= B[j-1]，因为它们原数组的大小已经得到了保证</p>
+<p>此外还要注意临界条件：i = 0，j = 0，i = m，j = n。</p>
+<p>所以我们可以按照以下步骤进行二叉搜索<br>
+设 imin = 0，imax = m，然后开始在 [imin, imax] 中进行搜索<br>
+令 i = (imin + imax)/2，j = (m + n + 1)/2 - i<br>
+现在我们有 len(leftPart) = len(rightPart)。而我们只会遇到三种情况：<br>
+①.B[j] &gt;= A[i-1] 并且 A[i] &gt;= B[j-1]  满足条件<br>
+②.B[j-1] &gt; A[i]。此时应该把i增大。 即imin = i + 1;<br>
+③.A[i-1] &gt; B[j]。此时应该把i减小。 即imax = i - 1;</p>
+<p>整个调整过程其实是不断地增大 i 减小 j 或者增加 j 减小 i，始终 leftPart 和 rightPart 数量相等，然后找到一个使得左边最大值小于右边最小值的分界线。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">double</span> <span class="title">findMedianSortedArrays</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums1, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums2)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> m = nums1.<span class="built_in">size</span>(), n = nums2.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">if</span> (m &gt; n) &#123;</span><br><span class="line">            <span class="built_in">std</span>::swap(m, n);</span><br><span class="line">            <span class="built_in">std</span>::swap(nums1, nums2);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// iMin 和 iMax 分别表示 i 的最大划分点</span></span><br><span class="line">        <span class="keyword">int</span> iMin = <span class="number">0</span>, iMax = m, halfLen = (m + n + <span class="number">1</span>)/<span class="number">2</span>;</span><br><span class="line">        <span class="keyword">while</span> (iMin &lt;= iMax) &#123;</span><br><span class="line">            <span class="keyword">int</span> i = (iMin + iMax)/<span class="number">2</span>;</span><br><span class="line">            <span class="keyword">int</span> j = halfLen - i;</span><br><span class="line">            <span class="comment">// i 的值划分小了</span></span><br><span class="line">            <span class="keyword">if</span> (i &lt; iMax &amp;&amp; nums2[j - <span class="number">1</span>] &gt; nums1[i]) &#123;</span><br><span class="line">                iMin = i + <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// i 的值划分大了</span></span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (i &gt; iMin &amp;&amp; nums1[i - <span class="number">1</span>] &gt; nums2[j]) &#123;</span><br><span class="line">                iMax = i - <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">int</span> maxLeft;</span><br><span class="line">                <span class="comment">// nums1 左边为空，右边为整个 nums1，leftPart = leftNums1(NULL) + leftNums2</span></span><br><span class="line">                <span class="comment">// 因此 leftPart 最大值为 nums2[j-1]</span></span><br><span class="line">                <span class="keyword">if</span> (i == <span class="number">0</span>) &#123;</span><br><span class="line">                    maxLeft = nums2[j - <span class="number">1</span>];</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span> <span class="keyword">if</span> (j == <span class="number">0</span>) &#123;</span><br><span class="line">                    maxLeft = nums1[i - <span class="number">1</span>];</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span> &#123;</span><br><span class="line">                    maxLeft = <span class="built_in">std</span>::<span class="built_in">max</span>(nums1[i - <span class="number">1</span>], nums2[j - <span class="number">1</span>]);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">// 奇数的中位数正好是 maxLeft</span></span><br><span class="line">                <span class="keyword">if</span> ((m + n) % <span class="number">2</span> == <span class="number">1</span>) &#123;</span><br><span class="line">                    <span class="keyword">return</span> maxLeft;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">int</span> minRight;</span><br><span class="line">                <span class="comment">// nums1 右边为空，左边为整个 nums1，rightPart = rightNums1(NULL) + rightNums2</span></span><br><span class="line">                <span class="keyword">if</span> (i == m) &#123;</span><br><span class="line">                    minRight = nums2[j];</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">// nums2 右边为空，rightPart 之后 rightNums1</span></span><br><span class="line">                <span class="keyword">else</span> <span class="keyword">if</span> (j == n) &#123;</span><br><span class="line">                    minRight = nums1[i];</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span> &#123;</span><br><span class="line">                    minRight = <span class="built_in">std</span>::<span class="built_in">min</span>(nums1[i], nums2[j]);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">return</span> (maxLeft + minRight) / <span class="number">2.0</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0.0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">
+        -------------本文结束 <i class="fa fa-paw"></i> 感谢阅读-------------
+        </div>
+    
+</div>
+        <div class="reward-container">
+  <div>赏颗卤蛋呗 ๑乛◡乛๑</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.png" alt="Archie Scott 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.jpg" alt="Archie Scott 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Archie Scott
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://github.com/ArchieScott/posts/2193f84b/" title="LeetCode Everyday - 零钱兑换、无重复字符的最长子串、寻找两个有序数组中位数">https://github.com/ArchieScott/posts/2193f84b/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/LeetCode/" rel="tag"><i class="fa fa-tag"></i> LeetCode</a>
+              <a href="/tags/DFS/" rel="tag"><i class="fa fa-tag"></i> DFS</a>
+              <a href="/tags/Sliding-Window/" rel="tag"><i class="fa fa-tag"></i> Sliding-Window</a>
+              <a href="/tags/Array/" rel="tag"><i class="fa fa-tag"></i> Array</a>
+              <a href="/tags/Dynamic-Programming/" rel="tag"><i class="fa fa-tag"></i> Dynamic-Programming</a>
+              <a href="/tags/Divide-Conquer/" rel="tag"><i class="fa fa-tag"></i> Divide-Conquer</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/posts/76560dee/" rel="prev" title="LeetCode Everyday - 队列的最大值、两数之和、两数相加">
+      <i class="fa fa-chevron-left"></i> LeetCode Everyday - 队列的最大值、两数之和、两数相加
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Archie Scott"
+      src="/images/avatar.jpeg">
+  <p class="site-author-name" itemprop="name">Archie Scott</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ArchScott" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ArchScott"><i class="fa fa-fw fa-github"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zhousc91@163.com" title="E-Mail → mailto:zhousc91@163.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://steamcommunity.com/id/zhousc91/" title="steam → https:&#x2F;&#x2F;steamcommunity.com&#x2F;id&#x2F;zhousc91&#x2F;" rel="noopener" target="_blank"><i class="fa fa-fw fa-steam"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://blog.csdn.net/zhousc91" title="csdn → https:&#x2F;&#x2F;blog.csdn.net&#x2F;zhousc91" rel="noopener" target="_blank"><i class="fa fa-fw fa-contao"></i></a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-battery-1"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Archie Scott</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">88k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">1:20</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.1
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.6' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : '8Q0H1FlCSwH5h7HQWC46LjKJ-MdYXbMMI',
+      appKey     : 'j08JUoxyhUwEvKHN2JOA6w98',
+      placeholder: "404 Not Found",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false});</script></body>
+</html>

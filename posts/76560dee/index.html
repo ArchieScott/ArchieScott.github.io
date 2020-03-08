@@ -20,22 +20,24 @@
     var CONFIG = {"hostname":"github.com","root":"/","scheme":"Gemini","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="Windows 下配置 CLion Toolchain 为 Cygwin">
+  <meta name="description" content="LeetCode OF 59-II LeetCode 1 LeetCode 2 Sliding-Window Array Hash-Table Linked-List">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Windows 下配置 CLion + Cygwin 开发环境">
-<meta property="og:url" content="https://github.com/ArchieScott/posts/1f8822d7/index.html">
+<meta property="og:title" content="LeetCode Everyday - 队列的最大值、两数之和、两数相加">
+<meta property="og:url" content="https://github.com/ArchieScott/posts/76560dee/index.html">
 <meta property="og:site_name" content="夏の終わり">
-<meta property="og:description" content="Windows 下配置 CLion Toolchain 为 Cygwin">
+<meta property="og:description" content="LeetCode OF 59-II LeetCode 1 LeetCode 2 Sliding-Window Array Hash-Table Linked-List">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-02-29T07:06:42.000Z">
-<meta property="article:modified_time" content="2020-02-29T08:23:41.210Z">
+<meta property="article:published_time" content="2020-03-07T06:47:04.000Z">
+<meta property="article:modified_time" content="2020-03-08T07:49:26.123Z">
 <meta property="article:author" content="Archie Scott">
-<meta property="article:tag" content="C&#x2F;C++">
-<meta property="article:tag" content="CLion">
-<meta property="article:tag" content="Cygwin">
+<meta property="article:tag" content="LeetCode">
+<meta property="article:tag" content="Sliding-Window">
+<meta property="article:tag" content="Linked-List">
+<meta property="article:tag" content="Array">
+<meta property="article:tag" content="Hash-Table">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://github.com/ArchieScott/posts/1f8822d7/">
+<link rel="canonical" href="https://github.com/ArchieScott/posts/76560dee/">
 
 
 <script id="page-configurations">
@@ -47,7 +49,7 @@
   };
 </script>
 
-  <title>Windows 下配置 CLion + Cygwin 开发环境 | 夏の終わり</title>
+  <title>LeetCode Everyday - 队列的最大值、两数之和、两数相加 | 夏の終わり</title>
   
 
 
@@ -193,7 +195,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://github.com/ArchieScott/posts/1f8822d7/">
+    <link itemprop="mainEntityOfPage" href="https://github.com/ArchieScott/posts/76560dee/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpeg">
@@ -206,7 +208,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Windows 下配置 CLion + Cygwin 开发环境
+          LeetCode Everyday - 队列的最大值、两数之和、两数相加
         </h1>
 
         <div class="post-meta">
@@ -215,24 +217,30 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-02-29 15:06:42 / 修改时间：16:23:41" itemprop="dateCreated datePublished" datetime="2020-02-29T15:06:42+08:00">2020-02-29</time>
+              <time title="创建时间：2020-03-07 14:47:04" itemprop="dateCreated datePublished" datetime="2020-03-07T14:47:04+08:00">2020-03-07</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-03-08 15:49:26" itemprop="dateModified" datetime="2020-03-08T15:49:26+08:00">2020-03-08</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/C-C/" itemprop="url" rel="index">
-                    <span itemprop="name">C/C++</span>
+                  <a href="/categories/LeetCode/" itemprop="url" rel="index">
+                    <span itemprop="name">LeetCode</span>
                   </a>
                 </span>
             </span>
 
           
-            <span id="/posts/1f8822d7/" class="post-meta-item leancloud_visitors" data-flag-title="Windows 下配置 CLion + Cygwin 开发环境" title="阅读次数">
+            <span id="/posts/76560dee/" class="post-meta-item leancloud_visitors" data-flag-title="LeetCode Everyday - 队列的最大值、两数之和、两数相加" title="阅读次数">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
@@ -247,8 +255,8 @@
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/posts/1f8822d7/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/posts/1f8822d7/" itemprop="commentCount"></span>
+    <a title="valine" href="/posts/76560dee/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/posts/76560dee/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -258,14 +266,14 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.4k</span>
+              <span>2.7k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>2 分钟</span>
             </span>
 
         </div>
@@ -279,40 +287,39 @@
       
         <blockquote>
 <ul>
-<li>Windows 下配置 CLion Toolchain 为 Cygwin</li>
+<li>LeetCode OF 59-II</li>
+<li>LeetCode 1</li>
+<li>LeetCode 2</li>
+<li>Sliding-Window</li>
+<li>Array</li>
+<li>Hash-Table</li>
+<li>Linked-List</li>
 </ul>
 </blockquote>
 <a id="more"></a>
-<p>之前已经在 CLion 中配置好了 MinGW，但是 MinGW 下无法调用 POSIX API，因此在 CLion 下重新配置 Toolchain 为 Cygwin，记录一下过程：<br>
-首先要说，MinGW 与 Cygwin 还是有区别的：</p>
-<ul>
-<li>Cygwin 是使用一个 dll 来模拟 Linux 环境，它本质上是一个在 windows 上的可运行 POSIX 应用程序的工具环境</li>
-<li>MinGW 是在编译时提供 Linux 到 Win 代码的转换，用到的其实是 Windows 运行库</li>
-</ul>
-<ol>
-<li>
-<p>在 <a href="https://www.cygwin.com/" target="_blank" rel="noopener">Cygwin</a> 下载安装文件 setup-x86_64.exe；</p>
-</li>
-<li>
-<p>运行安装文件，一路 next，选择站点界面新增 <code>http://mirrors.163.com/cygwin/</code>；</p>
-</li>
-<li>
-<p>Select Packages 界面，在 View 中选择 Full，然后分别输入 <code>cmake</code> <code>gcc-core</code> <code>gcc-g++</code> <code>gdb</code> <code>make</code>，选择对应的版本号，然后 next 批量安装；</p>
-</li>
-<li>
-<p>安装过程中发现卡在了 <code>/etc/postinstall/0p_000_autorebash.dash</code>，查看了 <a href="http://cygwin.1069669.n5.nabble.com/Autorebase-hangs-on-install-td128035.html#a128036" target="_blank" rel="noopener">解决方法</a>，将 dash 进程结束掉，最后成功安装；</p>
-</li>
-<li>
-<p>在系统环境变量中添加 <code>C:\cygwin64\bin</code>；</p>
-</li>
-<li>
-<p>CLion-&gt;Setting-&gt;Build Execution Deployment-&gt;Toolchain 中将 Environment 选为 Cygwin，目录为 Cygwin 安装文件夹，Cmake Debugger 均在 <code>C:\cygwin64\bin</code> 目录下选择，Make、C Complier、C++ Complier 这三项留给 CLion 自动检测。</p>
-</li>
-<li>
-<p>点击向上的箭头，把 Cygwin 设置为 Default，Cmake 会重新 Config 项目代码：</p>
-</li>
-</ol>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">C:\SOFTWARE\cygwin64\bin\cmake.exe -DCMAKE_BUILD_TYPE=Debug -G <span class="string">"CodeBlocks - Unix Makefiles"</span> /cygdrive/d/LinuxShare/Tripod-cxx</span><br><span class="line">-- The C compiler identification is GNU <span class="number">9.2</span><span class="number">.0</span></span><br><span class="line">-- The CXX compiler identification is GNU <span class="number">9.2</span><span class="number">.0</span></span><br><span class="line">-- Check <span class="keyword">for</span> working C compiler: /usr/bin/cc</span><br><span class="line">-- Check <span class="keyword">for</span> working C compiler: /usr/bin/cc -- works</span><br><span class="line">-- Detecting C compiler ABI info</span><br><span class="line">-- Detecting C compiler ABI info - done</span><br><span class="line">-- Detecting C compile features</span><br><span class="line">-- Detecting C compile features - done</span><br><span class="line">-- Check <span class="keyword">for</span> working CXX compiler: /usr/bin/c++.exe</span><br><span class="line">-- Check <span class="keyword">for</span> working CXX compiler: /usr/bin/c++.exe -- works</span><br><span class="line">-- Detecting CXX compiler ABI info</span><br><span class="line">-- Detecting CXX compiler ABI info - done</span><br><span class="line">-- Detecting CXX compile features</span><br><span class="line">-- Detecting CXX compile features - done</span><br><span class="line">-- Configuring done</span><br></pre></td></tr></table></figure>
+<p><strong>LCOF 59-II</strong>：<a href="https://leetcode-cn.com/problems/dui-lie-de-zui-da-zhi-lcof/" target="_blank" rel="noopener">CLICK ME</a></p>
+<p>请定义一个队列并实现函数 max_value 得到队列里的最大值，要求函数max_value、push_back 和 pop_front 的均摊时间复杂度都是O(1)。</p>
+<p>若队列为空，pop_front 和 max_value 需要返回 -1.</p>
+<p>解题思路：<br>
+这道题的队列其实相当于一个滑动窗口的结构，入队相当于窗口右边界向右移动，出队相当于窗口左边界向右移动，因此本质上是求一个滑动窗口最大值的问题，可以直接套用单调队列模板。<br>
+简单说一下单调队列的实现，每当有一个新的值入队时，我们就会同时将此时的最大值保存在一个双端队列中，这个值也就是窗口中的最大值。<br>
+那么我们如何更新单调队列呢，每当有新的值入队时，我们会将该值与双端队列最后一个值进行比较，如果最后一个值比新的值要小，该值弹出，继续比较，直到最后一个值大于等于新的值，将新的值入队。<br>
+为什么可以这么做呢，注意，单调队列中的值表示的是某一个时刻窗口中的最大值，因此新值入队后，它一定是此时最后出队的值，所有之前入队的比它小的值都不再会影响它，从单调队列它的前一个元素入队开始算起，直到该值出队，最大值都不会再改变了。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MaxQueue</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    MaxQueue() &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">max_value</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> dequeMax.empty() ? <span class="number">-1</span> : dequeMax.front();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">push_back</span><span class="params">(<span class="keyword">int</span> value)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (queueData.empty()) &#123;</span><br><span class="line">            dequeMax.push_back(value);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">while</span>(!dequeMax.empty() &amp;&amp; dequeMax.back() &lt; value) &#123;</span><br><span class="line">                dequeMax.pop_back();</span><br><span class="line">            &#125;</span><br><span class="line">            dequeMax.push_back(value);</span><br><span class="line">        &#125;</span><br><span class="line">        queueData.push(value);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">pop_front</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (queueData.empty()) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">int</span> res = queueData.front();</span><br><span class="line">            <span class="keyword">if</span> (res == dequeMax.front()) &#123;</span><br><span class="line">                dequeMax.pop_front();</span><br><span class="line">            &#125;</span><br><span class="line">            queueData.pop();</span><br><span class="line">            <span class="keyword">return</span> res;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">deque</span>&lt;<span class="keyword">int</span>&gt; dequeMax;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">queue</span>&lt;<span class="keyword">int</span>&gt; queueData;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><strong>LeetCode 1</strong>：<a href="https://leetcode-cn.com/problems/two-sum/" target="_blank" rel="noopener">CLICK ME</a></p>
+<p>给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那两个整数，并返回他们的数组下标。</p>
+<p>你可以假设每种输入只会对应一个答案。但是，你不能重复利用这个数组中同样的元素。</p>
+<p>解题思路：<br>
+因为题目要我们返回满足条件的下标，可以用哈希表存储 nums[i] - i 对，将在表中查询 target - nums[i] 的复杂度降为 O(1)，需要注意题目要求不能使用重复的元素，因此需要多一个判断。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">twoSum</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums, <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; res;</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">unordered_map</span>&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; idxMap;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.<span class="built_in">size</span>(); ++i) &#123;</span><br><span class="line">            idxMap[nums[i]] = i;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.<span class="built_in">size</span>(); ++i) &#123;</span><br><span class="line">            <span class="keyword">if</span> ((idxMap.<span class="built_in">find</span>(target - nums[i]) != idxMap.<span class="built_in">end</span>()) &amp;&amp; idxMap[target - nums[i]] != i) &#123;</span><br><span class="line">                 res.push_back(i);</span><br><span class="line">                 res.push_back(idxMap[target - nums[i]]);</span><br><span class="line">                 <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><strong>LeetCode 2</strong>：<a href="https://leetcode-cn.com/problems/add-two-numbers/" target="_blank" rel="noopener">CLICK ME</a></p>
+<p>给出两个非空的链表用来表示两个非负的整数。其中，它们各自的位数是按照逆序的方式存储的，并且它们的每个节点只能存储一位数字。</p>
+<p>如果，我们将这两个数相加起来，则会返回一个新的链表来表示它们的和。</p>
+<p>您可以假设除了数字 0 之外，这两个数都不会以 0 开头。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Input:</span><br><span class="line">(<span class="number">2</span> -&gt; <span class="number">4</span> -&gt; <span class="number">3</span>) + (<span class="number">5</span> -&gt; <span class="number">6</span> -&gt; <span class="number">4</span>)</span><br><span class="line"></span><br><span class="line">Output:</span><br><span class="line"><span class="number">7</span> -&gt; <span class="number">0</span> -&gt; <span class="number">8</span></span><br></pre></td></tr></table></figure>
+<p>解题思路：<br>
+这道题的数字是逆序排序的，可能出现位数不相同的情况，还要注意进位时多产生的一位，因此条件判断的时候需要将 l1 l2 与 carry 或在一起。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode* <span class="title">addTwoNumbers</span><span class="params">(ListNode* l1, ListNode* l2)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> carry = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">        ListNode* resHead = <span class="keyword">new</span> ListNode(<span class="number">0</span>);</span><br><span class="line">        ListNode* curNode = resHead;</span><br><span class="line">        <span class="keyword">while</span>(l1 || l2 || carry) &#123;</span><br><span class="line">            sum = (l1 == <span class="literal">nullptr</span> ? <span class="number">0</span> : l1-&gt;val) + (l2 == <span class="literal">nullptr</span> ? <span class="number">0</span> : l2-&gt;val) + carry;</span><br><span class="line">            carry = sum / <span class="number">10</span>;</span><br><span class="line">            curNode-&gt;next = <span class="keyword">new</span> ListNode(sum % <span class="number">10</span>);</span><br><span class="line">            curNode = curNode-&gt;next;</span><br><span class="line">            <span class="keyword">if</span> (l1) &#123;</span><br><span class="line">                l1 = l1-&gt;next;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (l2) &#123;</span><br><span class="line">                l2 = l2-&gt;next;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> resHead-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -354,7 +361,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://github.com/ArchieScott/posts/1f8822d7/" title="Windows 下配置 CLion + Cygwin 开发环境">https://github.com/ArchieScott/posts/1f8822d7/</a>
+    <a href="https://github.com/ArchieScott/posts/76560dee/" title="LeetCode Everyday - 队列的最大值、两数之和、两数相加">https://github.com/ArchieScott/posts/76560dee/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -366,9 +373,11 @@
       <footer class="post-footer">
           
           <div class="post-tags">
-              <a href="/tags/C-C/" rel="tag"><i class="fa fa-tag"></i> C/C++</a>
-              <a href="/tags/CLion/" rel="tag"><i class="fa fa-tag"></i> CLion</a>
-              <a href="/tags/Cygwin/" rel="tag"><i class="fa fa-tag"></i> Cygwin</a>
+              <a href="/tags/LeetCode/" rel="tag"><i class="fa fa-tag"></i> LeetCode</a>
+              <a href="/tags/Sliding-Window/" rel="tag"><i class="fa fa-tag"></i> Sliding-Window</a>
+              <a href="/tags/Linked-List/" rel="tag"><i class="fa fa-tag"></i> Linked-List</a>
+              <a href="/tags/Array/" rel="tag"><i class="fa fa-tag"></i> Array</a>
+              <a href="/tags/Hash-Table/" rel="tag"><i class="fa fa-tag"></i> Hash-Table</a>
           </div>
 
         
@@ -377,12 +386,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/posts/7651320d/" rel="prev" title="C++ Quiz 题解 201~300">
-      <i class="fa fa-chevron-left"></i> C++ Quiz 题解 201~300
+    <a href="/posts/255ae07d/" rel="prev" title="LeetCode Everyday - 和为 s 的连续正整数序列、翻转链表、用队列实现栈">
+      <i class="fa fa-chevron-left"></i> LeetCode Everyday - 和为 s 的连续正整数序列、翻转链表、用队列实现栈
     </a></div>
       <div class="post-nav-item">
-    <a href="/posts/b3d317db/" rel="next" title="LeetCode Everyday - 鸡蛋掉落、合并排序数组、分糖果 II">
-      LeetCode Everyday - 鸡蛋掉落、合并排序数组、分糖果 II <i class="fa fa-chevron-right"></i>
+    <a href="/posts/2193f84b/" rel="next" title="LeetCode Everyday - 零钱兑换、无重复字符的最长子串、寻找两个有序数组中位数">
+      LeetCode Everyday - 零钱兑换、无重复字符的最长子串、寻找两个有序数组中位数 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>

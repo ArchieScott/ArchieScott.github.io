@@ -28,7 +28,7 @@
 <meta property="og:description" content="C++ Quiz 题解 101~200 整理 有趣的题目： 217 225 227 233 249 264 284">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-02-27T06:59:21.000Z">
-<meta property="article:modified_time" content="2020-03-04T06:33:50.262Z">
+<meta property="article:modified_time" content="2020-03-07T06:30:46.676Z">
 <meta property="article:author" content="Archie Scott">
 <meta property="article:tag" content="C&#x2F;C++">
 <meta property="article:tag" content="C++ Quiz">
@@ -135,12 +135,12 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">15</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">17</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">32</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">34</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -223,7 +223,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-04 14:33:50" itemprop="dateModified" datetime="2020-03-04T14:33:50+08:00">2020-03-04</time>
+                <time title="修改时间：2020-03-07 14:30:46" itemprop="dateModified" datetime="2020-03-07T14:30:46+08:00">2020-03-07</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -264,7 +264,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>5.4k</span>
+              <span>5.5k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -355,6 +355,10 @@ lambda 表达式的隐式捕获规则是它不会显示捕获 *this 和具有自
 C++ 规范<strong>首先会比较哪一个模板的转换序列更佳</strong>，但是在这里两个模板的转换序列是一样的；<br>
 <strong>接着比较哪一个模板更加特化</strong> - <em>more specialized</em> - 我们能够从 <code>foo2</code> 中推导出 <code>foo1</code> 却无法从 <code>foo1</code> 中推导出 <code>foo2</code>，因此对于 <code>foo(1)</code> 来说，第一个模板更合适。<br>
 再看 <code>foo(1,2)</code>，第一个函数模板 <code>foo</code> 需要省略 <code>...</code> 来匹配转换序列，而第二个函数模板 <code>foo</code> 则不需要省略，从比较模板转换序列的角度来说，第二个 <code>foo</code> 更合适。</p>
+<h4 id="Q-252">Q 252</h4>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i = <span class="string">'3'</span> - <span class="string">'2'</span>;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; i;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>A</strong>：1<br>
+C++ 标准中，只能保证十进制数字之间的间隔相差 1，不能保证 <code>'b' - 'a' = 1</code>。</p>
 <h4 id="Q-259">Q 259</h4>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">int</span>)</span> </span>&#123; <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"u"</span>; &#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(<span class="keyword">int</span>)</span>          </span>&#123; <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"i"</span>; &#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(<span class="keyword">char</span>)</span>         </span>&#123; <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"c"</span>; &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">char</span> x = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">char</span> y = <span class="number">2</span>;</span><br><span class="line">    f(x + y);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><strong>A</strong>：程序输出未定<br>
@@ -506,7 +510,7 @@ C++ 标准规定，如果程序调用 <code>const</code> 限定类型 T 对象�
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-217"><span class="nav-text">Q 217</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-219"><span class="nav-text">Q 219</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-220"><span class="nav-text">Q 220</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-222"><span class="nav-text">Q 222</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-225"><span class="nav-text">Q 225</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-227"><span class="nav-text">Q 227</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-229"><span class="nav-text">Q 229</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-230"><span class="nav-text">Q 230</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-233"><span class="nav-text">Q 233</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-248"><span class="nav-text">Q 248</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-249"><span class="nav-text">Q 249</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-250"><span class="nav-text">Q 250</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-259"><span class="nav-text">Q 259</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-264"><span class="nav-text">Q 264</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-265"><span class="nav-text">Q 265</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-284"><span class="nav-text">Q 284</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-217"><span class="nav-text">Q 217</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-219"><span class="nav-text">Q 219</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-220"><span class="nav-text">Q 220</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-222"><span class="nav-text">Q 222</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-225"><span class="nav-text">Q 225</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-227"><span class="nav-text">Q 227</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-229"><span class="nav-text">Q 229</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-230"><span class="nav-text">Q 230</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-233"><span class="nav-text">Q 233</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-248"><span class="nav-text">Q 248</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-249"><span class="nav-text">Q 249</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-250"><span class="nav-text">Q 250</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-252"><span class="nav-text">Q 252</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-259"><span class="nav-text">Q 259</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-264"><span class="nav-text">Q 264</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-265"><span class="nav-text">Q 265</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-284"><span class="nav-text">Q 284</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -522,7 +526,7 @@ C++ 标准规定，如果程序调用 <code>const</code> 限定类型 T 对象�
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-count">17</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -535,7 +539,7 @@ C++ 标准规定，如果程序调用 <code>const</code> 限定类型 T 对象�
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-count">34</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -591,13 +595,13 @@ C++ 标准规定，如果程序调用 <code>const</code> 限定类型 T 对象�
       <i class="fa fa-area-chart"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">80k</span>
+    <span title="站点总字数">88k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">1:12</span>
+    <span title="站点阅读时长">1:20</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.0
   </div>
