@@ -1,6 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>LeetCode Everyday - 买卖股票的最佳时机 I II III IV</title>
+    <url>/posts/308c9c50/</url>
+    <content><![CDATA[<blockquote>
+<ul>
+<li>LeetCode 121</li>
+<li>LeetCode 122</li>
+<li>LeetCode 123</li>
+<li>LeetCode 188</li>
+<li>Dynamic-Programming</li>
+<li>Monotonic-Stack</li>
+<li>Greedy</li>
+</ul>
+</blockquote>
+<a id="more"></a>
+<p><strong>LeetCode 121</strong>：<a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/" target="_blank" rel="noopener">CLICK ME</a></p>
+<p>给定一个数组，它的第 i 个元素是一支给定股票第 i 天的价格。</p>
+<p>如果你<strong>最多只允许完成一笔交易</strong>（即买入和卖出一支股票），设计一个算法来计算你所能获取的最大利润。</p>
+<p>注意你不能在买入股票前卖出股票。</p>
+<p>解题思路一：<br>
+采用单调栈，栈底保存最小价格，当新入栈的值大于栈顶的值时直接入栈，当新入栈的值小于栈顶的值时，说明股票开始走低，记录前一刻的利润值，然后开始弹栈直到栈顶的值小于新值，将新值入栈，需要注意在原 prices 数组末尾加入一个哨兵 -1，保证所有的元素都能成功弹出并记录。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; prices)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> res = <span class="number">0</span>;</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; stockSt;</span><br><span class="line">        prices.emplace_back(<span class="number">-1</span>);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; prices.<span class="built_in">size</span>(); ++i) &#123;</span><br><span class="line">            <span class="keyword">while</span>(!stockSt.empty() &amp;&amp; stockSt.back() &gt; prices[i]) &#123;</span><br><span class="line">                res = <span class="built_in">std</span>::<span class="built_in">max</span>(res, stockSt.back() - stockSt.front());</span><br><span class="line">                stockSt.pop_back();</span><br><span class="line">            &#125;</span><br><span class="line">            stockSt.push_back(prices[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>解题思路二：<br>
+动态规划，dp[i] 表示前 i 天能够获取到的最大利润，dp[i] = max(dp[i - 1], prices[i] - minPricesOfPre(i - 1))，即在前 i - 1 天能够获取的最大利润和第 i 天减去前 i - 1 天的最小价格，取其中的大值。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; prices)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> nums = prices.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">if</span> (nums &lt; <span class="number">1</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="function"><span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">dp</span><span class="params">(nums, <span class="number">0</span>)</span></span>;</span><br><span class="line">        dp[<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> minPrice = prices[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; nums; ++i) &#123;</span><br><span class="line">            minPrice = <span class="built_in">std</span>::<span class="built_in">min</span>(minPrice, prices[i]);</span><br><span class="line">            <span class="keyword">int</span> curProfit = prices[i] - minPrice &gt; <span class="number">0</span> ? prices[i] - minPrice : <span class="number">0</span>;</span><br><span class="line">            dp[i] = <span class="built_in">std</span>::<span class="built_in">max</span>(dp[i - <span class="number">1</span>], curProfit);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[nums - <span class="number">1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><strong>LeetCode 122</strong>：<a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/" target="_blank" rel="noopener">CLICK ME</a></p>
+<p>给定一个数组，它的第 i 个元素是一支给定股票第 i 天的价格。</p>
+<p>设计一个算法来计算你所能获取的最大利润。你<strong>可以尽可能地完成更多的交易</strong>（多次买卖一支股票）。</p>
+<p>注意：你不能同时参与多笔交易（你必须在再次购买前出售掉之前的股票）。</p>
+<p>解题思路：<br>
+注意本题可以当天买入当天卖出，所以最优的策略变成只要第二天涨，我就买，一直涨就卖完再买，直到第二天跌就不买，明显的贪心策略。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; prices)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> res = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; prices.<span class="built_in">size</span>(); ++i) &#123;</span><br><span class="line">            <span class="keyword">int</span> newProfit = prices[i] - prices[i - <span class="number">1</span>] &gt; <span class="number">0</span> ? prices[i] - prices[i - <span class="number">1</span>] : <span class="number">0</span>;</span><br><span class="line">            res += newProfit;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><strong>LeetCode 123</strong>：<a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iii/" target="_blank" rel="noopener">CLICK ME</a></p>
+<p>给定一个数组，它的第 i 个元素是一支给定的股票在第 i 天的价格。</p>
+<p>设计一个算法来计算你所能获取的最大利润。你最多可以完成 两笔 交易。</p>
+<p>注意: 你不能同时参与多笔交易（你必须在再次购买前出售掉之前的股票）。</p>
+<p>解题思路：</p>
+]]></content>
+      <categories>
+        <category>LeetCode</category>
+      </categories>
+      <tags>
+        <tag>LeetCode</tag>
+        <tag>Dynamic-Programming</tag>
+        <tag>Monotonic-Stack</tag>
+        <tag>Greedy</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>LeetCode Everyday - 零钱兑换、无重复字符的最长子串、寻找两个有序数组中位数</title>
     <url>/posts/2193f84b/</url>
     <content><![CDATA[<blockquote>
@@ -78,10 +126,10 @@ B[j] &gt;= A[i-1] 并且 A[i] &gt;= B[j-1]，因为它们原数组的大小已�
       </categories>
       <tags>
         <tag>LeetCode</tag>
+        <tag>Dynamic-Programming</tag>
         <tag>DFS</tag>
         <tag>Sliding-Window</tag>
         <tag>Array</tag>
-        <tag>Dynamic-Programming</tag>
         <tag>Divide-Conquer</tag>
       </tags>
   </entry>
@@ -130,9 +178,9 @@ B[j] &gt;= A[i-1] 并且 A[i] &gt;= B[j-1]，因为它们原数组的大小已�
       <tags>
         <tag>LeetCode</tag>
         <tag>Sliding-Window</tag>
-        <tag>Linked-List</tag>
         <tag>Array</tag>
         <tag>Hash-Table</tag>
+        <tag>Linked-List</tag>
       </tags>
   </entry>
   <entry>
@@ -178,8 +226,8 @@ empty() – 返回栈是否为空<br>
         <tag>LeetCode</tag>
         <tag>Binary-Tree</tag>
         <tag>Sliding-Window</tag>
-        <tag>Stack</tag>
         <tag>Linked-List</tag>
+        <tag>Stack</tag>
       </tags>
   </entry>
   <entry>
@@ -409,8 +457,8 @@ j 满足：arr[i] == arr[j] 且 i != j<br>
       </categories>
       <tags>
         <tag>LeetCode</tag>
-        <tag>Array</tag>
         <tag>Dynamic-Programming</tag>
+        <tag>Array</tag>
         <tag>Multimap</tag>
         <tag>Math</tag>
         <tag>Binary-Search</tag>
@@ -1068,7 +1116,7 @@ Java 提倡所有对象都在堆上分配（原生类型也有对应的封装类
 Java 中有垃圾回收机制，堆中申请的空间 GC 会自动回收，而 Java 没有析构函数，也几乎很少用 RAII 来管理资源。</p>
 <h2 id="错误处理方式的区别">错误处理方式的区别</h2>
 <p>C++ 出于历史原因（Google 编码风格）或是性能原因（异常抛出导致系统实时性受损）可以不使用异常，因为如果使用异常，代码中可能出现大量的 <code>try{...}catch{...}</code> 语句，代码将会变得冗长难读，而且<strong>在泛型编程的代码中我们甚至不知道可能会出现哪些异常</strong>。<br>
-所以 <strong>C<ins>17 之后，C</ins> 对异常的处理标准变成了我们只能声明某些函数不能抛出异常</strong>。在运行之前，无论是代码声明还是编译器都不能发现异常。<br>
+所以 <strong>从 C<ins>17 开始，C</ins> 对异常的处理标准变成了我们只能声明某些函数不能抛出异常</strong>。在运行之前，无论是代码声明还是编译器都不能发现异常。<br>
 Java 中如果一个函数抛出异常，则强制它的调用方必须要处理异常。</p>
 <h2 id="对外暴露接口的区别">对外暴露接口的区别</h2>
 <p>C++ 除了<strong>模板类需要将接口和实现都放在头文件中</strong>，其他情况下都是<strong>头文件提供对外接口，源文件实现对外接口</strong>。<br>

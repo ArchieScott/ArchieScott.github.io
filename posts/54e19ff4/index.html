@@ -28,7 +28,7 @@
 <meta property="og:description" content="从语言特性上来说，主要是变量语义与编程范式的区别 从编码方式上来说，它们申请对象的方式、资源管理、错误处理都不太相同 从编译运行上来说，它们编译运行的方式、对外暴露接口的方式、引用外部类的方式也不一样">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-02-15T15:21:41.000Z">
-<meta property="article:modified_time" content="2020-02-26T07:16:52.272Z">
+<meta property="article:modified_time" content="2020-03-10T07:52:54.859Z">
 <meta property="article:author" content="Archie Scott">
 <meta property="article:tag" content="C&#x2F;C++">
 <meta property="article:tag" content="Programming-Language">
@@ -134,12 +134,12 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">17</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">18</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">34</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">36</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -222,7 +222,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-02-26 15:16:52" itemprop="dateModified" datetime="2020-02-26T15:16:52+08:00">2020-02-26</time>
+                <time title="修改时间：2020-03-10 15:52:54" itemprop="dateModified" datetime="2020-03-10T15:52:54+08:00">2020-03-10</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -308,7 +308,7 @@ Java 提倡所有对象都在堆上分配（原生类型也有对应的封装类
 Java 中有垃圾回收机制，堆中申请的空间 GC 会自动回收，而 Java 没有析构函数，也几乎很少用 RAII 来管理资源。</p>
 <h2 id="错误处理方式的区别">错误处理方式的区别</h2>
 <p>C++ 出于历史原因（Google 编码风格）或是性能原因（异常抛出导致系统实时性受损）可以不使用异常，因为如果使用异常，代码中可能出现大量的 <code>try{...}catch{...}</code> 语句，代码将会变得冗长难读，而且<strong>在泛型编程的代码中我们甚至不知道可能会出现哪些异常</strong>。<br>
-所以 <strong>C<ins>17 之后，C</ins> 对异常的处理标准变成了我们只能声明某些函数不能抛出异常</strong>。在运行之前，无论是代码声明还是编译器都不能发现异常。<br>
+所以 <strong>从 C<ins>17 开始，C</ins> 对异常的处理标准变成了我们只能声明某些函数不能抛出异常</strong>。在运行之前，无论是代码声明还是编译器都不能发现异常。<br>
 Java 中如果一个函数抛出异常，则强制它的调用方必须要处理异常。</p>
 <h2 id="对外暴露接口的区别">对外暴露接口的区别</h2>
 <p>C++ 除了<strong>模板类需要将接口和实现都放在头文件中</strong>，其他情况下都是<strong>头文件提供对外接口，源文件实现对外接口</strong>。<br>
@@ -467,7 +467,7 @@ Java 是将源文件 .java 编译成 .class 字节码，再<strong>通过 Jvm �
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-count">18</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -480,7 +480,7 @@ Java 是将源文件 .java 编译成 .class 字节码，再<strong>通过 Jvm �
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-count">36</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -536,13 +536,13 @@ Java 是将源文件 .java 编译成 .class 字节码，再<strong>通过 Jvm �
       <i class="fa fa-area-chart"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">88k</span>
+    <span title="站点总字数">90k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">1:20</span>
+    <span title="站点阅读时长">1:22</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.0
   </div>
