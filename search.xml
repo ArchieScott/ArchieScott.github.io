@@ -178,9 +178,9 @@ B[j] &gt;= A[i-1] 并且 A[i] &gt;= B[j-1]，因为它们原数组的大小已�
       <tags>
         <tag>LeetCode</tag>
         <tag>Sliding-Window</tag>
+        <tag>Linked-List</tag>
         <tag>Array</tag>
         <tag>Hash-Table</tag>
-        <tag>Linked-List</tag>
       </tags>
   </entry>
   <entry>
@@ -226,8 +226,8 @@ empty() – 返回栈是否为空<br>
         <tag>LeetCode</tag>
         <tag>Binary-Tree</tag>
         <tag>Sliding-Window</tag>
-        <tag>Linked-List</tag>
         <tag>Stack</tag>
+        <tag>Linked-List</tag>
       </tags>
   </entry>
   <entry>
@@ -1116,7 +1116,7 @@ Java 提倡所有对象都在堆上分配（原生类型也有对应的封装类
 Java 中有垃圾回收机制，堆中申请的空间 GC 会自动回收，而 Java 没有析构函数，也几乎很少用 RAII 来管理资源。</p>
 <h2 id="错误处理方式的区别">错误处理方式的区别</h2>
 <p>C++ 出于历史原因（Google 编码风格）或是性能原因（异常抛出导致系统实时性受损）可以不使用异常，因为如果使用异常，代码中可能出现大量的 <code>try{...}catch{...}</code> 语句，代码将会变得冗长难读，而且<strong>在泛型编程的代码中我们甚至不知道可能会出现哪些异常</strong>。<br>
-所以 <strong>从 C<ins>17 开始，C</ins> 对异常的处理标准变成了我们只能声明某些函数不能抛出异常</strong>。在运行之前，无论是代码声明还是编译器都不能发现异常。<br>
+所以 <strong>从 C++17 开始，对异常的处理标准变成了我们只能声明某些函数不能抛出异常</strong>。在运行之前，无论是代码声明还是编译器都不能发现异常。<br>
 Java 中如果一个函数抛出异常，则强制它的调用方必须要处理异常。</p>
 <h2 id="对外暴露接口的区别">对外暴露接口的区别</h2>
 <p>C++ 除了<strong>模板类需要将接口和实现都放在头文件中</strong>，其他情况下都是<strong>头文件提供对外接口，源文件实现对外接口</strong>。<br>
