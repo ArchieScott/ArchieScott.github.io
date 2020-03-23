@@ -20,19 +20,19 @@
     var CONFIG = {"hostname":"github.com","root":"/","scheme":"Gemini","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="C++ Quiz 题解 101~200 整理 有趣的题目： 217 225 227 233 249 264 284">
+  <meta name="description" content="C++ Quiz 题解 101~200 整理 有趣的题目： 217 225 226 227 233 249 264 284">
 <meta property="og:type" content="article">
 <meta property="og:title" content="C++ Quiz 题解 201~300">
 <meta property="og:url" content="https://github.com/ArchieScott/posts/7651320d/index.html">
 <meta property="og:site_name" content="夏の終わり">
-<meta property="og:description" content="C++ Quiz 题解 101~200 整理 有趣的题目： 217 225 227 233 249 264 284">
+<meta property="og:description" content="C++ Quiz 题解 101~200 整理 有趣的题目： 217 225 226 227 233 249 264 284">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-02-27T06:59:21.000Z">
-<meta property="article:modified_time" content="2020-03-16T15:18:32.394Z">
+<meta property="article:modified_time" content="2020-03-23T16:03:01.915Z">
 <meta property="article:author" content="Archie Scott">
 <meta property="article:tag" content="C&#x2F;C++">
-<meta property="article:tag" content="C++ Quiz">
 <meta property="article:tag" content="Programming-Language">
+<meta property="article:tag" content="C++ Quiz">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="https://github.com/ArchieScott/posts/7651320d/">
@@ -223,7 +223,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-16 23:18:32" itemprop="dateModified" datetime="2020-03-16T23:18:32+08:00">2020-03-16</time>
+                <time title="修改时间：2020-03-24 00:03:01" itemprop="dateModified" datetime="2020-03-24T00:03:01+08:00">2020-03-24</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -264,14 +264,14 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>6k</span>
+              <span>7.1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>5 分钟</span>
+              <span>6 分钟</span>
             </span>
 
         </div>
@@ -287,7 +287,7 @@
 <ul>
 <li>C++ Quiz 题解 101~200 整理</li>
 <li>有趣的题目：</li>
-<li>217 225 227 233 249 264 284</li>
+<li>217 225 226 227 233 249 264 284</li>
 </ul>
 </blockquote>
 <a id="more"></a>
@@ -311,12 +311,24 @@
 <code>variant</code> 是类型安全的 <code>union</code>，它可以在任意时间保存模板参数列表中某一类型的值或者空值，<code>variant</code> 不能存放引用、数组或 <code>void</code>，空 <code>variant</code> 应该写为 <code>std::variant&lt;std::monostate&gt;</code>。<br>
 与 <code>union</code> 一样，<code>variant</code> 默认初始化为它模板类型列表中的第一个值，除非该项无法默认构造。<br>
 <code>variant.index()</code> 返回当前保有项的下标，如果 <code>variant</code> 无值则返回 <code>variant_npos</code>。</p>
+<h4 id="Q-224">Q 224</h4>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Base</span> &#123;</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">int</span> <span class="title">f</span><span class="params">()</span> </span>= <span class="number">0</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Base::f</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> <span class="number">1</span>; &#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Derived</span> :</span> Base &#123;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">f</span><span class="params">()</span> <span class="keyword">override</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Derived::f</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> <span class="number">2</span>; &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Derived object;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; object.f();</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; ((Base&amp;)object).f();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>A</strong>：22<br>
+首先，为纯虚函数提供定义是有效的，只要它不是在类的声明中实现即可。<br>
+<code>((Base&amp;)object).f()</code> 在调用 f 之前将对象强制转换为 <code>Base&amp;</code>，但是由于 f 为虚函数，因此仍然输出 2。</p>
 <h4 id="Q-225">Q 225</h4>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">X</span> &#123;</span></span><br><span class="line">    X() &#123; <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"1"</span>; &#125;</span><br><span class="line">    X(<span class="keyword">const</span> X &amp;) &#123; <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"3"</span>; &#125;</span><br><span class="line">    ~X() &#123; <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"2"</span>; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">()</span> </span>&#123; <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"4"</span>; &#125;</span><br><span class="line"></span><br><span class="line">&#125; object;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    X(object);</span><br><span class="line">    object.f();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><strong>A</strong>：11422<br>
 首先，<code>struct X {...} object;</code> 定义了一个 X 类型的 object，调用 1 次构造函数；<br>
 <code>X(object)</code> 是一个新变量 object 的声明，而不是复制构造一个 X 对象，如果写成 <code>X object</code> 就很清楚了，局部变量覆盖掉了全局变量，调用 1 次构造函数；<br>
 最后别忘了调用两次析构函数。</p>
+<h4 id="Q-226">Q 226</h4>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;utility&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">X</span> &#123;</span></span><br><span class="line">    X() &#123; <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"1"</span>; &#125;</span><br><span class="line">    X(X &amp;) &#123; <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"2"</span>; &#125;</span><br><span class="line">    X(<span class="keyword">const</span> X &amp;) &#123; <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"3"</span>; &#125;</span><br><span class="line">    X(X &amp;&amp;) &#123; <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"4"</span>; &#125;</span><br><span class="line">    ~X() &#123; <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"5"</span>; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Y</span> &#123;</span></span><br><span class="line">    <span class="keyword">mutable</span> X x;</span><br><span class="line">    Y() = <span class="keyword">default</span>;</span><br><span class="line">    Y(<span class="keyword">const</span> Y &amp;) = <span class="keyword">default</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Y y1;</span><br><span class="line">    Y y2 = <span class="built_in">std</span>::<span class="built_in">move</span>(y1);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>A</strong>：1255<br>
+首先构造一个 Y 对象，Y 中有一个 X 类型的成员类，使用默认构造，输出 1。<br>
+<code>std::move</code> 会将 y1 转变为右值，但是 Y 并没有移动构造函数，因此调用的是它的拷贝构造函数，这个隐式定义的拷贝构造函数将会执行 X 类成员对象的拷贝，现在的问题是到底会执行哪个拷贝构造函数。<br>
+因为 X 有 <code>mutable</code> 修饰，因此 X 被认为是非 <code>const</code> 成员，重载解析认为 <code>X(X &amp;)</code> 更加合适，因为 <code>X(const X &amp;)</code> 还需要进行常数转换，所以此时输出 2。<br>
+最后，因为调用的是拷贝构造函数，会输出两个 5，即析构两次。</p>
 <h4 id="Q-227">Q 227</h4>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> Func = <span class="keyword">int</span>();</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">S</span> &#123;</span></span><br><span class="line">    Func f;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">S::f</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> <span class="number">1</span>; &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    S s;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; s.f();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><strong>A</strong>：1<br>
@@ -439,8 +451,8 @@ C++ 标准规定，如果程序调用 <code>const</code> 限定类型 T 对象�
           
           <div class="post-tags">
               <a href="/tags/C-C/" rel="tag"><i class="fa fa-tag"></i> C/C++</a>
-              <a href="/tags/C-Quiz/" rel="tag"><i class="fa fa-tag"></i> C++ Quiz</a>
               <a href="/tags/Programming-Language/" rel="tag"><i class="fa fa-tag"></i> Programming-Language</a>
+              <a href="/tags/C-Quiz/" rel="tag"><i class="fa fa-tag"></i> C++ Quiz</a>
           </div>
 
         
@@ -516,7 +528,7 @@ C++ 标准规定，如果程序调用 <code>const</code> 限定类型 T 对象�
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-217"><span class="nav-text">Q 217</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-219"><span class="nav-text">Q 219</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-220"><span class="nav-text">Q 220</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-222"><span class="nav-text">Q 222</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-225"><span class="nav-text">Q 225</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-227"><span class="nav-text">Q 227</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-229"><span class="nav-text">Q 229</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-230"><span class="nav-text">Q 230</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-231"><span class="nav-text">Q 231</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-233"><span class="nav-text">Q 233</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-248"><span class="nav-text">Q 248</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-249"><span class="nav-text">Q 249</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-250"><span class="nav-text">Q 250</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-252"><span class="nav-text">Q 252</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-259"><span class="nav-text">Q 259</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-264"><span class="nav-text">Q 264</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-265"><span class="nav-text">Q 265</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-284"><span class="nav-text">Q 284</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-217"><span class="nav-text">Q 217</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-219"><span class="nav-text">Q 219</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-220"><span class="nav-text">Q 220</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-222"><span class="nav-text">Q 222</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-224"><span class="nav-text">Q 224</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-225"><span class="nav-text">Q 225</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-226"><span class="nav-text">Q 226</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-227"><span class="nav-text">Q 227</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-229"><span class="nav-text">Q 229</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-230"><span class="nav-text">Q 230</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-231"><span class="nav-text">Q 231</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-233"><span class="nav-text">Q 233</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-248"><span class="nav-text">Q 248</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-249"><span class="nav-text">Q 249</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-250"><span class="nav-text">Q 250</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-252"><span class="nav-text">Q 252</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-259"><span class="nav-text">Q 259</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-264"><span class="nav-text">Q 264</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-265"><span class="nav-text">Q 265</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-284"><span class="nav-text">Q 284</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -601,13 +613,13 @@ C++ 标准规定，如果程序调用 <code>const</code> 限定类型 T 对象�
       <i class="fa fa-area-chart"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">66k</span>
+    <span title="站点总字数">68k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">1:01</span>
+    <span title="站点阅读时长">1:02</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.0
   </div>
