@@ -86,7 +86,7 @@
 <ul>
 <li>C++ Quiz 题解 101~200 整理</li>
 <li>有趣的题目：</li>
-<li>217 225 226 227 233 249 264 273 284</li>
+<li>217 225 226 227 233 249 251 264 273 284</li>
 </ul>
 </blockquote>
 <a id="more"></a>
@@ -181,6 +181,13 @@ C++ 标准中的保留关键字不包含 <code>override</code>，只有出现在
 C++ 规范<strong>首先会比较哪一个模板的转换序列更佳</strong>，但是在这里两个模板的转换序列是一样的；<br>
 <strong>接着比较哪一个模板更加特化</strong> - <em>more specialized</em> - 我们能够从 <code>foo2</code> 中推导出 <code>foo1</code> 却无法从 <code>foo1</code> 中推导出 <code>foo2</code>，因此对于 <code>foo(1)</code> 来说，第一个模板更合适。<br>
 再看 <code>foo(1,2)</code>，第一个函数模板 <code>foo</code> 需要省略 <code>...</code> 来匹配转换序列，而第二个函数模板 <code>foo</code> 则不需要省略，从比较模板转换序列的角度来说，第二个 <code>foo</code> 更合适。</p>
+<h4 id="Q-251">Q 251</h4>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">void</span> <span class="title">f</span>(<span class="title">T</span>) &#123;</span> <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="number">1</span>; &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;&gt;</span><br><span class="line"><span class="keyword">void</span> f&lt;&gt;(<span class="keyword">int</span>*) &#123; <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="number">2</span>; &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">void</span> <span class="title">f</span>(<span class="title">T</span>*) &#123;</span> <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="number">3</span>; &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> *p = <span class="literal">nullptr</span>;</span><br><span class="line">    f( p );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>A</strong>：3<br>
+重载解析值考虑函数模板，而不会考虑已经显式特化的 <code>void f&lt;&gt;(int*)</code>，因此是在 f(T) 和 f(T*) 中选择一个更好的函数模板。<br>
+简单来说，f(T*) 接受的任何参数都会被 f(T) 接受，反之则不会，因此 f(T*) 是一个更加专业的模板，编译器更偏向选择它。<br>
+现在重载解析选择了 <code>void f(T*)</code>，那么特化应该选择哪一个呢？<br>
+<code>void f&lt;&gt;(int*)</code> 是 <code>void f(T)</code> 的显式特化，因为 f(T) 是在其之前的唯一函数模板声明，因为重载解析已经选择了另一个函数模板，编译器会使用该模板的隐式特化，打印 3。</p>
 <h4 id="Q-252">Q 252</h4>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i = <span class="string">'3'</span> - <span class="string">'2'</span>;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; i;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><strong>A</strong>：1<br>
@@ -237,8 +244,8 @@ x 和 y 在运算之前都会被转换成另外一种类型，在大多数系统
 <ul>
 <li>C++ Quiz 题解 101~200 整理</li>
 <li>有趣的题目：</li>
-<li>105 111 116 122 129 130 133 135 148 163</li>
-<li>190 193 198</li>
+<li>105 111 116 122 127 129 130 133 135 148</li>
+<li>163 190 193 195 198</li>
 </ul>
 </blockquote>
 <a id="more"></a>
@@ -324,6 +331,14 @@ p 中保存的是它自己的地址。</p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">foo</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">10</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">foobar</span> &#123;</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">int</span> x;</span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">foo</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">11</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> foobar::x = foo();</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; foobar::x;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><strong>A</strong>：11<br>
 在类的静态成员定义中使用的名称和类中成员函数的名称是一致的，换句话说，尽管 <code>foo()</code> 调用发生在类外，但是它位于静态数据成员的定义中，可以看作 <code>foo()</code> 是 <code>footbar</code> 的成员函数调用，而不是全局 <code>foo()</code> 的调用。</p>
+<h4 id="Q-127">Q 127</h4>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;type_traits&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i, &amp;j = i;</span><br><span class="line">    [=] &#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; is_same&lt;<span class="keyword">decltype</span>   ((j)),     <span class="keyword">int</span>         &gt;::value</span><br><span class="line">            &lt;&lt; is_same&lt;<span class="keyword">decltype</span>   (((j))),    <span class="keyword">int</span>      &amp;  &gt;::value</span><br><span class="line">            &lt;&lt; is_same&lt;<span class="keyword">decltype</span>  ((((j)))),   <span class="keyword">int</span> <span class="keyword">const</span>&amp;  &gt;::value</span><br><span class="line">            &lt;&lt; is_same&lt;<span class="keyword">decltype</span> (((((j))))),  <span class="keyword">int</span>      &amp;&amp; &gt;::value</span><br><span class="line">            &lt;&lt; is_same&lt;<span class="keyword">decltype</span>((((((j)))))), <span class="keyword">int</span> <span class="keyword">const</span>&amp;&amp; &gt;::value;</span><br><span class="line">    &#125;();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>A</strong>：00100(01000)<br>
+这其实是一道有点争议的题目，答案是 00100，VS2019 上是 01000。<br>
+关键在于 lambda 表达式中捕获的 j 是否带有 const 限定符。<br>
+因为 lambda 没有声明为 mutable，因此闭包类型重载 operator() 会是一个 const 成员函数。<br>
+而当表达式出现在 const 成员函数中时，这个表达式也是 const 表达式。<br>
+仅供参考。</p>
 <h4 id="Q-129">Q 129</h4>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">char</span>&gt; delimiters = &#123; <span class="string">","</span>, <span class="string">";"</span> &#125;;  </span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; delimiters[<span class="number">0</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><strong>A</strong>：程序行为未定义<br>
@@ -473,6 +488,11 @@ C++ 标准为一些标点符号提供了可选标记，原代码等价于下面�
 <p>除了拼写不同，这些符号的行为都是相同的，即：<br>
 <code>&lt;%%&gt;</code> 等价于 <code>{}</code><br>
 <code>&lt;::&gt;</code> 等价于 <code>[]</code></p>
+<h4 id="Q-195">Q 195</h4>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstddef&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;type_traits&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="built_in">std</span>::is_pointer_v&lt;<span class="keyword">decltype</span>(<span class="literal">nullptr</span>)&gt;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>A</strong>：0<br>
+<code>std::is_pointer_v</code> 用于判断参数是否为指针类型。<br>
+nullptr 是类型为 <code>std::nullptr_t</code> 的纯右值，该类型不是指针类型，事实上 nullptr 是一个空指针常量，它能够被转换为指针。</p>
 <h4 id="Q-196">Q 196</h4>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> x &#123;</span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">C</span> &#123;</span>&#125;;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(<span class="keyword">const</span> C&amp; i)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"1"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> y &#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(<span class="keyword">const</span> x::C&amp; i)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"2"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    f(x::C());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><strong>A</strong>：1<br>
@@ -501,7 +521,7 @@ C++ 标准规定，出现在不同命名空间范围中的具有相同名称的 
 <ul>
 <li>C++ Quiz 题解 001~100 整理</li>
 <li>有趣的题目：</li>
-<li>018 027 031 033 041 052</li>
+<li>018 027 031 033 038 041 052</li>
 </ul>
 </blockquote>
 <a id="more"></a>
@@ -603,6 +623,13 @@ C++ 标准规定，有符号整数溢出是未定义的行为 - 如果在计算�
 <code>auto</code> 忽略顶层 <code>const</code>，<code>decltype</code> 保留顶层 <code>const</code><br>
 对引用操作，<code>auto</code> 推断出原有类型，<code>decltype</code> 推断出引用<br>
 对解引用操作，<code>auto</code> 推断出原有类型，<code>decltype</code> 推断出引用</p>
+<h4 id="Q-038">Q 038</h4>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> a = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">decltype</span>((a)) b = a;</span><br><span class="line">    b++;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; a &lt;&lt; b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>A</strong>：11<br>
+一般情况下，<code>decltype</code> 只会返回给定的名称或表达式的确切类型；<br>
+C++14 开始，<code>auto</code> 可以用于函数返回值类型的推导，但是当函数返回值用于被初始化的场景下，初始化表达的引用性会被忽略。而 <code>decltype(auto)</code> 能够解决这个问题。<br>
+当 <code>decltype(e)</code> 中的 e 是比仅有名称更复杂的左值表达式时，<code>decltype(e)</code> 就保证得出的型别总是左值引用。<br>
+因此 <code>decltype((a))</code> 推断出的类型为 <code>int&amp;</code>，b 是 a 的引用，因此 a 和 b 都为 1。</p>
 <h4 id="Q-041">Q 041</h4>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="number">1</span>[<span class="string">"ABC"</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><strong>A</strong>：B<br>
