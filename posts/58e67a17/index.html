@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.ico">
+  <link rel="mask-icon" href="/images/newlogo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"github.com","root":"/","scheme":"Gemini","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="从内核角度剖析 Socket 的创建与三次握手的过程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浅析 Linux 内核：Socket 的创建与使用">
+<meta property="og:url" content="https://github.com/ArchieScott/posts/58e67a17/index.html">
+<meta property="og:site_name" content="夏の終わり">
+<meta property="og:description" content="从内核角度剖析 Socket 的创建与三次握手的过程">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-05-02T11:21:57.000Z">
+<meta property="article:modified_time" content="2020-05-04T06:13:07.128Z">
+<meta property="article:author" content="Archie Scott">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="Linux-Kernel">
+<meta property="article:tag" content="Socket">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://github.com/ArchieScott/posts/58e67a17/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>浅析 Linux 内核：Socket 的创建与使用 | 夏の終わり</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">夏の終わり</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Summer is Over</p>
+  </div>
+
+  <div class="site-nav-right"></div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-top">
+
+    <a href="/top/" rel="section"><i class="fa fa-fw fa-signal"></i>排行</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">6</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">14</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">24</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/ArchieScott" class="github-corner" title="进来看看 ((٩(&#x2F;&#x2F;̀Д&#x2F;́&#x2F;)۶))" aria-label="进来看看 ((٩(&#x2F;&#x2F;̀Д&#x2F;́&#x2F;)۶))"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://github.com/ArchieScott/posts/58e67a17/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+      <meta itemprop="name" content="Archie Scott">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="夏の終わり">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          浅析 Linux 内核：Socket 的创建与使用
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-05-02 19:21:57" itemprop="dateCreated datePublished" datetime="2020-05-02T19:21:57+08:00">2020-05-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-05-04 14:13:07" itemprop="dateModified" datetime="2020-05-04T14:13:07+08:00">2020-05-04</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span id="/posts/58e67a17/" class="post-meta-item leancloud_visitors" data-flag-title="浅析 Linux 内核：Socket 的创建与使用" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/posts/58e67a17/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/posts/58e67a17/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>19k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>18 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<ul>
+<li>从内核角度剖析 Socket 的创建与三次握手的过程</li>
+</ul>
+</blockquote>
+<a id="more"></a>
+<p>五一在家花了两天时间将 Linux 网络系统中的源码看了个大概，在此总结，以免遗忘。相比于 UDP，TCP 的三次握手是在内核中完成的，代码会比 UDP 更加复杂，在这里我们就只分析 TCP，UDP 的如果后面有时间再更新。<br>
+那么就按照最基础的网络编程的过程来一步步分析，分别是 “创建 socket”、“绑定端口 bind”、“监听端口 listen”、“客户端连接 connect”、“服务端取出连接 accept” 五个部分。<br>
+内核代码用的是 Linux v5.6.10，<a href="https://elixir.bootlin.com/linux/latest/source" target="_blank" rel="noopener">代码在线地址</a></p>
+<h2 id="创建-socket">创建 socket</h2>
+<p>socket 系统调用的代码位于 <code>/net/socket.c</code> 中，代码如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SYSCALL_DEFINE3(socket, <span class="keyword">int</span>, family, <span class="keyword">int</span>, type, <span class="keyword">int</span>, protocol) &#123;</span><br><span class="line">    <span class="keyword">return</span> __sys_socket(family, type, protocol);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个代码其实只是调用了 <code>__sys_socket</code>，之所以要这样包装一下，是为了解决在 64 位系统中，原先的 32 位参数存放在 64 位寄存器中会出现符号扩展出错的情况，导致系统漏洞，现在的做法其实就是将系统调用的参数统一使用 long 类型接收，再强制转换为 int，Linux 内核中还有很多这种类似的修修补补，以后有机会我们都能看到。<br>
+下面我们来看在 <code>__sys_socket</code> 中做了些什么：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @family: 协议族, AF_INET/AF_UNIX</span></span><br><span class="line"><span class="comment"> * @type: 通信类型, SOCK_STREAM/SOCK_DGRAM/SOCK_RAW</span></span><br><span class="line"><span class="comment"> * @protocol: 通信协议, 现在基本已经废弃, 因为协议已经通过上面两个参数指定了, 一般写为 0</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">int</span> __sys_socket(<span class="keyword">int</span> family, <span class="keyword">int</span> type, <span class="keyword">int</span> protocol) &#123;</span><br><span class="line">    <span class="keyword">int</span> retval;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">socket</span> *<span class="title">sock</span>;</span></span><br><span class="line">    <span class="keyword">int</span> flags;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// BUILD_BUG_ON 在后面参数为 true 的时候编译错误, 是一种静态检查机制</span></span><br><span class="line">    BUILD_BUG_ON(SOCK_CLOEXEC != O_CLOEXEC);</span><br><span class="line">    BUILD_BUG_ON((SOCK_MAX | SOCK_TYPE_MASK) != SOCK_TYPE_MASK);</span><br><span class="line">    BUILD_BUG_ON(SOCK_CLOEXEC &amp; SOCK_TYPE_MASK);</span><br><span class="line">    BUILD_BUG_ON(SOCK_NONBLOCK &amp; SOCK_TYPE_MASK);</span><br><span class="line"></span><br><span class="line">    flags = type &amp; ~SOCK_TYPE_MASK;</span><br><span class="line">    <span class="keyword">if</span> (flags &amp; ~(SOCK_CLOEXEC | SOCK_NONBLOCK))</span><br><span class="line">        <span class="keyword">return</span> -EINVAL;</span><br><span class="line">    type &amp;= SOCK_TYPE_MASK;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (SOCK_NONBLOCK != O_NONBLOCK &amp;&amp; (flags &amp; SOCK_NONBLOCK))</span><br><span class="line">        flags = (flags &amp; ~SOCK_NONBLOCK) | O_NONBLOCK;</span><br><span class="line"></span><br><span class="line">    retval = sock_create(family, type, protocol, &amp;sock);</span><br><span class="line">    <span class="keyword">if</span> (retval &lt; <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">return</span> retval;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> sock_map_fd(sock, flags &amp; (O_CLOEXEC | O_NONBLOCK));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>函数中首先创建了一个 <code>struct socket</code>，然后经过一系列的参数检查，最终到达两个重要的函数：<br>
+第一个 <code>sock_create</code>，它会创造一个 <code>struct socket</code> 结构放在前面构造的 <code>sock</code> 变量中；<br>
+第二个 <code>sock_map_fd</code>，它会将文件描述符和这个 <code>struct socket</code> 对应起来，然后返回 socket 对应的文件描述符。<br>
+点进 <code>sock_create</code>，发现它又是一个 wrapper，注意这个参数 res 是一个二重指针，因为我们在外层是用指针来接这个新建的 socket，要修改并保存指针的值，就要使用指针的地址才行。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sock_create</span><span class="params">(<span class="keyword">int</span> family, <span class="keyword">int</span> type, <span class="keyword">int</span> protocol, struct socket **res)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> __sock_create(current-&gt;nsproxy-&gt;net_ns, family, type, protocol, res, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line">EXPORT_SYMBOL(sock_create);</span><br></pre></td></tr></table></figure>
+<p>进入 <code>__sock_create</code>，这个函数用于真正创建一个新的 socket，并且将它赋值给参数 res：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @net: net namespace</span></span><br><span class="line"><span class="comment"> * @family: protocol family (AF_INET, ...)</span></span><br><span class="line"><span class="comment"> * @type: communication type (SOCK_STREAM, ...)</span></span><br><span class="line"><span class="comment"> * @protocol: protocol (0, ...)</span></span><br><span class="line"><span class="comment"> * @res: new socket</span></span><br><span class="line"><span class="comment"> * @kern: boolean for kernel space sockets</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">int</span> __sock_create(struct net *net, <span class="keyword">int</span> family, <span class="keyword">int</span> type, <span class="keyword">int</span> protocol, struct socket **res, <span class="keyword">int</span> kern) &#123;</span><br><span class="line">    <span class="keyword">int</span> err;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">socket</span> *<span class="title">sock</span>;</span></span><br><span class="line">    <span class="comment">// 用于保存从 net_families 数组中取出的指定协议的协议族</span></span><br><span class="line">    <span class="keyword">const</span> <span class="class"><span class="keyword">struct</span> <span class="title">net_proto_family</span> *<span class="title">pf</span>;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 判断 family 和 type 参数是否合法</span></span><br><span class="line">    <span class="keyword">if</span> (family &lt; <span class="number">0</span> || family &gt;= NPROTO)</span><br><span class="line">        <span class="keyword">return</span> -EAFNOSUPPORT;</span><br><span class="line">    <span class="keyword">if</span> (type &lt; <span class="number">0</span> || type &gt;= SOCK_MAX)</span><br><span class="line">        <span class="keyword">return</span> -EINVAL;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (family == PF_INET &amp;&amp; type == SOCK_PACKET) &#123;</span><br><span class="line">        pr_info_once(<span class="string">"%s uses obsolete (PF_INET,SOCK_PACKET)\n"</span>, current-&gt;comm);</span><br><span class="line">        family = PF_PACKET;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    err = security_socket_create(family, type, protocol, kern);</span><br><span class="line">    <span class="keyword">if</span> (err)</span><br><span class="line">        <span class="keyword">return</span> err;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 分配了一个新的 inode 结点与 socket 对象给 sock</span></span><br><span class="line">    sock = sock_alloc();</span><br><span class="line">    <span class="keyword">if</span> (!sock) &#123;</span><br><span class="line">        net_warn_ratelimited(<span class="string">"socket: no more sockets\n"</span>);</span><br><span class="line">        <span class="keyword">return</span> -ENFILE;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    sock-&gt;type = type;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> CONFIG_MODULES</span></span><br><span class="line">    <span class="keyword">if</span> (rcu_access_pointer(net_families[family]) == <span class="literal">NULL</span>)</span><br><span class="line">        request_module(<span class="string">"net-pf-%d"</span>, family);</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"></span><br><span class="line">    rcu_read_lock();</span><br><span class="line">    <span class="comment">// 从 net_families[family] 中取出 family 对应的 struct net_proto_family 保存在 pf 中</span></span><br><span class="line">    <span class="comment">// 后面我们需要调用 pf-&gt;create 来创建 socket</span></span><br><span class="line">    pf = rcu_dereference(net_families[family]);</span><br><span class="line">    err = -EAFNOSUPPORT;</span><br><span class="line">    <span class="keyword">if</span> (!pf)</span><br><span class="line">        <span class="keyword">goto</span> out_release;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 我们需要调用 -&gt;create 函数, 它位于一个可加载模块中, 因此必须先更改可加载模块的引用计数</span></span><br><span class="line">    <span class="keyword">if</span> (!try_module_get(pf-&gt;owner))</span><br><span class="line">        <span class="keyword">goto</span> out_release;</span><br><span class="line"></span><br><span class="line">    rcu_read_unlock();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// IPv4 中调用的其实是 inet_create</span></span><br><span class="line">    err = pf-&gt;create(net, sock, protocol, kern);</span><br><span class="line">    <span class="keyword">if</span> (err &lt; <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">goto</span> out_module_put;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!try_module_get(sock-&gt;ops-&gt;owner))</span><br><span class="line">        <span class="keyword">goto</span> out_module_busy;</span><br><span class="line"></span><br><span class="line">    module_put(pf-&gt;owner);</span><br><span class="line">    err = security_socket_post_create(sock, family, type, protocol, kern);</span><br><span class="line">    <span class="keyword">if</span> (err)</span><br><span class="line">        <span class="keyword">goto</span> out_sock_release;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 修改传入的 res 地址中的值为 sock</span></span><br><span class="line">    *res = sock;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">out_module_busy:</span><br><span class="line">    err = -EAFNOSUPPORT;</span><br><span class="line">out_module_put:</span><br><span class="line">    sock-&gt;ops = <span class="literal">NULL</span>;</span><br><span class="line">    module_put(pf-&gt;owner);</span><br><span class="line">out_sock_release:</span><br><span class="line">    sock_release(sock);</span><br><span class="line">    <span class="keyword">return</span> err;</span><br><span class="line">out_release:</span><br><span class="line">    rcu_read_unlock();</span><br><span class="line">    <span class="keyword">goto</span> out_sock_release;</span><br><span class="line">&#125;</span><br><span class="line">EXPORT_SYMBOL(__sock_create);</span><br></pre></td></tr></table></figure>
+<p>首先我们看 struct socket 的定义，这个 ops 需要我们找到 family、type、protocol 三者都符合的协议操作进行更新。每个 struct socket 向下也都会对应一个 struct sock，它用于处理底层的网络协议栈。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> *  struct socket - general BSD socket</span></span><br><span class="line"><span class="comment"> *  @state: socket 所处状态 SS_CONNECTED 等</span></span><br><span class="line"><span class="comment"> *  @type: socket 类型 SOCK_STREAM 等</span></span><br><span class="line"><span class="comment"> *  @flags: socket 标志位 SOCK_NOSPACE 等</span></span><br><span class="line"><span class="comment"> *  @ops: 协议指定的 socket 操作</span></span><br><span class="line"><span class="comment"> *  @file: 文件返回指针</span></span><br><span class="line"><span class="comment"> *  @sk: 内部网络协议的 socket 表示</span></span><br><span class="line"><span class="comment"> *  @wq: 等待队列</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">socket</span> &#123;</span></span><br><span class="line">    socket_state state;</span><br><span class="line">    short type;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> flags;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">file</span> *<span class="title">file</span>;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">sock</span> *<span class="title">sk</span>;</span></span><br><span class="line">    <span class="keyword">const</span> <span class="class"><span class="keyword">struct</span> <span class="title">proto_ops</span> *<span class="title">ops</span>;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">socket_wq</span> <span class="title">wq</span>;</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>然后我们看 <code>net_families</code> 数组的定义，它位于 <code>/net/socket.c</code> 的起始位置：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">net_proto_family</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> family;</span><br><span class="line">    <span class="keyword">int</span> (*create)(struct net *net, struct socket *sock, <span class="keyword">int</span> protocol, <span class="keyword">int</span> kern);</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">module</span> *<span class="title">owner</span>;</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> <span class="class"><span class="keyword">struct</span> <span class="title">net_proto_family</span> __<span class="title">rcu</span> *<span class="title">net_families</span>[<span class="title">NPROTO</span>] __<span class="title">read_mostly</span>;</span></span><br></pre></td></tr></table></figure>
+<p>不难看出，它其实就是一个 <code>struct net_proto_family *</code> 类型的数组，数组的下标就是 family 协议族参数，也就是说，每一种协议其实都正好对应了一个 <code>struct net_proto_family</code>，以 <code>/net/ipv4/af_inet.c</code> 中的 <code>inet_family_ops</code> 为例：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> <span class="class"><span class="keyword">struct</span> <span class="title">net_proto_family</span> <span class="title">inet_family_ops</span> = &#123;</span></span><br><span class="line">    .family = PF_INET,</span><br><span class="line">    <span class="comment">// 这里将 IPv4 协议族中创建 socket 的函数设置为 inet_create</span></span><br><span class="line">    .create = inet_create,</span><br><span class="line">    .owner = THIS_MODULE,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>接下来看 <code>inet_create</code> 的实现，它位于 <code>/net/ipv4/af_inet.c</code> 中：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @net: net namespace</span></span><br><span class="line"><span class="comment"> * @sock: 这个 sock 是新建的 struct socket 类型指针</span></span><br><span class="line"><span class="comment"> * @protocol: protocol (0, ...)</span></span><br><span class="line"><span class="comment"> * @kern: boolean for kernel space sockets</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">inet_create</span><span class="params">(struct net *net, struct socket *sock, <span class="keyword">int</span> protocol, <span class="keyword">int</span> kern)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 注意这个 struct sock 需要和 struct socket 区分</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">sock</span> *<span class="title">sk</span>;</span></span><br><span class="line">    <span class="comment">// 这个 answer 指向的就是 family type protocol 都符合的 struct inet_protosw</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">inet_protosw</span> *<span class="title">answer</span>;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">inet_sock</span> *<span class="title">inet</span>;</span></span><br><span class="line">    <span class="comment">// 这个 answer_prot 用于保存内核网络协议栈的 socket 操作</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">proto</span> *<span class="title">answer_prot</span>;</span></span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">char</span> answer_flags;</span><br><span class="line">    <span class="keyword">int</span> try_loading_module = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> err;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (protocol &lt; <span class="number">0</span> || protocol &gt;= IPPROTO_MAX)</span><br><span class="line">        <span class="keyword">return</span> -EINVAL;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 初始化 socket 的状态应该是 SS_UNCONNECTED</span></span><br><span class="line">    sock-&gt;state = SS_UNCONNECTED;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 查找所需的类型/协议对</span></span><br><span class="line">lookup_protocol:</span><br><span class="line">    err = -ESOCKTNOSUPPORT;</span><br><span class="line">    rcu_read_lock();</span><br><span class="line">    <span class="comment">// inetsw 数组下标为 type</span></span><br><span class="line">    list_for_each_entry_rcu(answer, &amp;inetsw[sock-&gt;type], <span class="built_in">list</span>) &#123;</span><br><span class="line">        err = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span> (protocol == answer-&gt;protocol) &#123;</span><br><span class="line">            <span class="keyword">if</span> (protocol != IPPROTO_IP)</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (IPPROTO_IP == protocol) &#123;</span><br><span class="line">                protocol = answer-&gt;protocol;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (IPPROTO_IP == answer-&gt;protocol)</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        err = -EPROTONOSUPPORT;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (unlikely(err)) &#123;</span><br><span class="line">        <span class="keyword">if</span> (try_loading_module &lt; <span class="number">2</span>) &#123;</span><br><span class="line">            rcu_read_unlock();</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (++try_loading_module == <span class="number">1</span>)</span><br><span class="line">                request_module(<span class="string">"net-pf-%d-proto-%d-type-%d"</span>, PF_INET, protocol, sock-&gt;type);</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                request_module(<span class="string">"net-pf-%d-proto-%d"</span>, PF_INET, protocol);</span><br><span class="line">            <span class="keyword">goto</span> lookup_protocol;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="keyword">goto</span> out_rcu_unlock;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    err = -EPERM;</span><br><span class="line">    <span class="keyword">if</span> (sock-&gt;type == SOCK_RAW &amp;&amp; !kern &amp;&amp; !ns_capable(net-&gt;user_ns, CAP_NET_RAW))</span><br><span class="line">        <span class="keyword">goto</span> out_rcu_unlock;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 修改新建的 struct socket 的 ops 为 answer-&gt;ops</span></span><br><span class="line">    sock-&gt;ops = answer-&gt;ops;</span><br><span class="line">    <span class="comment">// 取出 answer 的协议块与 flags</span></span><br><span class="line">    answer_prot = answer-&gt;prot;</span><br><span class="line">    answer_flags = answer-&gt;flags;</span><br><span class="line">    rcu_read_unlock();</span><br><span class="line"></span><br><span class="line">    WARN_ON(!answer_prot-&gt;slab);</span><br><span class="line"></span><br><span class="line">    err = -ENOBUFS;</span><br><span class="line">    <span class="comment">// 分配一个 struct sock, 新建 struct sock 的时候需要指定使用的协议族与协议块</span></span><br><span class="line">    <span class="comment">// sk-&gt;sk_family = family(PF_INET)</span></span><br><span class="line">    <span class="comment">// sk-&gt;sk_prot = prot(answer_prot)</span></span><br><span class="line">    sk = sk_alloc(net, PF_INET, GFP_KERNEL, answer_prot, kern);</span><br><span class="line">    <span class="keyword">if</span> (!sk)</span><br><span class="line">        <span class="keyword">goto</span> out;</span><br><span class="line"></span><br><span class="line">    err = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (INET_PROTOSW_REUSE &amp; answer_flags)</span><br><span class="line">        sk-&gt;sk_reuse = SK_CAN_REUSE;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 将 struct sk* 强制转换为 struct inet_sock*</span></span><br><span class="line">    <span class="comment">// 后面的代码都是填充这个 TCP 协议对应的 struct inet_sock, 不再分析</span></span><br><span class="line">    inet = inet_sk(sk);</span><br><span class="line">    inet-&gt;is_icsk = (INET_PROTOSW_ICSK &amp; answer_flags) != <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    inet-&gt;nodefrag = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (SOCK_RAW == sock-&gt;type) &#123;</span><br><span class="line">        inet-&gt;inet_num = protocol;</span><br><span class="line">        <span class="keyword">if</span> (IPPROTO_RAW == protocol)</span><br><span class="line">            inet-&gt;hdrincl = <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (net-&gt;ipv4.sysctl_ip_no_pmtu_disc)</span><br><span class="line">        inet-&gt;pmtudisc = IP_PMTUDISC_DONT;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        inet-&gt;pmtudisc = IP_PMTUDISC_WANT;</span><br><span class="line"></span><br><span class="line">    inet-&gt;inet_id = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    sock_init_data(sock, sk);</span><br><span class="line"></span><br><span class="line">    sk-&gt;sk_destruct = inet_sock_destruct;</span><br><span class="line">    sk-&gt;sk_protocol = protocol;</span><br><span class="line">    sk-&gt;sk_backlog_rcv = sk-&gt;sk_prot-&gt;backlog_rcv;</span><br><span class="line"></span><br><span class="line">    inet-&gt;uc_ttl = <span class="number">-1</span>;</span><br><span class="line">    inet-&gt;mc_loop = <span class="number">1</span>;</span><br><span class="line">    inet-&gt;mc_ttl = <span class="number">1</span>;</span><br><span class="line">    inet-&gt;mc_all = <span class="number">1</span>;</span><br><span class="line">    inet-&gt;mc_index = <span class="number">0</span>;</span><br><span class="line">    inet-&gt;mc_list = <span class="literal">NULL</span>;</span><br><span class="line">    inet-&gt;rcv_tos = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    sk_refcnt_debug_inc(sk);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (inet-&gt;inet_num) &#123;</span><br><span class="line">        inet-&gt;inet_sport = htons(inet-&gt;inet_num);</span><br><span class="line">        <span class="comment">/* Add to protocol hash chains. */</span></span><br><span class="line">        err = sk-&gt;sk_prot-&gt;hash(sk);</span><br><span class="line">        <span class="keyword">if</span> (err) &#123;</span><br><span class="line">            sk_common_release(sk);</span><br><span class="line">            <span class="keyword">goto</span> out;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (sk-&gt;sk_prot-&gt;init) &#123;</span><br><span class="line">        err = sk-&gt;sk_prot-&gt;init(sk);</span><br><span class="line">        <span class="keyword">if</span> (err) &#123;</span><br><span class="line">            sk_common_release(sk);</span><br><span class="line">            <span class="keyword">goto</span> out;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!kern) &#123;</span><br><span class="line">        err = BPF_CGROUP_RUN_PROG_INET_SOCK(sk);</span><br><span class="line">        <span class="keyword">if</span> (err) &#123;</span><br><span class="line">            sk_common_release(sk);</span><br><span class="line">            <span class="keyword">goto</span> out;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">out:</span><br><span class="line">    <span class="keyword">return</span> err;</span><br><span class="line">out_rcu_unlock:</span><br><span class="line">    rcu_read_unlock();</span><br><span class="line">    <span class="keyword">goto</span> out;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>inet_create</code> 中首先创建了一个 <code>struct sock</code>，这个结构体非常复杂，它是 socket 的网络层表示，主要负责向下对接内核网络协议栈，而 <code>struct socket</code> 是传输层的结构，主要负责向上为用户服务。<br>
+接着创建了一个 <code>struct inet_protosw</code> 类型的指针 answer，这个结构体用于注册 IP 协议的套接字接口，定义如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">inet_protosw</span> &#123;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">list_head</span> <span class="title">list</span>;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 下面两个成员变量构成了查找用的 key</span></span><br><span class="line">    <span class="comment">// type 是 socket 的第二个参数</span></span><br><span class="line">    <span class="keyword">unsigned</span> short type;</span><br><span class="line">    <span class="keyword">unsigned</span> short protocol;</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">proto</span> *<span class="title">prot</span>;</span></span><br><span class="line">    <span class="keyword">const</span> <span class="class"><span class="keyword">struct</span> <span class="title">proto_ops</span> *<span class="title">ops</span>;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">char</span> flags;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>然后我们看 <code>list_for_each_entry_rcu(answer, &amp;inetsw[sock-&gt;type], list)</code> 这个循环。<br>
+首先要弄明白 <code>inetsw[]</code> 这个数组是什么，从下面 <code>inet_init</code> 函数中的操作能够看出，inetsw 数组一开始是一个 <code>struct list_head</code> 类型的数组，这里用到了链表，是因为一个 type 可能对应多个 procotol。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="class"><span class="keyword">struct</span> <span class="title">list_head</span> <span class="title">inetsw</span>[<span class="title">SOCK_MAX</span>];</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 将 inetsw 数组中的每一个元素都初始化为链表头节点</span></span><br><span class="line"><span class="keyword">for</span> (r = &amp;inetsw[<span class="number">0</span>]; r &lt; &amp;inetsw[SOCK_MAX]; ++r)</span><br><span class="line">    INIT_LIST_HEAD(r);</span><br></pre></td></tr></table></figure>
+<p>接着在 <code>inet_init</code> 函数中将数组 <code>inetsw_array</code> 注册到数组 <code>inetsw</code> 中：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// inetsw_array 数组的每一项都对应不同 type/protocol 的 struct inet_protosw</span></span><br><span class="line"><span class="comment">// 启动时我们将 inetsw_array[] 中的所有元素插入到链表 inetsw[] 中</span></span><br><span class="line"><span class="keyword">static</span> <span class="class"><span class="keyword">struct</span> <span class="title">inet_protosw</span> <span class="title">inetsw_array</span>[] = &#123;</span></span><br><span class="line">    &#123;</span><br><span class="line">        .type = SOCK_STREAM,</span><br><span class="line">        .protocol = IPPROTO_TCP,</span><br><span class="line">        .prot = &amp;tcp_prot,</span><br><span class="line">        .ops = &amp;inet_stream_ops,</span><br><span class="line">        .flags = INET_PROTOSW_PERMANENT | INET_PROTOSW_ICSK,</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        .type = SOCK_DGRAM,</span><br><span class="line">        .protocol = IPPROTO_UDP,</span><br><span class="line">        .prot = &amp;udp_prot,</span><br><span class="line">        .ops = &amp;inet_dgram_ops,</span><br><span class="line">        .flags = INET_PROTOSW_PERMANENT,</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        .type = SOCK_DGRAM,</span><br><span class="line">        .protocol = IPPROTO_ICMP,</span><br><span class="line">        .prot = &amp;ping_prot,</span><br><span class="line">        .ops = &amp;inet_sockraw_ops,</span><br><span class="line">        .flags = INET_PROTOSW_REUSE,</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        .type = SOCK_RAW,</span><br><span class="line">        .protocol = IPPROTO_IP,</span><br><span class="line">        .prot = &amp;raw_prot,</span><br><span class="line">        .ops = &amp;inet_sockraw_ops,</span><br><span class="line">        .flags = INET_PROTOSW_REUSE,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (q = inetsw_array; q &lt; &amp;inetsw_array[INETSW_ARRAY_LEN]; ++q)</span><br><span class="line">    inet_register_protosw(q);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">inet_register_protosw</span><span class="params">(struct inet_protosw *p)</span> </span>&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">list_head</span> *<span class="title">lh</span>;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">inet_protosw</span> *<span class="title">answer</span>;</span></span><br><span class="line">    <span class="comment">// 取出当前 struct inet_protosw 的 protocol</span></span><br><span class="line">    <span class="keyword">int</span> protocol = p-&gt;protocol;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">list_head</span> *<span class="title">last_perm</span>;</span></span><br><span class="line"></span><br><span class="line">    spin_lock_bh(&amp;inetsw_lock);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 下标越界 error</span></span><br><span class="line">    <span class="keyword">if</span> (p-&gt;type &gt;= SOCK_MAX)</span><br><span class="line">        <span class="keyword">goto</span> out_illegal;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 根据 p-&gt;type 找到与 struct inet_protosw 下标对应的 inetsw[]</span></span><br><span class="line">    last_perm = &amp;inetsw[p-&gt;type];</span><br><span class="line">    <span class="comment">// #define list_for_each(pos, head) \</span></span><br><span class="line">    <span class="comment">// for (pos = (head)-&gt;next; pos != (head); pos = pos-&gt;next)</span></span><br><span class="line">    <span class="comment">// 一直循环找到最后一项, 然后将 &amp;p-&gt;list 挂上</span></span><br><span class="line">    list_for_each(lh, &amp;inetsw[p-&gt;type]) &#123;</span><br><span class="line">        <span class="comment">// list_entry 用于获取该链表项的结构</span></span><br><span class="line">        answer = list_entry(lh, struct inet_protosw, <span class="built_in">list</span>);</span><br><span class="line">        <span class="keyword">if</span> ((INET_PROTOSW_PERMANENT &amp; answer-&gt;flags) == <span class="number">0</span>)</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">if</span> (protocol == answer-&gt;protocol)</span><br><span class="line">            <span class="keyword">goto</span> out_permanent;</span><br><span class="line">        last_perm = lh;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// last_perm-&gt;next = &amp;p-&gt;list</span></span><br><span class="line">    list_add_rcu(&amp;p-&gt;<span class="built_in">list</span>, last_perm);</span><br><span class="line">out:</span><br><span class="line">    spin_unlock_bh(&amp;inetsw_lock);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">out_permanent:</span><br><span class="line">    pr_err(<span class="string">"Attempt to override permanent protocol %d\n"</span>, protocol);</span><br><span class="line">    <span class="keyword">goto</span> out;</span><br><span class="line"></span><br><span class="line">out_illegal:</span><br><span class="line">    pr_err(<span class="string">"Ignoring attempt to register invalid socket type %d\n"</span>, p-&gt;type);</span><br><span class="line">    <span class="keyword">goto</span> out;</span><br><span class="line">&#125;</span><br><span class="line">EXPORT_SYMBOL(inet_register_protosw);</span><br></pre></td></tr></table></figure>
+<p>回到 <code>list_for_each_entry_rcu</code> 循环，这时候就很容易理解了，它其实是根据我们指定的类型 sock-&gt;type，在 inetsw 数组（每个元素都是一个链表）对应的 <code>inetsw[sock-&gt;type]</code> 链表中查找每一个 <code>struct inet_protosw</code> 中的 protocol 是否是用户指定的 protocol，如果是的话，我们就找到了与用户指定 protocol。<br>
+到了这里，首先我们使用的 create 函数 <code>inet_create</code> 是与 family 对应的，然后选择的 struct inet_protosw 是与 type 对应的，最后在与 type 对应的链表中找到与 protocol 对应的那个 <code>struct inet_protosw *answer</code>。<br>
+接下来，我们需要根据选出的 answer 来更新新建的 socket 的操作，从上面 struct inet_protosw 就能够看出，以 TCP 为例，answer 对应的 ops 为 inet_stream_ops，后面针对这个 socket 的所有操作使用的都是 inet_stream_ops。<br>
+接着又出现了一个新的结构 <code>struct proto</code>，它定义在 <code>/include/net/sock.h</code> 中，是附加在 socket 中的网络层协议块，是 socket 层到传输层的接口，从下面的定义可以看出，这个结构体中定义的都是 <code>struct sock</code> 的相关操作：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">proto</span> &#123;</span></span><br><span class="line">    <span class="keyword">void</span> (*<span class="built_in">close</span>)(struct sock *sk, <span class="keyword">long</span> timeout);</span><br><span class="line">    <span class="keyword">int</span> (*pre_connect)(struct sock *sk, struct sockaddr *uaddr, <span class="keyword">int</span> addr_len);</span><br><span class="line">    <span class="keyword">int</span> (*<span class="built_in">connect</span>)(struct sock *sk, struct sockaddr *uaddr, <span class="keyword">int</span> addr_len);</span><br><span class="line">    <span class="keyword">int</span> (*<span class="built_in">disconnect</span>)(struct sock *sk, <span class="keyword">int</span> flags);</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">sock</span> *(*<span class="title">accept</span>)(<span class="title">struct</span> <span class="title">sock</span> *<span class="title">sk</span>, <span class="title">int</span> <span class="title">flags</span>, <span class="title">int</span> *<span class="title">err</span>, <span class="title">bool</span> <span class="title">kern</span>);</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> (*ioctl)(struct sock *sk, <span class="keyword">int</span> cmd, <span class="keyword">unsigned</span> <span class="keyword">long</span> arg);</span><br><span class="line">    <span class="keyword">int</span> (*init)(struct sock *sk);</span><br><span class="line">    <span class="keyword">void</span> (*destroy)(struct sock *sk);</span><br><span class="line">    <span class="keyword">void</span> (*<span class="built_in">shutdown</span>)(struct sock *sk, <span class="keyword">int</span> how);</span><br><span class="line">    <span class="keyword">int</span> (*setsockopt)(struct sock *sk, <span class="keyword">int</span> level,</span><br><span class="line">                      <span class="keyword">int</span> optname, <span class="keyword">char</span> __user *optval,</span><br><span class="line">                      <span class="keyword">unsigned</span> <span class="keyword">int</span> optlen);</span><br><span class="line">    <span class="keyword">int</span> (*getsockopt)(struct sock *sk, <span class="keyword">int</span> level,</span><br><span class="line">                      <span class="keyword">int</span> optname, <span class="keyword">char</span> __user *optval,</span><br><span class="line">                      <span class="keyword">int</span> __user *option);</span><br><span class="line">    <span class="keyword">void</span> (*keepalive)(struct sock *sk, <span class="keyword">int</span> valbool);</span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> CONFIG_COMPAT</span></span><br><span class="line">    <span class="keyword">int</span> (*compat_setsockopt)(struct sock *sk,</span><br><span class="line">                             <span class="keyword">int</span> level,</span><br><span class="line">                             <span class="keyword">int</span> optname, <span class="keyword">char</span> __user *optval,</span><br><span class="line">                             <span class="keyword">unsigned</span> <span class="keyword">int</span> optlen);</span><br><span class="line">    <span class="keyword">int</span> (*compat_getsockopt)(struct sock *sk,</span><br><span class="line">                             <span class="keyword">int</span> level,</span><br><span class="line">                             <span class="keyword">int</span> optname, <span class="keyword">char</span> __user *optval,</span><br><span class="line">                             <span class="keyword">int</span> __user *option);</span><br><span class="line">    <span class="keyword">int</span> (*compat_ioctl)(struct sock *sk,</span><br><span class="line">                        <span class="keyword">unsigned</span> <span class="keyword">int</span> cmd, <span class="keyword">unsigned</span> <span class="keyword">long</span> arg);</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">    <span class="keyword">int</span> (*sendmsg)(struct sock *sk, struct msghdr *msg,</span><br><span class="line">                   <span class="keyword">size_t</span> len);</span><br><span class="line">    <span class="keyword">int</span> (*recvmsg)(struct sock *sk, struct msghdr *msg,</span><br><span class="line">                   <span class="keyword">size_t</span> len, <span class="keyword">int</span> noblock, <span class="keyword">int</span> flags,</span><br><span class="line">                   <span class="keyword">int</span> *addr_len);</span><br><span class="line">    <span class="keyword">int</span> (*sendpage)(struct sock *sk, struct page *page,</span><br><span class="line">                    <span class="keyword">int</span> offset, <span class="keyword">size_t</span> <span class="built_in">size</span>, <span class="keyword">int</span> flags);</span><br><span class="line">    <span class="keyword">int</span> (*bind)(struct sock *sk,</span><br><span class="line">                struct sockaddr *uaddr, <span class="keyword">int</span> addr_len);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> (*backlog_rcv)(struct sock *sk,</span><br><span class="line">                       struct sk_buff *skb);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">void</span> (*release_cb)(struct sock *sk);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> (*hash)(struct sock *sk);</span><br><span class="line">    <span class="keyword">void</span> (*unhash)(struct sock *sk);</span><br><span class="line">    <span class="keyword">void</span> (*rehash)(struct sock *sk);</span><br><span class="line">    <span class="keyword">int</span> (*get_port)(struct sock *sk, <span class="keyword">unsigned</span> short snum);</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> CONFIG_PROC_FS</span></span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> inuse_idx;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">bool</span> (*stream_memory_free)(<span class="keyword">const</span> struct sock *sk, <span class="keyword">int</span> wake);</span><br><span class="line">    <span class="keyword">bool</span> (*stream_memory_read)(<span class="keyword">const</span> struct sock *sk);</span><br><span class="line">    <span class="keyword">void</span> (*enter_memory_pressure)(struct sock *sk);</span><br><span class="line">    <span class="keyword">void</span> (*leave_memory_pressure)(struct sock *sk);</span><br><span class="line">    <span class="keyword">atomic_long_t</span> *memory_allocated;          <span class="comment">/* Current allocated memory. */</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">percpu_counter</span> *<span class="title">sockets_allocated</span>;</span> <span class="comment">/* Current number of sockets. */</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> *memory_pressure;</span><br><span class="line">    <span class="keyword">long</span> *sysctl_mem;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> *sysctl_wmem;</span><br><span class="line">    <span class="keyword">int</span> *sysctl_rmem;</span><br><span class="line">    u32 sysctl_wmem_offset;</span><br><span class="line">    u32 sysctl_rmem_offset;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> max_header;</span><br><span class="line">    <span class="keyword">bool</span> no_autobind;</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">kmem_cache</span> *<span class="title">slab</span>;</span></span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> obj_size;</span><br><span class="line">    <span class="keyword">slab_flags_t</span> slab_flags;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> useroffset; <span class="comment">/* Usercopy region offset */</span></span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> usersize;   <span class="comment">/* Usercopy region size */</span></span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">percpu_counter</span> *<span class="title">orphan_count</span>;</span></span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">request_sock_ops</span> *<span class="title">rsk_prot</span>;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">timewait_sock_ops</span> *<span class="title">twsk_prot</span>;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">union</span> &#123;</span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">inet_hashinfo</span> *<span class="title">hashinfo</span>;</span></span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">udp_table</span> *<span class="title">udp_table</span>;</span></span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">raw_hashinfo</span> *<span class="title">raw_hash</span>;</span></span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">smc_hashinfo</span> *<span class="title">smc_hash</span>;</span></span><br><span class="line">    &#125; h;</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">module</span> *<span class="title">owner</span>;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">char</span> name[<span class="number">32</span>];</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">list_head</span> <span class="title">node</span>;</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> SOCK_REFCNT_DEBUG</span></span><br><span class="line">    <span class="keyword">atomic_t</span> socks;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">    <span class="keyword">int</span> (*diag_destroy)(struct sock *sk, <span class="keyword">int</span> err);</span><br><span class="line">&#125; __randomize_layout;</span><br></pre></td></tr></table></figure>
+<p>这也就是说，对上的 socket 操作都定义在 ops 中，而对下的 sock 操作都定义在 prot 中，从我们选定的 answer 一样能够获取到对应 TCP 的 struct proto，即 tcp_prot，我们用 tcp_prot 初始化 struct sock，这个 tcp_prot 定义在 <code>/net/ipv4/tcp_ipv4.c</code> 中，里面的行为对应的就是 TCP 协议下内核网络协议栈的所有操作：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">proto</span> <span class="title">tcp_prot</span> = &#123;</span></span><br><span class="line">    .name = <span class="string">"TCP"</span>,</span><br><span class="line">    .owner = THIS_MODULE,</span><br><span class="line">    .<span class="built_in">close</span> = tcp_close,</span><br><span class="line">    .pre_connect = tcp_v4_pre_connect,</span><br><span class="line">    .<span class="built_in">connect</span> = tcp_v4_connect,</span><br><span class="line">    .<span class="built_in">disconnect</span> = tcp_disconnect,</span><br><span class="line">    .accept = inet_csk_accept,</span><br><span class="line">    .ioctl = tcp_ioctl,</span><br><span class="line">    .init = tcp_v4_init_sock,</span><br><span class="line">    .destroy = tcp_v4_destroy_sock,</span><br><span class="line">    .<span class="built_in">shutdown</span> = tcp_shutdown,</span><br><span class="line">    .setsockopt = tcp_setsockopt,</span><br><span class="line">    .getsockopt = tcp_getsockopt,</span><br><span class="line">    .keepalive = tcp_set_keepalive,</span><br><span class="line">    .recvmsg = tcp_recvmsg,</span><br><span class="line">    .sendmsg = tcp_sendmsg,</span><br><span class="line">    .sendpage = tcp_sendpage,</span><br><span class="line">    .backlog_rcv = tcp_v4_do_rcv,</span><br><span class="line">    .release_cb = tcp_release_cb,</span><br><span class="line">    .hash = inet_hash,</span><br><span class="line">    .unhash = inet_unhash,</span><br><span class="line">    .get_port = inet_csk_get_port,</span><br><span class="line">    .enter_memory_pressure = tcp_enter_memory_pressure,</span><br><span class="line">    .leave_memory_pressure = tcp_leave_memory_pressure,</span><br><span class="line">    .stream_memory_free = tcp_stream_memory_free,</span><br><span class="line">    .sockets_allocated = &amp;tcp_sockets_allocated,</span><br><span class="line">    .orphan_count = &amp;tcp_orphan_count,</span><br><span class="line">    .memory_allocated = &amp;tcp_memory_allocated,</span><br><span class="line">    .memory_pressure = &amp;tcp_memory_pressure,</span><br><span class="line">    .sysctl_mem = sysctl_tcp_mem,</span><br><span class="line">    .sysctl_wmem_offset = offsetof(struct net, ipv4.sysctl_tcp_wmem),</span><br><span class="line">    .sysctl_rmem_offset = offsetof(struct net, ipv4.sysctl_tcp_rmem),</span><br><span class="line">    .max_header = MAX_TCP_HEADER,</span><br><span class="line">    .obj_size = <span class="keyword">sizeof</span>(struct tcp_sock),</span><br><span class="line">    .slab_flags = SLAB_TYPESAFE_BY_RCU,</span><br><span class="line">    .twsk_prot = &amp;tcp_timewait_sock_ops,</span><br><span class="line">    .rsk_prot = &amp;tcp_request_sock_ops,</span><br><span class="line">    .h.hashinfo = &amp;tcp_hashinfo,</span><br><span class="line">    .no_autobind = <span class="literal">true</span>,</span><br><span class="line">#ifdef CONFIG_COMPAT</span><br><span class="line">    .compat_setsockopt = compat_tcp_setsockopt,</span><br><span class="line">    .compat_getsockopt = compat_tcp_getsockopt,</span><br><span class="line">#endif</span><br><span class="line">    .diag_destroy = tcp_abort,</span><br><span class="line">&#125;;</span><br><span class="line">EXPORT_SYMBOL(tcp_prot);</span><br></pre></td></tr></table></figure>
+<p>inet_create 函数中我们还差 struct inet_sock 结构没有分析，打开这个结构能够发现很有意思的一幕，struct inet_sock 其实就是 struct sock 的扩展，在 struct sock 的基础上增加了一些东西，具体可以看下面的注释，也就是说，inet_sk 函数其实是进行了一次强制转换，将 <code>struct sock*</code> 转换成了 <code>struct inet_sock</code>，内核中经常能见到这样的操作，将一个结构放在另一个结构的开始位置，然后对这个新的结构进行扩展，当需要访问的时候，通过对原结构指针的强制转换就能够访问新的结构体成员，这在某种意义上来说就是 C++ 中的继承和多态，果然编程的原理都是相通的。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @sk - 祖先类</span></span><br><span class="line"><span class="comment"> * @pinet6 - IPv6 控制块的指针</span></span><br><span class="line"><span class="comment"> * @inet_daddr - 目标 IPv4 地址</span></span><br><span class="line"><span class="comment"> * @inet_rcv_saddr - 绑定本地 IPv4 地址</span></span><br><span class="line"><span class="comment"> * @inet_dport - 目标端口</span></span><br><span class="line"><span class="comment"> * @inet_num - 本地端口</span></span><br><span class="line"><span class="comment"> * @inet_saddr - 发送源地址</span></span><br><span class="line"><span class="comment"> * @uc_ttl - 单播 TTL</span></span><br><span class="line"><span class="comment"> * @inet_sport - 源端口</span></span><br><span class="line"><span class="comment"> * @inet_id - ID counter for DF pkts</span></span><br><span class="line"><span class="comment"> * @tos - TOS</span></span><br><span class="line"><span class="comment"> * @mc_ttl - 多播 TTL</span></span><br><span class="line"><span class="comment"> * @is_icsk - 是否是 TCP 状态维护结构 inet_connection_sock</span></span><br><span class="line"><span class="comment"> * @uc_index - 单播发出设备索引</span></span><br><span class="line"><span class="comment"> * @mc_index - 多播设备索引</span></span><br><span class="line"><span class="comment"> * @mc_list - Group array</span></span><br><span class="line"><span class="comment"> * @cork - info to build ip hdr on each ip frag while socket is corked</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">inet_sock</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="comment">// sk 和 pinet6 必须放在结构体的起始位置</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">sock</span> <span class="title">sk</span>;</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> IS_ENABLED(CONFIG_IPV6)</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">ipv6_pinfo</span> *<span class="title">pinet6</span>;</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> inet_daddr sk.__sk_common.skc_daddr</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> inet_rcv_saddr sk.__sk_common.skc_rcv_saddr</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> inet_dport sk.__sk_common.skc_dport</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> inet_num sk.__sk_common.skc_num</span></span><br><span class="line"></span><br><span class="line">    __be32 inet_saddr;</span><br><span class="line">    __s16 uc_ttl;</span><br><span class="line">    __u16 cmsg_flags;</span><br><span class="line">    __be16 inet_sport;</span><br><span class="line">    __u16 inet_id;</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">ip_options_rcu</span> __<span class="title">rcu</span> *<span class="title">inet_opt</span>;</span></span><br><span class="line">    <span class="keyword">int</span> rx_dst_ifindex;</span><br><span class="line">    __u8 tos;</span><br><span class="line">    __u8 min_ttl;</span><br><span class="line">    __u8 mc_ttl;</span><br><span class="line">    __u8 pmtudisc;</span><br><span class="line">    __u8 recverr : <span class="number">1</span>,</span><br><span class="line">        is_icsk : <span class="number">1</span>,</span><br><span class="line">        freebind : <span class="number">1</span>,</span><br><span class="line">        hdrincl : <span class="number">1</span>,</span><br><span class="line">        mc_loop : <span class="number">1</span>,</span><br><span class="line">        transparent : <span class="number">1</span>,</span><br><span class="line">        mc_all : <span class="number">1</span>,</span><br><span class="line">        nodefrag : <span class="number">1</span>;</span><br><span class="line">    __u8 bind_address_no_port : <span class="number">1</span>,</span><br><span class="line">        defer_connect : <span class="number">1</span>;</span><br><span class="line">    __u8 rcv_tos;</span><br><span class="line">    __u8 convert_csum;</span><br><span class="line">    <span class="keyword">int</span> uc_index;</span><br><span class="line">    <span class="keyword">int</span> mc_index;</span><br><span class="line">    __be32 mc_addr;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">ip_mc_socklist</span> __<span class="title">rcu</span> *<span class="title">mc_list</span>;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">inet_cork_full</span> <span class="title">cork</span>;</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>执行完 inet_create 后，socket 的创建已经完成了，之后回到 __sys_socket，调用 sock_map_fd 将这个新建的 struct socket 和 fd 绑定并将 fd 返回，socket 调用完成。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">sock_map_fd</span><span class="params">(struct socket *sock, <span class="keyword">int</span> flags)</span> </span>&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">file</span> *<span class="title">newfile</span>;</span></span><br><span class="line">    <span class="comment">// 选取一个未被使用的 fd</span></span><br><span class="line">    <span class="keyword">int</span> fd = get_unused_fd_flags(flags);</span><br><span class="line">    <span class="keyword">if</span> (unlikely(fd &lt; <span class="number">0</span>)) &#123;</span><br><span class="line">        sock_release(sock);</span><br><span class="line">        <span class="keyword">return</span> fd;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// struct socket 与一个 struct file 对应</span></span><br><span class="line">    <span class="comment">// sock-&gt;file = file</span></span><br><span class="line">    <span class="comment">// file-&gt;private_data = sock</span></span><br><span class="line">    <span class="comment">// 将 struct socket 指针放在 file 的 private_data 字段中</span></span><br><span class="line">    newfile = sock_alloc_file(sock, flags, <span class="literal">NULL</span>);</span><br><span class="line">    <span class="keyword">if</span> (!IS_ERR(newfile)) &#123;</span><br><span class="line">        <span class="comment">// 将 struct file 与 fd 关联起来, 相当于 socket 与 fd 关联起来了</span></span><br><span class="line">        fd_install(fd, newfile);</span><br><span class="line">        <span class="keyword">return</span> fd;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    put_unused_fd(fd);</span><br><span class="line">    <span class="keyword">return</span> PTR_ERR(newfile);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="绑定端口-bind">绑定端口 bind</h2>
+<p>创建了 socket，我们需要将这个 socket 绑定到一个地址才能使用，这就类似于去电信登记自己的手机号。bind 的系统调用位于 <code>/net/socket.c</code>：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">SYSCALL_DEFINE3(bind, <span class="keyword">int</span>, fd, struct sockaddr __user *, umyaddr, <span class="keyword">int</span>, addrlen) &#123;</span><br><span class="line">    <span class="keyword">return</span> __sys_bind(fd, umyaddr, addrlen);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> __sys_bind(<span class="keyword">int</span> fd, struct sockaddr __user *umyaddr, <span class="keyword">int</span> addrlen) &#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">socket</span> *<span class="title">sock</span>;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_storage</span> <span class="title">address</span>;</span></span><br><span class="line">    <span class="keyword">int</span> err, fput_needed;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 根据 fd 找到对应的 struct socket</span></span><br><span class="line">    sock = sockfd_lookup_light(fd, &amp;err, &amp;fput_needed);</span><br><span class="line">    <span class="keyword">if</span> (sock) &#123;</span><br><span class="line">        <span class="comment">// 将 sockaddr 从用户态拷贝到内核态</span></span><br><span class="line">        err = move_addr_to_kernel(umyaddr, addrlen, &amp;address);</span><br><span class="line">        <span class="keyword">if</span> (!err) &#123;</span><br><span class="line">            err = security_socket_bind(sock, (struct sockaddr *)&amp;address, addrlen);</span><br><span class="line">            <span class="keyword">if</span> (!err)</span><br><span class="line">                <span class="comment">// 调用的是 inet_stream_ops 中的 bind 函数, 也就是 inet_bind</span></span><br><span class="line">                err = sock-&gt;ops-&gt;bind(sock, (struct sockaddr *)&amp;address, addrlen);</span><br><span class="line">        &#125;</span><br><span class="line">        fput_light(sock-&gt;file, fput_needed);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> err;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>首先先看参数 <code>struct sockaddr __user *umyaddr</code>，这是一个通用地址结构，固定长度为 16 字节。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sockaddr</span> &#123;</span></span><br><span class="line">    <span class="comment">// 地址族 AF_XX, sa_family_t 其实是一个 unsigned short</span></span><br><span class="line">    <span class="keyword">sa_family_t</span> sa_family;</span><br><span class="line">    <span class="comment">// 14 Bytes 的协议地址</span></span><br><span class="line">    <span class="keyword">char</span> sa_data[<span class="number">14</span>];</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>然后看 address 变量，这是一个 sockaddr_storage 结构，定义如下，这是一个 128 字节的地址结构：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> sockaddr_storage __kernel_sockaddr_storage</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> __<span class="title">kernel_sockaddr_storage</span> &#123;</span></span><br><span class="line">    <span class="keyword">union</span> &#123;</span><br><span class="line">        <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">            <span class="keyword">__kernel_sa_family_t</span> ss_family;</span><br><span class="line">            <span class="comment">// #define _K_SS_MAXSIZE    128</span></span><br><span class="line">            <span class="keyword">char</span> __data[_K_SS_MAXSIZE - <span class="keyword">sizeof</span>(<span class="keyword">unsigned</span> short)];</span><br><span class="line">        &#125;;</span><br><span class="line">        <span class="keyword">void</span> *__align;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="监听端口-listen">监听端口 listen</h2>
+<h2 id="客户端连接-connect">客户端连接 connect</h2>
+<h2 id="服务端取出连接-accept">服务端取出连接 accept</h2>
+
+    </div>
+
+    
+    
+    <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">
+        -------------本文结束 <i class="fa fa-paw"></i> 感谢阅读-------------
+        </div>
+    
+</div>
+        <div class="reward-container">
+  <div>赏颗卤蛋呗 ๑乛◡乛๑</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.png" alt="Archie Scott 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.jpg" alt="Archie Scott 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Archie Scott
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://github.com/ArchieScott/posts/58e67a17/" title="浅析 Linux 内核：Socket 的创建与使用">https://github.com/ArchieScott/posts/58e67a17/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/Linux/" rel="tag"><i class="fa fa-tag"></i> Linux</a>
+              <a href="/tags/Linux-Kernel/" rel="tag"><i class="fa fa-tag"></i> Linux-Kernel</a>
+              <a href="/tags/Socket/" rel="tag"><i class="fa fa-tag"></i> Socket</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/posts/a4099fa0/" rel="prev" title="decltype 陷阱">
+      <i class="fa fa-chevron-left"></i> decltype 陷阱
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/posts/e0e3a2af/" rel="next" title="浅析 Linux 内核：链表的实现">
+      浅析 Linux 内核：链表的实现 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建-socket"><span class="nav-text">创建 socket</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#绑定端口-bind"><span class="nav-text">绑定端口 bind</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#监听端口-listen"><span class="nav-text">监听端口 listen</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#客户端连接-connect"><span class="nav-text">客户端连接 connect</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#服务端取出连接-accept"><span class="nav-text">服务端取出连接 accept</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Archie Scott"
+      src="/images/avatar.jpeg">
+  <p class="site-author-name" itemprop="name">Archie Scott</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ArchScott" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ArchScott"><i class="fa fa-fw fa-github"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zhousc91@163.com" title="E-Mail → mailto:zhousc91@163.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://steamcommunity.com/id/zhousc91/" title="steam → https:&#x2F;&#x2F;steamcommunity.com&#x2F;id&#x2F;zhousc91&#x2F;" rel="noopener" target="_blank"><i class="fa fa-fw fa-steam"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://blog.csdn.net/zhousc91" title="csdn → https:&#x2F;&#x2F;blog.csdn.net&#x2F;zhousc91" rel="noopener" target="_blank"><i class="fa fa-fw fa-contao"></i></a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-battery-1"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Archie Scott</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">110k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">1:40</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.1
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.6' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : '8Q0H1FlCSwH5h7HQWC46LjKJ-MdYXbMMI',
+      appKey     : 'j08JUoxyhUwEvKHN2JOA6w98',
+      placeholder: "404 Not Found",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false});</script></body>
+</html>
