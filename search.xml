@@ -36,16 +36,18 @@ ANSI C 标准允许常量 0 值被强制转换为任何一种类型的指针，<
       </tags>
   </entry>
   <entry>
-    <title>浅析 Linux 内核：Socket 的创建与使用</title>
-    <url>/posts/58e67a17/</url>
+    <title>浅析 Linux 内核：Socket 的创建与相关系统调用的实现</title>
+    <url>/posts/89581d24/</url>
     <content><![CDATA[<blockquote>
 <ul>
-<li>从内核角度剖析 Socket 的创建与三次握手的过程</li>
+<li>剖析 socket 系统调用的内核实现</li>
+<li>剖析 bind、listen、accept 系统调用的内核实现</li>
 </ul>
 </blockquote>
 <a id="more"></a>
 <p>五一在家花了两天时间将 Linux 网络系统中的源码看了个大概，在此总结，以免遗忘。相比于 UDP，TCP 的三次握手是在内核中完成的，代码会比 UDP 更加复杂，在这里我们就只分析 TCP，UDP 的如果后面有时间再更新。<br>
 那么就按照最基础的网络编程的过程来一步步分析，分别是 “创建 socket”、“绑定端口 bind”、“监听端口 listen”、“客户端连接 connect”、“服务端取出连接 accept” 五个部分。<br>
+客户端连接 connect 涉及了三次握手的过程，为了减少篇幅，单独将这个部分提出来放在下一篇讲述。<br>
 内核代码用的是 Linux v5.6.10，<a href="https://elixir.bootlin.com/linux/latest/source" target="_blank" rel="noopener">代码在线地址</a></p>
 <h2 id="创建-socket">创建 socket</h2>
 <p>socket 系统调用的代码位于 <code>/net/socket.c</code> 中，代码如下：</p>
@@ -124,9 +126,6 @@ ANSI C 标准允许常量 0 值被强制转换为任何一种类型的指针，<
 inet_csk_wait_for_connect 最主要的功能就是等待客户端连接，为了避免竞态出现，该函数必须在 socket 上锁的情况下调用。<br>
 在 icsk_accept_queue 队列为空的时候，内核会主动调度 schedule_timeout 让出 CPU 一段时间，等到重新唤醒的时候会检查 icsk_accept_queue 是否还为空，socket 是否处在监听状态以及是否有信号需要处理。</p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">inet_csk_wait_for_connect</span><span class="params">(struct sock *sk, <span class="keyword">long</span> timeo)</span> </span>&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">inet_connection_sock</span> *<span class="title">icsk</span> = <span class="title">inet_csk</span>(<span class="title">sk</span>);</span></span><br><span class="line">    DEFINE_WAIT(wait);</span><br><span class="line">    <span class="keyword">int</span> err;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (;;) &#123;</span><br><span class="line">        <span class="comment">// 将进程状态设置为等待资源有效时唤醒 TASK_INTERRUPTIBLE</span></span><br><span class="line">        prepare_to_wait_exclusive(sk_sleep(sk), &amp;wait, TASK_INTERRUPTIBLE);</span><br><span class="line">        release_sock(sk);</span><br><span class="line">        <span class="keyword">if</span> (reqsk_queue_empty(&amp;icsk-&gt;icsk_accept_queue))</span><br><span class="line">            <span class="comment">// 主动调度让出 CPU, timeo 时间后唤醒</span></span><br><span class="line">            timeo = schedule_timeout(timeo);</span><br><span class="line">        sched_annotate_sleep();</span><br><span class="line">        <span class="comment">// 唤醒后先上锁</span></span><br><span class="line">        lock_sock(sk);</span><br><span class="line">        err = <span class="number">0</span>;</span><br><span class="line">        <span class="comment">// 判断 icsk_accept_queue 队列是否为空, 如果不为空, 直接退出循环返回</span></span><br><span class="line">        <span class="keyword">if</span> (!reqsk_queue_empty(&amp;icsk-&gt;icsk_accept_queue))</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        err = -EINVAL;</span><br><span class="line">        <span class="comment">// 如果 socket 退出监听了, 直接退出循环返回</span></span><br><span class="line">        <span class="keyword">if</span> (sk-&gt;sk_state != TCP_LISTEN)</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        err = sock_intr_errno(timeo);</span><br><span class="line">        <span class="comment">// 如果有信号待处理, 直接退出循环返回</span></span><br><span class="line">        <span class="keyword">if</span> (signal_pending(current))</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        err = -EAGAIN;</span><br><span class="line">        <span class="keyword">if</span> (!timeo)</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    finish_wait(sk_sleep(sk), &amp;wait);</span><br><span class="line">    <span class="keyword">return</span> err;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="小结">小结</h2>
-<p>写到这里网络系统的基础基本上搞定了，这里介绍了 socket 的创建，bind 调用，listen 调用，accept 调用。<br>
-考虑到 connect 与收发网络包关系密切，因此会将三次握手、connect 调用与收发网络包合在一起在下一篇总结出来。</p>
 ]]></content>
       <categories>
         <category>Linux</category>
