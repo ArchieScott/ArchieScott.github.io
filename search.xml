@@ -55,8 +55,8 @@ tcp_v4_connect 函数中，首先通过 ip_route_connect 进行路由选择，�
       </categories>
       <tags>
         <tag>Linux</tag>
-        <tag>Linux-Kernel</tag>
         <tag>Socket</tag>
+        <tag>Linux-Kernel</tag>
       </tags>
   </entry>
   <entry>
@@ -90,8 +90,8 @@ ANSI C 标准允许常量 0 值被强制转换为任何一种类型的指针，<
       </categories>
       <tags>
         <tag>Linux</tag>
-        <tag>Linked-List</tag>
         <tag>Linux-Kernel</tag>
+        <tag>Linked-List</tag>
       </tags>
   </entry>
   <entry>
@@ -191,8 +191,8 @@ inet_csk_wait_for_connect 最主要的功能就是等待客户端连接，为了
       </categories>
       <tags>
         <tag>Linux</tag>
-        <tag>Linux-Kernel</tag>
         <tag>Socket</tag>
+        <tag>Linux-Kernel</tag>
       </tags>
   </entry>
   <entry>
@@ -524,8 +524,8 @@ x 和 y 在运算之前都会被转换成另外一种类型，在大多数系统
       </categories>
       <tags>
         <tag>C/C++</tag>
-        <tag>Programming-Language</tag>
         <tag>C++ Quiz</tag>
+        <tag>Programming-Language</tag>
       </tags>
   </entry>
   <entry>
@@ -838,8 +838,8 @@ C++ 标准规定，出现在不同命名空间范围中的具有相同名称的 
       </categories>
       <tags>
         <tag>C/C++</tag>
-        <tag>Programming-Language</tag>
         <tag>C++ Quiz</tag>
+        <tag>Programming-Language</tag>
       </tags>
   </entry>
   <entry>
@@ -1006,8 +1006,8 @@ C++14 开始，<code>auto</code> 可以用于函数返回值类型的推导，�
       </categories>
       <tags>
         <tag>C/C++</tag>
-        <tag>Programming-Language</tag>
         <tag>C++ Quiz</tag>
+        <tag>Programming-Language</tag>
       </tags>
   </entry>
   <entry>
@@ -1131,8 +1131,8 @@ C++14 开始，<code>auto</code> 可以用于函数返回值类型的推导，�
       </categories>
       <tags>
         <tag>C/C++</tag>
-        <tag>Inter-Threading-Communication</tag>
         <tag>Multithreading</tag>
+        <tag>Inter-Threading-Communication</tag>
         <tag>Lock</tag>
       </tags>
   </entry>
@@ -1201,8 +1201,8 @@ C++14 开始，<code>auto</code> 可以用于函数返回值类型的推导，�
       </categories>
       <tags>
         <tag>C/C++</tag>
-        <tag>MultiThreading</tag>
         <tag>Inter-Threading-Communication</tag>
+        <tag>MultiThreading</tag>
         <tag>Mutex</tag>
       </tags>
   </entry>
