@@ -11,18 +11,10 @@
 </blockquote>
 <a id="more"></a>
 <p>给定一个二叉树，检查它是否是镜像对称的。<br>
-例如，二叉树 [1,2,2,3,4,4,3] 是对称的。<br>
-1<br>
-/ <br>
-2   2<br>
-/ \ / <br>
-3  4 4  3</p>
-<p>但是下面这个 [1,2,2,null,3,null,3] 则不是镜像对称的:<br>
-1<br>
-/ <br>
-2   2<br>
-\   <br>
-3    3</p>
+例如，二叉树 [1,2,2,3,4,4,3] 是对称的。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">    <span class="number">1</span></span><br><span class="line">   / \</span><br><span class="line">  <span class="number">2</span>   <span class="number">2</span></span><br><span class="line"> / \ / \</span><br><span class="line"><span class="number">3</span>  <span class="number">4</span> <span class="number">4</span>  <span class="number">3</span></span><br></pre></td></tr></table></figure>
+<p>但是下面这个 [1,2,2,null,3,null,3] 则不是镜像对称的:</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">  <span class="number">1</span></span><br><span class="line"> / \</span><br><span class="line"><span class="number">2</span>   <span class="number">2</span></span><br><span class="line"> \   \</span><br><span class="line"> <span class="number">3</span>    <span class="number">3</span></span><br></pre></td></tr></table></figure>
 <p>思路一：深度优先遍历<br>
 如果一个树的左子树与右子树是对称的，那么这个树就是镜像对称的；<br>
 也就是说，如果两个子树根节点值相等，并且每个结点左子树与另一个结点右子树对称，两棵树就是镜像对称的，我们让两个指针分别从左右子树的相同结点出发，对称遍历，如果对应结点值相等，再将指针分别向左右对称移动。<br>
@@ -99,8 +91,8 @@ tcp_v4_connect 函数中，首先通过 ip_route_connect 进行路由选择，�
       </categories>
       <tags>
         <tag>Linux</tag>
-        <tag>Linux-Kernel</tag>
         <tag>Socket</tag>
+        <tag>Linux-Kernel</tag>
       </tags>
   </entry>
   <entry>
@@ -134,8 +126,8 @@ ANSI C 标准允许常量 0 值被强制转换为任何一种类型的指针，<
       </categories>
       <tags>
         <tag>Linux</tag>
-        <tag>Linked-List</tag>
         <tag>Linux-Kernel</tag>
+        <tag>Linked-List</tag>
       </tags>
   </entry>
   <entry>
@@ -235,8 +227,8 @@ inet_csk_wait_for_connect 最主要的功能就是等待客户端连接，为了
       </categories>
       <tags>
         <tag>Linux</tag>
-        <tag>Linux-Kernel</tag>
         <tag>Socket</tag>
+        <tag>Linux-Kernel</tag>
       </tags>
   </entry>
   <entry>
