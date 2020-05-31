@@ -20,22 +20,23 @@
     var CONFIG = {"hostname":"github.com","root":"/","scheme":"Gemini","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="解析 Linux 内核中链表的实现方式">
+  <meta name="description" content="深度优先遍历 广度优先遍历">
 <meta property="og:type" content="article">
-<meta property="og:title" content="浅析 Linux 内核：链表的实现">
-<meta property="og:url" content="https://github.com/ArchieScott/posts/e0e3a2af/index.html">
+<meta property="og:title" content="LeetCode 101. 对称二叉树">
+<meta property="og:url" content="https://github.com/ArchieScott/posts/3c1e41f/index.html">
 <meta property="og:site_name" content="夏の終わり">
-<meta property="og:description" content="解析 Linux 内核中链表的实现方式">
+<meta property="og:description" content="深度优先遍历 广度优先遍历">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-05-04T00:36:34.000Z">
-<meta property="article:modified_time" content="2020-05-04T06:13:46.441Z">
+<meta property="article:published_time" content="2020-05-31T09:26:11.000Z">
+<meta property="article:modified_time" content="2020-05-31T10:13:20.739Z">
 <meta property="article:author" content="Archie Scott">
-<meta property="article:tag" content="Linux">
-<meta property="article:tag" content="Linked-List">
-<meta property="article:tag" content="Linux-Kernel">
+<meta property="article:tag" content="LeetCode">
+<meta property="article:tag" content="Binary-Tree">
+<meta property="article:tag" content="DFS">
+<meta property="article:tag" content="BFS">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://github.com/ArchieScott/posts/e0e3a2af/">
+<link rel="canonical" href="https://github.com/ArchieScott/posts/3c1e41f/">
 
 
 <script id="page-configurations">
@@ -47,7 +48,7 @@
   };
 </script>
 
-  <title>浅析 Linux 内核：链表的实现 | 夏の終わり</title>
+  <title>LeetCode 101. 对称二叉树 | 夏の終わり</title>
   
 
 
@@ -193,7 +194,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://github.com/ArchieScott/posts/e0e3a2af/">
+    <link itemprop="mainEntityOfPage" href="https://github.com/ArchieScott/posts/3c1e41f/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpeg">
@@ -206,7 +207,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          浅析 Linux 内核：链表的实现
+          LeetCode 101. 对称二叉树
         </h1>
 
         <div class="post-meta">
@@ -217,7 +218,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-05-04 08:36:34 / 修改时间：14:13:46" itemprop="dateCreated datePublished" datetime="2020-05-04T08:36:34+08:00">2020-05-04</time>
+              <time title="创建时间：2020-05-31 17:26:11 / 修改时间：18:13:20" itemprop="dateCreated datePublished" datetime="2020-05-31T17:26:11+08:00">2020-05-31</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -225,14 +226,14 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux/" itemprop="url" rel="index">
-                    <span itemprop="name">Linux</span>
+                  <a href="/categories/LeetCode/" itemprop="url" rel="index">
+                    <span itemprop="name">LeetCode</span>
                   </a>
                 </span>
             </span>
 
           
-            <span id="/posts/e0e3a2af/" class="post-meta-item leancloud_visitors" data-flag-title="浅析 Linux 内核：链表的实现" title="阅读次数">
+            <span id="/posts/3c1e41f/" class="post-meta-item leancloud_visitors" data-flag-title="LeetCode 101. 对称二叉树" title="阅读次数">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
@@ -247,8 +248,8 @@
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/posts/e0e3a2af/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/posts/e0e3a2af/" itemprop="commentCount"></span>
+    <a title="valine" href="/posts/3c1e41f/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/posts/3c1e41f/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -258,14 +259,14 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.6k</span>
+              <span>1.9k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>2 分钟</span>
             </span>
 
         </div>
@@ -279,27 +280,35 @@
       
         <blockquote>
 <ul>
-<li>解析 Linux 内核中链表的实现方式</li>
+<li>深度优先遍历</li>
+<li>广度优先遍历</li>
 </ul>
 </blockquote>
 <a id="more"></a>
-<p>相信阅读过 Linux 源码的朋友都发现了一个内核中奇怪的写法：<br>
-普通的链表是在数据结构中嵌入该结构的指针，如下所示：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">linkNode</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> data;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">linkNode</span>* <span class="title">next</span>;</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>而 Linux 内核中是将链表结点切嵌入数据结构中，该结构定义在 <code>/include/linux/types.h</code> 中：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">list_head</span> &#123;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">list_head</span> *<span class="title">next</span>, *<span class="title">prev</span>;</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>每个需要用链表连接的结构里面都会包含这样一个成员对象，这些结构的相连其实就是 <code>struct list_head</code> 的相连，那么通过链表结点找到所属的结构就需要通过下面的转换：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * list_entry 宏用于获取链表项对应的结构</span></span><br><span class="line"><span class="comment"> * @ptr: struct list_head 类型的指针</span></span><br><span class="line"><span class="comment"> * @type: struct list_head 所嵌入的结构的类型</span></span><br><span class="line"><span class="comment"> * @member: 该结构中 struct list_head 的名字</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> list_entry(ptr, type, member) \</span></span><br><span class="line">    container_of(ptr, type, member)</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * container_of 宏能够通过一个成员变量转换出包含它的结构体</span></span><br><span class="line"><span class="comment"> * @ptr: 结构体成员的指针</span></span><br><span class="line"><span class="comment"> * @type: 结构体成员所嵌入的结构的类型</span></span><br><span class="line"><span class="comment"> * @member: 该结构中对应结构体成员的名字</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> container_of(ptr, type, member) (&#123;  \</span></span><br><span class="line">    <span class="keyword">void</span> *__mptr = (<span class="keyword">void</span> *)(ptr);           \</span><br><span class="line">    BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)<span class="number">0</span>)-&gt;member) &amp;&amp; \</span><br><span class="line">        !__same_type(*(ptr), <span class="keyword">void</span>), <span class="string">"pointer type mismatch in container_of()"</span>); \</span><br><span class="line">    ((type *)(__mptr - offsetof(type, member))); &#125;)</span><br></pre></td></tr></table></figure>
-<p>不难看出，使用 <code>container_of</code> 宏能够取出链表指针的父结构，我们逐个来分析。<br>
-这里我们就假设 <code>container_of</code> 中的 ptr 就是 struct list_head 类型的指针，首先该 ptr 会被强制转换为 void 类型的指针并赋值给 __mptr。<br>
-<code>BUILD_BUG_ON_MSG</code> 这个宏会在参数 condition 为 true 的时候报错并停止编译同时输出错误信息，这里可以看出该宏检查的是我们作为参数传入指针类型与我们想要取出的结构中对应的类型是否匹配。<br>
-ANSI C 标准允许常量 0 值被强制转换为任何一种类型的指针，<code>((type *)0)</code> 就是一个类型为 type 的 NULL 指针，如果用这个指针来取 type 中的成员变量 member 是非法操作，但是我们打开 <code>__same_type</code> 的定义：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))</span></span><br></pre></td></tr></table></figure>
-<p>可以看出它其实只是取该结构中对应 member 的类型 <code>typeof(((type *)0)-&gt;member)</code>，<strong>typeof 中的参数部分是不会生成代码也不会执行的</strong>。<br>
-再看 <code>offsetof</code>，它也是使用了同样的方式：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> offsetof(TYPE, MEMBER)    ((size_t)&amp;((TYPE *)0)-&gt;MEMBER)</span></span><br></pre></td></tr></table></figure>
-<p><code>&amp;((TYPE *)0)-&gt;MEMBER)</code> 能够取出数据成员的偏移地址，然后用 __mptr 减去这个偏移地址，就能得到这个链表所在结构的首地址，最后将其强制转换为 type 类型的指针，就得到了 struct list_head 所嵌入的结构体指针。</p>
-
+<p>给定一个二叉树，检查它是否是镜像对称的。<br>
+例如，二叉树 [1,2,2,3,4,4,3] 是对称的。<br>
+1<br>
+/ <br>
+2   2<br>
+/ \ / <br>
+3  4 4  3</p>
+<p>但是下面这个 [1,2,2,null,3,null,3] 则不是镜像对称的:<br>
+1<br>
+/ <br>
+2   2<br>
+\   <br>
+3    3</p>
+<p>思路一：深度优先遍历<br>
+如果一个树的左子树与右子树是对称的，那么这个树就是镜像对称的；<br>
+也就是说，如果两个子树根节点值相等，并且每个结点左子树与另一个结点右子树对称，两棵树就是镜像对称的，我们让两个指针分别从左右子树的相同结点出发，对称遍历，如果对应结点值相等，再将指针分别向左右对称移动。<br>
+时间复杂度：由于需要遍历整棵树，时间复杂度为 O(n)。<br>
+空间复杂度：递归需要额外使用空间为 O(n) 的递归栈。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">TreeNode</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> val;</span><br><span class="line">    TreeNode *left;</span><br><span class="line">    TreeNode *right;</span><br><span class="line">    TreeNode(<span class="keyword">int</span> x) : val(x), left(<span class="literal">NULL</span>), right(<span class="literal">NULL</span>) &#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isSymmetric</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!root)</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">return</span> isMirror(root-&gt;left, root-&gt;right);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isMirror</span><span class="params">(TreeNode* leftChild, TreeNode* rightChild)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!leftChild &amp;&amp; !rightChild) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (!leftChild || !rightChild) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (leftChild-&gt;val == rightChild-&gt;val) &#123;</span><br><span class="line">            <span class="keyword">return</span> isMirror(leftChild-&gt;left, rightChild-&gt;right) &amp;&amp; isMirror(leftChild-&gt;right, rightChild-&gt;left);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>思路二：广度优先遍历<br>
+思路一中的递归可以改写为迭代的方法，迭代需要使用一个队列 nodeQueue，每次需要出队两个结点进行比较，那么我们在入队的时候就需要将镜像对应的结点依次入队；也就是当前出队结点的 a 的左子节点和 b 的右子节点。<br>
+时间复杂度：每个结点都需要遍历一次，为 O(n)。<br>
+空间复杂度：需要用队列来维护节点，每个节点最多进队一次，出队一次，空间复杂度为 O(n)。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">TreeNode</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> val;</span><br><span class="line">    TreeNode *left;</span><br><span class="line">    TreeNode *right;</span><br><span class="line">    TreeNode(<span class="keyword">int</span> x) : val(x), left(<span class="literal">NULL</span>), right(<span class="literal">NULL</span>) &#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isSymmetric</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!root) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">queue</span>&lt;TreeNode*&gt; nodeQueue;</span><br><span class="line">        nodeQueue.push(root-&gt;left);</span><br><span class="line">        nodeQueue.push(root-&gt;right);</span><br><span class="line">        <span class="keyword">while</span>(!nodeQueue.empty()) &#123;</span><br><span class="line">            <span class="keyword">auto</span> node1 = nodeQueue.front();</span><br><span class="line">            nodeQueue.pop();</span><br><span class="line">            <span class="keyword">auto</span> node2 = nodeQueue.front();</span><br><span class="line">            nodeQueue.pop();</span><br><span class="line">            <span class="keyword">if</span> (!node1 &amp;&amp; !node2) &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (!node1 || !node2) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (node1-&gt;val != node2-&gt;val) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            nodeQueue.push(node1-&gt;left);</span><br><span class="line">            nodeQueue.push(node2-&gt;right);</span><br><span class="line">            nodeQueue.push(node1-&gt;right);</span><br><span class="line">            nodeQueue.push(node2-&gt;left);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
     </div>
 
     
@@ -340,7 +349,7 @@ ANSI C 标准允许常量 0 值被强制转换为任何一种类型的指针，<
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://github.com/ArchieScott/posts/e0e3a2af/" title="浅析 Linux 内核：链表的实现">https://github.com/ArchieScott/posts/e0e3a2af/</a>
+    <a href="https://github.com/ArchieScott/posts/3c1e41f/" title="LeetCode 101. 对称二叉树">https://github.com/ArchieScott/posts/3c1e41f/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -352,9 +361,10 @@ ANSI C 标准允许常量 0 值被强制转换为任何一种类型的指针，<
       <footer class="post-footer">
           
           <div class="post-tags">
-              <a href="/tags/Linux/" rel="tag"><i class="fa fa-tag"></i> Linux</a>
-              <a href="/tags/Linked-List/" rel="tag"><i class="fa fa-tag"></i> Linked-List</a>
-              <a href="/tags/Linux-Kernel/" rel="tag"><i class="fa fa-tag"></i> Linux-Kernel</a>
+              <a href="/tags/LeetCode/" rel="tag"><i class="fa fa-tag"></i> LeetCode</a>
+              <a href="/tags/Binary-Tree/" rel="tag"><i class="fa fa-tag"></i> Binary-Tree</a>
+              <a href="/tags/DFS/" rel="tag"><i class="fa fa-tag"></i> DFS</a>
+              <a href="/tags/BFS/" rel="tag"><i class="fa fa-tag"></i> BFS</a>
           </div>
 
         
@@ -363,13 +373,10 @@ ANSI C 标准允许常量 0 值被强制转换为任何一种类型的指针，<
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/posts/89581d24/" rel="prev" title="浅析 Linux 内核：Socket 的创建与相关系统调用的实现">
-      <i class="fa fa-chevron-left"></i> 浅析 Linux 内核：Socket 的创建与相关系统调用的实现
+    <a href="/posts/4bc0bb9f/" rel="prev" title="浅析 Linux 内核：connect 与三次握手">
+      <i class="fa fa-chevron-left"></i> 浅析 Linux 内核：connect 与三次握手
     </a></div>
-      <div class="post-nav-item">
-    <a href="/posts/4bc0bb9f/" rel="next" title="浅析 Linux 内核：connect 与三次握手">
-      浅析 Linux 内核：connect 与三次握手 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     

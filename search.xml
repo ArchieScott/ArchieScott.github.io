@@ -1,6 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>LeetCode 101. 对称二叉树</title>
+    <url>/posts/3c1e41f/</url>
+    <content><![CDATA[<blockquote>
+<ul>
+<li>深度优先遍历</li>
+<li>广度优先遍历</li>
+</ul>
+</blockquote>
+<a id="more"></a>
+<p>给定一个二叉树，检查它是否是镜像对称的。<br>
+例如，二叉树 [1,2,2,3,4,4,3] 是对称的。<br>
+1<br>
+/ <br>
+2   2<br>
+/ \ / <br>
+3  4 4  3</p>
+<p>但是下面这个 [1,2,2,null,3,null,3] 则不是镜像对称的:<br>
+1<br>
+/ <br>
+2   2<br>
+\   <br>
+3    3</p>
+<p>思路一：深度优先遍历<br>
+如果一个树的左子树与右子树是对称的，那么这个树就是镜像对称的；<br>
+也就是说，如果两个子树根节点值相等，并且每个结点左子树与另一个结点右子树对称，两棵树就是镜像对称的，我们让两个指针分别从左右子树的相同结点出发，对称遍历，如果对应结点值相等，再将指针分别向左右对称移动。<br>
+时间复杂度：由于需要遍历整棵树，时间复杂度为 O(n)。<br>
+空间复杂度：递归需要额外使用空间为 O(n) 的递归栈。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">TreeNode</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> val;</span><br><span class="line">    TreeNode *left;</span><br><span class="line">    TreeNode *right;</span><br><span class="line">    TreeNode(<span class="keyword">int</span> x) : val(x), left(<span class="literal">NULL</span>), right(<span class="literal">NULL</span>) &#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isSymmetric</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!root)</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">return</span> isMirror(root-&gt;left, root-&gt;right);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isMirror</span><span class="params">(TreeNode* leftChild, TreeNode* rightChild)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!leftChild &amp;&amp; !rightChild) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (!leftChild || !rightChild) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (leftChild-&gt;val == rightChild-&gt;val) &#123;</span><br><span class="line">            <span class="keyword">return</span> isMirror(leftChild-&gt;left, rightChild-&gt;right) &amp;&amp; isMirror(leftChild-&gt;right, rightChild-&gt;left);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>思路二：广度优先遍历<br>
+思路一中的递归可以改写为迭代的方法，迭代需要使用一个队列 nodeQueue，每次需要出队两个结点进行比较，那么我们在入队的时候就需要将镜像对应的结点依次入队；也就是当前出队结点的 a 的左子节点和 b 的右子节点。<br>
+时间复杂度：每个结点都需要遍历一次，为 O(n)。<br>
+空间复杂度：需要用队列来维护节点，每个节点最多进队一次，出队一次，空间复杂度为 O(n)。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">TreeNode</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> val;</span><br><span class="line">    TreeNode *left;</span><br><span class="line">    TreeNode *right;</span><br><span class="line">    TreeNode(<span class="keyword">int</span> x) : val(x), left(<span class="literal">NULL</span>), right(<span class="literal">NULL</span>) &#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isSymmetric</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!root) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">queue</span>&lt;TreeNode*&gt; nodeQueue;</span><br><span class="line">        nodeQueue.push(root-&gt;left);</span><br><span class="line">        nodeQueue.push(root-&gt;right);</span><br><span class="line">        <span class="keyword">while</span>(!nodeQueue.empty()) &#123;</span><br><span class="line">            <span class="keyword">auto</span> node1 = nodeQueue.front();</span><br><span class="line">            nodeQueue.pop();</span><br><span class="line">            <span class="keyword">auto</span> node2 = nodeQueue.front();</span><br><span class="line">            nodeQueue.pop();</span><br><span class="line">            <span class="keyword">if</span> (!node1 &amp;&amp; !node2) &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (!node1 || !node2) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (node1-&gt;val != node2-&gt;val) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            nodeQueue.push(node1-&gt;left);</span><br><span class="line">            nodeQueue.push(node2-&gt;right);</span><br><span class="line">            nodeQueue.push(node1-&gt;right);</span><br><span class="line">            nodeQueue.push(node2-&gt;left);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>LeetCode</category>
+      </categories>
+      <tags>
+        <tag>LeetCode</tag>
+        <tag>Binary-Tree</tag>
+        <tag>DFS</tag>
+        <tag>BFS</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>浅析 Linux 内核：connect 与三次握手</title>
     <url>/posts/4bc0bb9f/</url>
     <content><![CDATA[<blockquote>
@@ -55,8 +99,8 @@ tcp_v4_connect 函数中，首先通过 ip_route_connect 进行路由选择，�
       </categories>
       <tags>
         <tag>Linux</tag>
-        <tag>Socket</tag>
         <tag>Linux-Kernel</tag>
+        <tag>Socket</tag>
       </tags>
   </entry>
   <entry>
@@ -90,8 +134,8 @@ ANSI C 标准允许常量 0 值被强制转换为任何一种类型的指针，<
       </categories>
       <tags>
         <tag>Linux</tag>
-        <tag>Linux-Kernel</tag>
         <tag>Linked-List</tag>
+        <tag>Linux-Kernel</tag>
       </tags>
   </entry>
   <entry>
@@ -191,8 +235,8 @@ inet_csk_wait_for_connect 最主要的功能就是等待客户端连接，为了
       </categories>
       <tags>
         <tag>Linux</tag>
-        <tag>Socket</tag>
         <tag>Linux-Kernel</tag>
+        <tag>Socket</tag>
       </tags>
   </entry>
   <entry>
