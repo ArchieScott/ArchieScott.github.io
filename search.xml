@@ -1,6 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>LCOF 064. 求 1+2+...+n</title>
+    <url>/posts/5559b584/</url>
+    <content><![CDATA[<blockquote>
+<ul>
+<li></li>
+</ul>
+</blockquote>
+<a id="more"></a>
+<p>求 1+2+…+n，要求不能使用乘除法、for、while、if、else、switch、case 等关键字及条件判断语句（A?B:C）。</p>
+<p>示例 1：<br>
+输入: n = 3<br>
+输出: 6</p>
+<p>示例 2：<br>
+输入: n = 9<br>
+输出: 45</p>
+<p>思路一：<br>
+这种叠加求和、求积的题目很容易想到用递归来处理，因为不能使用 if 条件判断，那么递归结束的判断可以用 &amp;&amp; 短路来判断。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">sumNums</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        n &amp;&amp; (n += sumNums(n - <span class="number">1</span>));</span><br><span class="line">        <span class="keyword">return</span> n;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>LeetCode</category>
+      </categories>
+      <tags>
+        <tag>LeetCode</tag>
+        <tag>Recursion</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>LeetCode 1431. 拥有最多糖果的孩子</title>
     <url>/posts/d68966ad/</url>
     <content><![CDATA[<blockquote>
@@ -1198,8 +1225,8 @@ C++14 开始，<code>auto</code> 可以用于函数返回值类型的推导，�
       </categories>
       <tags>
         <tag>C/C++</tag>
-        <tag>Inter-Threading-Communication</tag>
         <tag>Multithreading</tag>
+        <tag>Inter-Threading-Communication</tag>
         <tag>Lock</tag>
       </tags>
   </entry>
@@ -1268,8 +1295,8 @@ C++14 开始，<code>auto</code> 可以用于函数返回值类型的推导，�
       </categories>
       <tags>
         <tag>C/C++</tag>
-        <tag>MultiThreading</tag>
         <tag>Inter-Threading-Communication</tag>
+        <tag>MultiThreading</tag>
         <tag>Mutex</tag>
       </tags>
   </entry>
