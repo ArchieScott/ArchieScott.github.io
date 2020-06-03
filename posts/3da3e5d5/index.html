@@ -20,17 +20,21 @@
     var CONFIG = {"hostname":"github.com","root":"/","scheme":"Gemini","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="TAGs">
-<meta property="og:url" content="https://github.com/ArchieScott/tags/index.html">
+  <meta name="description" content="从后向前反向递推的动态规划">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LeetCode 0837. 新 21 点">
+<meta property="og:url" content="https://github.com/ArchieScott/posts/3da3e5d5/index.html">
 <meta property="og:site_name" content="夏の終わり">
+<meta property="og:description" content="从后向前反向递推的动态规划">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-02-17T07:42:29.000Z">
-<meta property="article:modified_time" content="2020-02-25T12:25:50.590Z">
+<meta property="article:published_time" content="2020-06-03T15:57:58.000Z">
+<meta property="article:modified_time" content="2020-06-03T17:04:19.766Z">
 <meta property="article:author" content="Archie Scott">
+<meta property="article:tag" content="LeetCode">
+<meta property="article:tag" content="Dynamic-Programming">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://github.com/ArchieScott/tags/">
+<link rel="canonical" href="https://github.com/ArchieScott/posts/3da3e5d5/">
 
 
 <script id="page-configurations">
@@ -38,12 +42,11 @@
   CONFIG.page = {
     sidebar: "",
     isHome: false,
-    isPost: false
+    isPost: true
   };
 </script>
 
-  <title>TAGs | 夏の終わり
-  </title>
+  <title>LeetCode 0837. 新 21 点 | 夏の終わり</title>
   
 
 
@@ -180,57 +183,212 @@
       <div class="main-inner">
         <div class="content-wrap">
           
-  
-  
 
           <div class="content">
             
 
   <div class="posts-expand">
-    
-    
-    
-    <div class="post-block" lang="zh-CN">
-      <header class="post-header">
-
-<h1 class="post-title" itemprop="name headline">TAGs
-</h1>
-
-<div class="post-meta">
+      
   
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://github.com/ArchieScott/posts/3da3e5d5/">
 
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+      <meta itemprop="name" content="Archie Scott">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="夏の終わり">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          LeetCode 0837. 新 21 点
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-06-03 23:57:58" itemprop="dateCreated datePublished" datetime="2020-06-03T23:57:58+08:00">2020-06-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-06-04 01:04:19" itemprop="dateModified" datetime="2020-06-04T01:04:19+08:00">2020-06-04</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/LeetCode/" itemprop="url" rel="index">
+                    <span itemprop="name">LeetCode</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span id="/posts/3da3e5d5/" class="post-meta-item leancloud_visitors" data-flag-title="LeetCode 0837. 新 21 点" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/posts/3da3e5d5/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/posts/3da3e5d5/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<ul>
+<li>从后向前反向递推的动态规划</li>
+</ul>
+</blockquote>
+<a id="more"></a>
+<p>爱丽丝参与一个大致基于纸牌游戏 “21点” 规则的游戏，描述如下：<br>
+爱丽丝以 0 分开始，并在她的得分少于 K 分时抽取数字。抽取时，她从 [1, W] 的范围中随机获得一个整数作为分数进行累计，其中 W 是整数。 每次抽取都是独立的，其结果具有相同的概率。<br>
+当爱丽丝获得不少于 K 分时，她就停止抽取数字。求爱丽丝的分数不超过 N 的概率是多少。</p>
+<p>示例 1：<br>
+输入：N = 10, K = 1, W = 10<br>
+输出：1.00000<br>
+说明：爱丽丝得到一张卡，然后停止。</p>
+<p>示例 2：<br>
+输入：N = 6, K = 1, W = 10<br>
+输出：0.60000<br>
+说明：爱丽丝得到一张卡，然后停止。在 W = 10 的 6 种可能下，她的得分不超过 N = 6 分。</p>
+<p>示例 3：<br>
+输入：N = 21, K = 17, W = 10<br>
+输出：0.73278</p>
+<p>思路一：动态规划<br>
+首先，抽卡能获得的最大点数为 K - 1 + W，开始的时候点数为 0，那么我们可以用一个大小为 K + W 的数组来表示整个抽卡过程中所有的可能值。数组下标为点数，里面保存的是对应点数时不超过 N 的概率。<br>
+我们假设当前点数为 i，那么 dp[i] 的值其实和下一次抽到的点数有关，也就是说，这个 dp 数组的更新方向应该是从后向前的，我们假设下一次抽到的点数为 j，抽到这个点数的概率为 1/W，那么此时对应的不超过 N 的概率应该为 1/W * dp[i + j]，j 的取值范围为 1 到 W，那么我们可以知道 dp[i] = 1/W * (dp[i + 1] + … + dp[i + W])。<br>
+当前点数大于 K - 1 时，不再抽卡，那么从 dp[K] 一直到 dp[K + W - 1]，如果 K &lt;= N，对应的 dp[K] = 1.0，否则就等于 0，从后面一直递推到 dp[0]，就是不超过 N 的概率。<br>
+此外，需要注意一个特殊的初始条件，由上面的分析可以推出，如果达到了最大值 K - 1，再抽一个最大值 W，此时 K + W - 1 仍然严格小于 N，那么可以判断无论怎么抽，分数都不可能超过 N，概率就为 1。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">double</span> <span class="title">new21Game</span><span class="params">(<span class="keyword">int</span> N, <span class="keyword">int</span> K, <span class="keyword">int</span> W)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (K == <span class="number">0</span> || K + W &lt;= N) <span class="keyword">return</span> <span class="number">1.0</span>;</span><br><span class="line">        <span class="function"><span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">double</span>&gt; <span class="title">dp</span><span class="params">(K + W + <span class="number">1</span>, <span class="number">0</span>)</span></span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = K; i &lt;= N &amp;&amp; i &lt;= K + W; ++i) &#123;</span><br><span class="line">            dp[i] = <span class="number">1.0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">double</span> pr = <span class="number">1.0</span> / W;</span><br><span class="line">        dp[K - <span class="number">1</span>] = (N - K + <span class="number">1</span>) * pr;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = K - <span class="number">2</span>; i &gt;= <span class="number">0</span>; --i) &#123;</span><br><span class="line">            <span class="comment">// dp[i] = dp[i + 1] - 1/w * dp[i + 1 + w] + 1/w * dp[i + 1]</span></span><br><span class="line">            dp[i] = dp[i + <span class="number">1</span>] - pr * (dp[i + W + <span class="number">1</span>] - dp[i + <span class="number">1</span>]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[<span class="number">0</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">
+        -------------本文结束 <i class="fa fa-paw"></i> 感谢阅读-------------
+        </div>
+    
 </div>
-
-</header>
-
+        <div class="reward-container">
+  <div>赏颗卤蛋呗 ๑乛◡乛๑</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
       
-      
-      
-      <div class="post-body">
-          <div class="tag-cloud">
-            <div class="tag-cloud-title">
-              目前共计 31 个标签
-            </div>
-            <div class="tag-cloud-tags">
-              <a href="/tags/Array/" style="font-size: 12px; color: #ccc">Array</a> <a href="/tags/BFS/" style="font-size: 12px; color: #ccc">BFS</a> <a href="/tags/Binary-Tree/" style="font-size: 12px; color: #ccc">Binary-Tree</a> <a href="/tags/Blog/" style="font-size: 12px; color: #ccc">Blog</a> <a href="/tags/C-Quiz/" style="font-size: 21px; color: #6f6f6f">C++ Quiz</a> <a href="/tags/C-C/" style="font-size: 30px; color: #111">C/C++</a> <a href="/tags/CLion/" style="font-size: 12px; color: #ccc">CLion</a> <a href="/tags/CMake/" style="font-size: 12px; color: #ccc">CMake</a> <a href="/tags/Cygwin/" style="font-size: 12px; color: #ccc">Cygwin</a> <a href="/tags/DFS/" style="font-size: 12px; color: #ccc">DFS</a> <a href="/tags/Debug/" style="font-size: 12px; color: #ccc">Debug</a> <a href="/tags/Decltype/" style="font-size: 12px; color: #ccc">Decltype</a> <a href="/tags/Dynamic-Programming/" style="font-size: 12px; color: #ccc">Dynamic-Programming</a> <a href="/tags/Hexo/" style="font-size: 12px; color: #ccc">Hexo</a> <a href="/tags/Inter-Threading-Communication/" style="font-size: 16.5px; color: #9d9d9d">Inter-Threading-Communication</a> <a href="/tags/LeetCode/" style="font-size: 25.5px; color: #404040">LeetCode</a> <a href="/tags/Linked-List/" style="font-size: 12px; color: #ccc">Linked-List</a> <a href="/tags/Linux/" style="font-size: 21px; color: #6f6f6f">Linux</a> <a href="/tags/Linux-Kernel/" style="font-size: 21px; color: #6f6f6f">Linux-Kernel</a> <a href="/tags/Lock/" style="font-size: 12px; color: #ccc">Lock</a> <a href="/tags/MultiThreading/" style="font-size: 12px; color: #ccc">MultiThreading</a> <a href="/tags/Multithreading/" style="font-size: 12px; color: #ccc">Multithreading</a> <a href="/tags/Mutex/" style="font-size: 12px; color: #ccc">Mutex</a> <a href="/tags/Next/" style="font-size: 12px; color: #ccc">Next</a> <a href="/tags/Perception/" style="font-size: 12px; color: #ccc">Perception</a> <a href="/tags/Programming-Language/" style="font-size: 25.5px; color: #404040">Programming-Language</a> <a href="/tags/RAII/" style="font-size: 12px; color: #ccc">RAII</a> <a href="/tags/Recursion/" style="font-size: 12px; color: #ccc">Recursion</a> <a href="/tags/Smart-Pointer/" style="font-size: 12px; color: #ccc">Smart-Pointer</a> <a href="/tags/Socket/" style="font-size: 16.5px; color: #9d9d9d">Socket</a> <a href="/tags/Tools/" style="font-size: 12px; color: #ccc">Tools</a>
-            </div>
-          </div>
-        
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.png" alt="Archie Scott 微信支付">
+        <p>微信支付</p>
       </div>
       
-      
-      
-    </div>
-    
+      <div style="display: inline-block;">
+        <img src="/images/alipay.jpg" alt="Archie Scott 支付宝">
+        <p>支付宝</p>
+      </div>
 
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Archie Scott
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://github.com/ArchieScott/posts/3da3e5d5/" title="LeetCode 0837. 新 21 点">https://github.com/ArchieScott/posts/3da3e5d5/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/LeetCode/" rel="tag"><i class="fa fa-tag"></i> LeetCode</a>
+              <a href="/tags/Dynamic-Programming/" rel="tag"><i class="fa fa-tag"></i> Dynamic-Programming</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/posts/5559b584/" rel="prev" title="LCOF 064. 求 1+2+...+n">
+      <i class="fa fa-chevron-left"></i> LCOF 064. 求 1+2+...+n
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
     
-    
-    
+  </article>
+  
+  
+  
+
   </div>
 
 
           </div>
           
+    <div class="comments" id="valine-comments"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {

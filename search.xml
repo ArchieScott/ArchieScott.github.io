@@ -1,6 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>LeetCode 0837. 新 21 点</title>
+    <url>/posts/3da3e5d5/</url>
+    <content><![CDATA[<blockquote>
+<ul>
+<li>从后向前反向递推的动态规划</li>
+</ul>
+</blockquote>
+<a id="more"></a>
+<p>爱丽丝参与一个大致基于纸牌游戏 “21点” 规则的游戏，描述如下：<br>
+爱丽丝以 0 分开始，并在她的得分少于 K 分时抽取数字。抽取时，她从 [1, W] 的范围中随机获得一个整数作为分数进行累计，其中 W 是整数。 每次抽取都是独立的，其结果具有相同的概率。<br>
+当爱丽丝获得不少于 K 分时，她就停止抽取数字。求爱丽丝的分数不超过 N 的概率是多少。</p>
+<p>示例 1：<br>
+输入：N = 10, K = 1, W = 10<br>
+输出：1.00000<br>
+说明：爱丽丝得到一张卡，然后停止。</p>
+<p>示例 2：<br>
+输入：N = 6, K = 1, W = 10<br>
+输出：0.60000<br>
+说明：爱丽丝得到一张卡，然后停止。在 W = 10 的 6 种可能下，她的得分不超过 N = 6 分。</p>
+<p>示例 3：<br>
+输入：N = 21, K = 17, W = 10<br>
+输出：0.73278</p>
+<p>思路一：动态规划<br>
+首先，抽卡能获得的最大点数为 K - 1 + W，开始的时候点数为 0，那么我们可以用一个大小为 K + W 的数组来表示整个抽卡过程中所有的可能值。数组下标为点数，里面保存的是对应点数时不超过 N 的概率。<br>
+我们假设当前点数为 i，那么 dp[i] 的值其实和下一次抽到的点数有关，也就是说，这个 dp 数组的更新方向应该是从后向前的，我们假设下一次抽到的点数为 j，抽到这个点数的概率为 1/W，那么此时对应的不超过 N 的概率应该为 1/W * dp[i + j]，j 的取值范围为 1 到 W，那么我们可以知道 dp[i] = 1/W * (dp[i + 1] + … + dp[i + W])。<br>
+当前点数大于 K - 1 时，不再抽卡，那么从 dp[K] 一直到 dp[K + W - 1]，如果 K &lt;= N，对应的 dp[K] = 1.0，否则就等于 0，从后面一直递推到 dp[0]，就是不超过 N 的概率。<br>
+此外，需要注意一个特殊的初始条件，由上面的分析可以推出，如果达到了最大值 K - 1，再抽一个最大值 W，此时 K + W - 1 仍然严格小于 N，那么可以判断无论怎么抽，分数都不可能超过 N，概率就为 1。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">double</span> <span class="title">new21Game</span><span class="params">(<span class="keyword">int</span> N, <span class="keyword">int</span> K, <span class="keyword">int</span> W)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (K == <span class="number">0</span> || K + W &lt;= N) <span class="keyword">return</span> <span class="number">1.0</span>;</span><br><span class="line">        <span class="function"><span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">double</span>&gt; <span class="title">dp</span><span class="params">(K + W + <span class="number">1</span>, <span class="number">0</span>)</span></span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = K; i &lt;= N &amp;&amp; i &lt;= K + W; ++i) &#123;</span><br><span class="line">            dp[i] = <span class="number">1.0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">double</span> pr = <span class="number">1.0</span> / W;</span><br><span class="line">        dp[K - <span class="number">1</span>] = (N - K + <span class="number">1</span>) * pr;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = K - <span class="number">2</span>; i &gt;= <span class="number">0</span>; --i) &#123;</span><br><span class="line">            <span class="comment">// dp[i] = dp[i + 1] - 1/w * dp[i + 1 + w] + 1/w * dp[i + 1]</span></span><br><span class="line">            dp[i] = dp[i + <span class="number">1</span>] - pr * (dp[i + W + <span class="number">1</span>] - dp[i + <span class="number">1</span>]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[<span class="number">0</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>LeetCode</category>
+      </categories>
+      <tags>
+        <tag>LeetCode</tag>
+        <tag>Dynamic-Programming</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>LCOF 064. 求 1+2+...+n</title>
     <url>/posts/5559b584/</url>
     <content><![CDATA[<blockquote>
@@ -149,8 +187,8 @@ tcp_v4_connect 函数中，首先通过 ip_route_connect 进行路由选择，�
       </categories>
       <tags>
         <tag>Linux</tag>
-        <tag>Linux-Kernel</tag>
         <tag>Socket</tag>
+        <tag>Linux-Kernel</tag>
       </tags>
   </entry>
   <entry>
@@ -184,8 +222,8 @@ ANSI C 标准允许常量 0 值被强制转换为任何一种类型的指针，<
       </categories>
       <tags>
         <tag>Linux</tag>
-        <tag>Linked-List</tag>
         <tag>Linux-Kernel</tag>
+        <tag>Linked-List</tag>
       </tags>
   </entry>
   <entry>
@@ -285,8 +323,8 @@ inet_csk_wait_for_connect 最主要的功能就是等待客户端连接，为了
       </categories>
       <tags>
         <tag>Linux</tag>
-        <tag>Linux-Kernel</tag>
         <tag>Socket</tag>
+        <tag>Linux-Kernel</tag>
       </tags>
   </entry>
   <entry>
@@ -1225,8 +1263,8 @@ C++14 开始，<code>auto</code> 可以用于函数返回值类型的推导，�
       </categories>
       <tags>
         <tag>C/C++</tag>
-        <tag>Inter-Threading-Communication</tag>
         <tag>Multithreading</tag>
+        <tag>Inter-Threading-Communication</tag>
         <tag>Lock</tag>
       </tags>
   </entry>
@@ -1295,8 +1333,8 @@ C++14 开始，<code>auto</code> 可以用于函数返回值类型的推导，�
       </categories>
       <tags>
         <tag>C/C++</tag>
-        <tag>MultiThreading</tag>
         <tag>Inter-Threading-Communication</tag>
+        <tag>MultiThreading</tag>
         <tag>Mutex</tag>
       </tags>
   </entry>
