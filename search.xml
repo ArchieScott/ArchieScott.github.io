@@ -5,7 +5,7 @@
     <url>/posts/5559b584/</url>
     <content><![CDATA[<blockquote>
 <ul>
-<li></li>
+<li>通过逻辑运算符短路来设置递归终止条件</li>
 </ul>
 </blockquote>
 <a id="more"></a>
@@ -17,7 +17,7 @@
 输入: n = 9<br>
 输出: 45</p>
 <p>思路一：<br>
-这种叠加求和、求积的题目很容易想到用递归来处理，因为不能使用 if 条件判断，那么递归结束的判断可以用 &amp;&amp; 短路来判断。</p>
+这种叠加求和、求积的题目很容易想到用递归来处理，因为不能使用 if 条件判断，那么递归结束可以用 &amp;&amp; 短路来判断。</p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">sumNums</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        n &amp;&amp; (n += sumNums(n - <span class="number">1</span>));</span><br><span class="line">        <span class="keyword">return</span> n;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>LeetCode</category>
@@ -149,8 +149,8 @@ tcp_v4_connect 函数中，首先通过 ip_route_connect 进行路由选择，�
       </categories>
       <tags>
         <tag>Linux</tag>
-        <tag>Socket</tag>
         <tag>Linux-Kernel</tag>
+        <tag>Socket</tag>
       </tags>
   </entry>
   <entry>
@@ -184,8 +184,8 @@ ANSI C 标准允许常量 0 值被强制转换为任何一种类型的指针，<
       </categories>
       <tags>
         <tag>Linux</tag>
-        <tag>Linux-Kernel</tag>
         <tag>Linked-List</tag>
+        <tag>Linux-Kernel</tag>
       </tags>
   </entry>
   <entry>
@@ -285,8 +285,8 @@ inet_csk_wait_for_connect 最主要的功能就是等待客户端连接，为了
       </categories>
       <tags>
         <tag>Linux</tag>
-        <tag>Socket</tag>
         <tag>Linux-Kernel</tag>
+        <tag>Socket</tag>
       </tags>
   </entry>
   <entry>
@@ -1225,8 +1225,8 @@ C++14 开始，<code>auto</code> 可以用于函数返回值类型的推导，�
       </categories>
       <tags>
         <tag>C/C++</tag>
-        <tag>Multithreading</tag>
         <tag>Inter-Threading-Communication</tag>
+        <tag>Multithreading</tag>
         <tag>Lock</tag>
       </tags>
   </entry>
@@ -1295,8 +1295,8 @@ C++14 开始，<code>auto</code> 可以用于函数返回值类型的推导，�
       </categories>
       <tags>
         <tag>C/C++</tag>
-        <tag>Inter-Threading-Communication</tag>
         <tag>MultiThreading</tag>
+        <tag>Inter-Threading-Communication</tag>
         <tag>Mutex</tag>
       </tags>
   </entry>
