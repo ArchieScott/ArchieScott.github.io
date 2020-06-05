@@ -1,6 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>LeetCode 0054. 螺旋矩阵</title>
+    <url>/posts/fcfca138/</url>
+    <content><![CDATA[<blockquote>
+<ul>
+<li>按层从外到内依次处理矩阵</li>
+</ul>
+</blockquote>
+<a id="more"></a>
+<p>给定一个包含 m x n 个元素的矩阵，请按照顺时针螺旋顺序，返回矩阵中的所有元素。</p>
+<p>示例 1:<br>
+输入:<br>
+[<br>
+[ 1, 2, 3 ],<br>
+[ 4, 5, 6 ],<br>
+[ 7, 8, 9 ]<br>
+]<br>
+输出: [1,2,3,6,9,8,7,4,5]</p>
+<p>示例 2:<br>
+输入:<br>
+[<br>
+[1, 2, 3, 4],<br>
+[5, 6, 7, 8],<br>
+[9,10,11,12]<br>
+]<br>
+输出: [1,2,3,4,8,12,11,10,9,5,6,7]</p>
+<p>思路一：<br>
+比较浅显易懂的思路，从外到内一圈一圈处理，每次处理完一圈都将左上角坐标加一，右下角坐标减一，当左上角的坐标大于右下角的坐标时，说明矩阵中的元素已经全部处理完成了。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">spiralOrder</span><span class="params">(<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;&amp; matrix)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (matrix.<span class="built_in">size</span>() == <span class="number">0</span> || matrix[<span class="number">0</span>].<span class="built_in">size</span>() == <span class="number">0</span>)</span><br><span class="line">            <span class="keyword">return</span> &#123;&#125;;</span><br><span class="line">        <span class="keyword">int</span> tR = <span class="number">0</span>, tC = <span class="number">0</span>, dR = matrix.<span class="built_in">size</span>() - <span class="number">1</span>, dC = matrix[<span class="number">0</span>].<span class="built_in">size</span>() - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (tR &lt;= dR &amp;&amp; tC &lt;= dC) &#123;</span><br><span class="line">            <span class="built_in">process</span>(matrix, tR++, tC++, dR--, dC--);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">process</span><span class="params">(<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;&amp; matrix, <span class="keyword">int</span> tR, <span class="keyword">int</span> tC, <span class="keyword">int</span> dR, <span class="keyword">int</span> dC)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (tR == dR) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = tC; i &lt;= dC; ++i) &#123;</span><br><span class="line">                res.push_back(matrix[tR][i]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (tC == dC) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = tR; i &lt;= dR; ++i) &#123;</span><br><span class="line">                res.push_back(matrix[i][tC]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">int</span> curC = tC, curR = tR;</span><br><span class="line">            <span class="keyword">while</span> (curC != dC) &#123;</span><br><span class="line">                res.push_back(matrix[tR][curC++]);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">while</span> (curR != dR) &#123;</span><br><span class="line">                res.push_back(matrix[curR++][dC]);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">while</span> (curC != tC) &#123;</span><br><span class="line">                res.push_back(matrix[dR][curC--]);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">while</span> (curR != tR) &#123;</span><br><span class="line">                res.push_back(matrix[curR--][tC]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; res;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>LeetCode</category>
+      </categories>
+      <tags>
+        <tag>LeetCode</tag>
+        <tag>Array</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>LeetCode 0238. 除自身以外数组的乘积</title>
     <url>/posts/cc86ed49/</url>
     <content><![CDATA[<blockquote>
@@ -216,8 +253,8 @@ tcp_v4_connect 函数中，首先通过 ip_route_connect 进行路由选择，�
       </categories>
       <tags>
         <tag>Linux</tag>
-        <tag>Socket</tag>
         <tag>Linux-Kernel</tag>
+        <tag>Socket</tag>
       </tags>
   </entry>
   <entry>
@@ -251,8 +288,8 @@ ANSI C 标准允许常量 0 值被强制转换为任何一种类型的指针，<
       </categories>
       <tags>
         <tag>Linux</tag>
-        <tag>Linux-Kernel</tag>
         <tag>Linked-List</tag>
+        <tag>Linux-Kernel</tag>
       </tags>
   </entry>
   <entry>
@@ -352,8 +389,8 @@ inet_csk_wait_for_connect 最主要的功能就是等待客户端连接，为了
       </categories>
       <tags>
         <tag>Linux</tag>
-        <tag>Socket</tag>
         <tag>Linux-Kernel</tag>
+        <tag>Socket</tag>
       </tags>
   </entry>
   <entry>
