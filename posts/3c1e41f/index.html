@@ -28,7 +28,7 @@
 <meta property="og:description" content="深度优先遍历 广度优先遍历">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-05-31T09:26:11.000Z">
-<meta property="article:modified_time" content="2020-05-31T10:20:23.227Z">
+<meta property="article:modified_time" content="2020-06-08T16:05:30.065Z">
 <meta property="article:author" content="Archie Scott">
 <meta property="article:tag" content="LeetCode">
 <meta property="article:tag" content="Binary-Tree">
@@ -131,17 +131,17 @@
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">7</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">8</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">21</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">28</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">31</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">33</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -216,10 +216,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-05-31 17:26:11 / 修改时间：18:20:23" itemprop="dateCreated datePublished" datetime="2020-05-31T17:26:11+08:00">2020-05-31</time>
+              <time title="创建时间：2020-05-31 17:26:11" itemprop="dateCreated datePublished" datetime="2020-05-31T17:26:11+08:00">2020-05-31</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-06-09 00:05:30" itemprop="dateModified" datetime="2020-06-09T00:05:30+08:00">2020-06-09</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -285,20 +291,22 @@
 </ul>
 </blockquote>
 <a id="more"></a>
-<p>给定一个二叉树，检查它是否是镜像对称的。<br>
+<p><strong>题目</strong><br>
+给定一个二叉树，检查它是否是镜像对称的。<br>
 例如，二叉树 [1,2,2,3,4,4,3] 是对称的，<br>
 而 [1,2,2,null,3,null,3] 则不是镜像对称的。</p>
-<p>思路一：深度优先遍历<br>
+<p><strong>思路一：深度优先遍历</strong><br>
 如果一个树的左子树与右子树是对称的，那么这个树就是镜像对称的；<br>
 也就是说，如果两个子树根节点值相等，并且每个结点左子树与另一个结点右子树对称，两棵树就是镜像对称的，我们让两个指针分别从左右子树的相同结点出发，对称遍历，如果对应结点值相等，再将指针分别向左右对称移动。<br>
 时间复杂度：由于需要遍历整棵树，时间复杂度为 O(n)。<br>
 空间复杂度：递归需要额外使用空间为 O(n) 的递归栈。</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">TreeNode</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> val;</span><br><span class="line">    TreeNode *left;</span><br><span class="line">    TreeNode *right;</span><br><span class="line">    TreeNode(<span class="keyword">int</span> x) : val(x), left(<span class="literal">nullptr</span>), right(<span class="literal">nullptr</span>) &#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isSymmetric</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!root)</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">return</span> isMirror(root-&gt;left, root-&gt;right);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isMirror</span><span class="params">(TreeNode* leftChild, TreeNode* rightChild)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!leftChild &amp;&amp; !rightChild) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (!leftChild || !rightChild) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (leftChild-&gt;val == rightChild-&gt;val) &#123;</span><br><span class="line">            <span class="keyword">return</span> isMirror(leftChild-&gt;left, rightChild-&gt;right) &amp;&amp; isMirror(leftChild-&gt;right, rightChild-&gt;left);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>思路二：广度优先遍历<br>
+<p><strong>思路二：广度优先遍历</strong><br>
 思路一中的递归可以改写为迭代的方法，迭代需要使用一个队列 nodeQueue，每次需要出队两个结点进行比较，那么我们在入队的时候就需要将镜像对应的结点依次入队；也就是当前出队结点的 a 的左子节点和 b 的右子节点。<br>
 时间复杂度：每个结点都需要遍历一次，为 O(n)。<br>
 空间复杂度：需要用队列来维护节点，每个节点最多进队一次，出队一次，空间复杂度为 O(n)。</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">TreeNode</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> val;</span><br><span class="line">    TreeNode *left;</span><br><span class="line">    TreeNode *right;</span><br><span class="line">    TreeNode(<span class="keyword">int</span> x) : val(x), left(<span class="literal">nullptr</span>), right(<span class="literal">nullptr</span>) &#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isSymmetric</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!root) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">queue</span>&lt;TreeNode*&gt; nodeQueue;</span><br><span class="line">        nodeQueue.push(root-&gt;left);</span><br><span class="line">        nodeQueue.push(root-&gt;right);</span><br><span class="line">        <span class="keyword">while</span>(!nodeQueue.empty()) &#123;</span><br><span class="line">            <span class="keyword">auto</span> node1 = nodeQueue.front();</span><br><span class="line">            nodeQueue.pop();</span><br><span class="line">            <span class="keyword">auto</span> node2 = nodeQueue.front();</span><br><span class="line">            nodeQueue.pop();</span><br><span class="line">            <span class="keyword">if</span> (!node1 &amp;&amp; !node2) &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (!node1 || !node2) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (node1-&gt;val != node2-&gt;val) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            nodeQueue.push(node1-&gt;left);</span><br><span class="line">            nodeQueue.push(node2-&gt;right);</span><br><span class="line">            nodeQueue.push(node1-&gt;right);</span><br><span class="line">            nodeQueue.push(node2-&gt;left);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
     </div>
 
     
@@ -445,20 +453,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-count">28</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">31</span>
+        <span class="site-state-item-count">33</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -514,13 +522,13 @@
       <i class="fa fa-area-chart"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">161k</span>
+    <span title="站点总字数">187k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">2:26</span>
+    <span title="站点阅读时长">2:50</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.0
   </div>

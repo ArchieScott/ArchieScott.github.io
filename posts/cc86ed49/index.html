@@ -28,7 +28,7 @@
 <meta property="og:description" content="前缀积与后缀积 复用输出数组以保证 O(1) 额外空间复杂度">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-06-04T13:45:10.000Z">
-<meta property="article:modified_time" content="2020-06-04T14:18:22.738Z">
+<meta property="article:modified_time" content="2020-06-08T15:11:25.696Z">
 <meta property="article:author" content="Archie Scott">
 <meta property="article:tag" content="LeetCode">
 <meta property="article:tag" content="Array">
@@ -129,17 +129,17 @@
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">7</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">8</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">21</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">28</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">31</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">33</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -214,10 +214,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-06-04 21:45:10 / 修改时间：22:18:22" itemprop="dateCreated datePublished" datetime="2020-06-04T21:45:10+08:00">2020-06-04</time>
+              <time title="创建时间：2020-06-04 21:45:10" itemprop="dateCreated datePublished" datetime="2020-06-04T21:45:10+08:00">2020-06-04</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-06-08 23:11:25" itemprop="dateModified" datetime="2020-06-08T23:11:25+08:00">2020-06-08</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -257,7 +263,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>989</span>
+              <span>996</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -283,17 +289,19 @@
 </ul>
 </blockquote>
 <a id="more"></a>
-<p>给你一个长度为 n 的整数数组 nums，其中 n &gt; 1，返回输出数组 output，其中 output[i] 等于 nums 中除 nums[i] 之外其余各元素的乘积。</p>
+<p><strong>题目</strong><br>
+给你一个长度为 n 的整数数组 nums，其中 n &gt; 1，返回输出数组 output，其中 output[i] 等于 nums 中除 nums[i] 之外其余各元素的乘积。</p>
 <p>示例:<br>
 输入: [1,2,3,4]<br>
 输出: [24,12,8,6]<br>
 提示：题目数据保证数组之中任意元素的全部前缀元素和后缀（甚至是整个数组）的乘积都在 32 位整数范围内。<br>
 说明: 请不要使用除法，且在 O(n) 时间复杂度与常数空间复杂度内完成此题。</p>
-<p>思路一：<br>
+<p><strong>思路一：前缀后缀积</strong><br>
 数组中除掉某一个数后其他数的乘积其实就相当于该数左边子数组的乘积乘以右边子数组的乘积，那么我们可以维护两个数组，分别保存从左至右和从右至左两次遍历计算的元素乘积，也就是说，对于数组 arr 中的某一个元素 arr[i] 来说，left[i] 等于从 arr[0] 一直乘到 arr[i - 1] 的积，right[i] 等于从 arr[n] 一直乘到 arr[i + 1] 的积，那么 res[i] 其实就等于 left[i] * right[i]。<br>
 进一步，因为计算 left 和 right 数组是两个独立的过程，我们可以直接复用 res 数组：<br>
 将 left 数组直接放入 res 数组中，那么 res[i] 表示的其实就是 arr 数组中第 i 个元素之前所有元素的乘积，计算完之后，我们再在 res 数组上直接计算结果，假设变量 right = 1，它的含义就是上面说的 right 数组中当前元素的值，那么从 res[n] 开始，依次将 right 的值乘入 res 数组中，最后得到的 res 即为所求。</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">productExceptSelf</span><span class="params">(<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">res</span><span class="params">(nums.<span class="built_in">size</span>(), <span class="number">0</span>)</span></span>;</span><br><span class="line">        res[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; nums.<span class="built_in">size</span>(); ++i) &#123;</span><br><span class="line">            res[i] = res[i - <span class="number">1</span>] * nums[i - <span class="number">1</span>];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> right = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = nums.<span class="built_in">size</span>() - <span class="number">1</span>; i &gt;= <span class="number">0</span>; --i) &#123;</span><br><span class="line">            res[i] = res[i] * right;</span><br><span class="line">            right *= nums[i];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
     </div>
 
     
@@ -438,20 +446,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-count">28</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">31</span>
+        <span class="site-state-item-count">33</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -507,13 +515,13 @@
       <i class="fa fa-area-chart"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">161k</span>
+    <span title="站点总字数">187k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">2:26</span>
+    <span title="站点阅读时长">2:50</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.0
   </div>
