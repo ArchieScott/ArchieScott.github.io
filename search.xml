@@ -1,6 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>LeetCode 0009. 回文数</title>
+    <url>/posts/1441cd76/</url>
+    <content><![CDATA[<blockquote>
+<ul>
+<li>按层从外到内依次处理矩阵</li>
+</ul>
+</blockquote>
+<a id="more"></a>
+<p><strong>题目</strong><br>
+判断一个整数是否是回文数。回文数是指正序（从左向右）和倒序（从右向左）读都是一样的整数。</p>
+<p>示例 1:<br>
+输入: 121<br>
+输出: true</p>
+<p>示例 2:<br>
+输入: -121<br>
+输出: false<br>
+解释: 从左向右读, 为 -121 。 从右向左读, 为 121- 。因此它不是一个回文数。</p>
+<p>示例 3:<br>
+输入: 10<br>
+输出: false<br>
+解释: 从右向左读, 为 01 。因此它不是一个回文数。</p>
+<p><strong>思路一：翻转一半数字</strong><br>
+根据示例不难看出，负数和十的倍数一定不满足题意，这里直接返回 false 即可。<br>
+接下来我们从低位向高位翻转数字，当翻转后的数字不小于原数字时跳出循环，这时候有两种可能，第一种，原数位数为奇数，那么 reverseNum 会比 x 多出最后一位，那么如果 reverseNum/10 == x，该数对称；第二种，原数位数为偶数，那么如果 reverseNum == x，原数对称。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isPalindrome</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (x &lt; <span class="number">0</span> || (x != <span class="number">0</span> &amp;&amp; x % <span class="number">10</span> == <span class="number">0</span>)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> reverseNum = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (reverseNum &lt; x) &#123;</span><br><span class="line">            reverseNum = reverseNum * <span class="number">10</span> + x % <span class="number">10</span>;</span><br><span class="line">            x /= <span class="number">10</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> ((reverseNum == x) || (reverseNum/<span class="number">10</span> == x)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>LeetCode</category>
+      </categories>
+      <tags>
+        <tag>LeetCode</tag>
+        <tag>Math</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>LCOF 046. 把数字翻译成字符串</title>
     <url>/posts/2c3483d5/</url>
     <content><![CDATA[<blockquote>
@@ -525,8 +560,8 @@ tcp_v4_connect 函数中，首先通过 ip_route_connect 进行路由选择，�
       </categories>
       <tags>
         <tag>Linux</tag>
-        <tag>Socket</tag>
         <tag>Linux-Kernel</tag>
+        <tag>Socket</tag>
       </tags>
   </entry>
   <entry>
@@ -560,8 +595,8 @@ ANSI C 标准允许常量 0 值被强制转换为任何一种类型的指针，<
       </categories>
       <tags>
         <tag>Linux</tag>
-        <tag>Linux-Kernel</tag>
         <tag>Linked-List</tag>
+        <tag>Linux-Kernel</tag>
       </tags>
   </entry>
   <entry>
@@ -661,8 +696,8 @@ inet_csk_wait_for_connect 最主要的功能就是等待客户端连接，为了
       </categories>
       <tags>
         <tag>Linux</tag>
-        <tag>Socket</tag>
         <tag>Linux-Kernel</tag>
+        <tag>Socket</tag>
       </tags>
   </entry>
   <entry>
@@ -1601,8 +1636,8 @@ C++14 开始，<code>auto</code> 可以用于函数返回值类型的推导，�
       </categories>
       <tags>
         <tag>C/C++</tag>
-        <tag>Inter-Threading-Communication</tag>
         <tag>Multithreading</tag>
+        <tag>Inter-Threading-Communication</tag>
         <tag>Lock</tag>
       </tags>
   </entry>
@@ -1671,8 +1706,8 @@ C++14 开始，<code>auto</code> 可以用于函数返回值类型的推导，�
       </categories>
       <tags>
         <tag>C/C++</tag>
-        <tag>MultiThreading</tag>
         <tag>Inter-Threading-Communication</tag>
+        <tag>MultiThreading</tag>
         <tag>Mutex</tag>
       </tags>
   </entry>
