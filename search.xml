@@ -1,6 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>LeetCode 0067. 二进制求和</title>
+    <url>/posts/caaaa3d0/</url>
+    <content><![CDATA[<blockquote>
+<ul>
+<li>模拟二进制加法</li>
+</ul>
+</blockquote>
+<a id="more"></a>
+<p><strong>题目</strong><br>
+给你两个二进制字符串，返回它们的和（用二进制表示）。<br>
+输入为 非空 字符串且只包含数字 1 和 0。</p>
+<p>示例 1:<br>
+输入: a = “11”, b = “1”<br>
+输出: “100”</p>
+<p>示例 2:<br>
+输入: a = “1010”, b = “1011”<br>
+输出: “10101”</p>
+<p>提示：<br>
+每个字符串仅由字符 ‘0’ 或 ‘1’ 组成。<br>
+1 &lt;= a.length, b.length &lt;= 10^4<br>
+字符串如果不是 “0” ，就都不含前导零。</p>
+<p><strong>思路一：模拟二进制加法</strong><br>
+这道题的加法和之前有一道链表求和的题目有点像，那道题中数据是反过来的，会比较好处理进位，因此本题我们也先将字符串逆序，便于处理进位，在高位补 0 也更加方便。<br>
+当长度为 max(a.size(), b.size()) 的字符串相加完成后，如果此时还有进位，需要再向 res 中 push 一个 ‘1’，最后将 res 再逆序即可。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="built_in">std</span>::<span class="built_in">string</span> <span class="title">addBinary</span><span class="params">(<span class="built_in">std</span>::<span class="built_in">string</span> a, <span class="built_in">std</span>::<span class="built_in">string</span> b)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">string</span> res;</span><br><span class="line">        <span class="built_in">std</span>::reverse(a.<span class="built_in">begin</span>(), a.<span class="built_in">end</span>());</span><br><span class="line">        <span class="built_in">std</span>::reverse(b.<span class="built_in">begin</span>(), b.<span class="built_in">end</span>());</span><br><span class="line">        <span class="keyword">int</span> maxBitNum = <span class="built_in">std</span>::<span class="built_in">max</span>(a.<span class="built_in">size</span>(), b.<span class="built_in">size</span>());</span><br><span class="line">        <span class="keyword">int</span> carryBit = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; maxBitNum; ++i) &#123;</span><br><span class="line">            carryBit += i &lt; a.<span class="built_in">size</span>() ? (a[i] == <span class="string">'1'</span>) : <span class="number">0</span>;</span><br><span class="line">            carryBit += i &lt; b.<span class="built_in">size</span>() ? (b[i] == <span class="string">'1'</span>) : <span class="number">0</span>;</span><br><span class="line">            res += (carryBit % <span class="number">2</span>) ? <span class="string">"1"</span> : <span class="string">"0"</span>;</span><br><span class="line">            carryBit /= <span class="number">2</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (carryBit)</span><br><span class="line">            res += <span class="string">"1"</span>;</span><br><span class="line">        <span class="built_in">std</span>::reverse(res.<span class="built_in">begin</span>(), res.<span class="built_in">end</span>());</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>LeetCode</category>
+      </categories>
+      <tags>
+        <tag>LeetCode</tag>
+        <tag>String</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>LCCI 16.18. 模式匹配</title>
     <url>/posts/f7de8451/</url>
     <content><![CDATA[<blockquote>
