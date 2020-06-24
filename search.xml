@@ -1,6 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>LeetCode 0016. 最接近的三数之和</title>
+    <url>/posts/fffdcab5/</url>
+    <content><![CDATA[<blockquote>
+<ul>
+<li>双指针</li>
+</ul>
+</blockquote>
+<a id="more"></a>
+<p><strong>题目</strong><br>
+给定一个包括 n 个整数的数组 nums 和 一个目标值 target。找出 nums 中的三个整数，使得它们的和与 target 最接近。返回这三个数的和。假定每组输入只存在唯一答案。</p>
+<p>示例：<br>
+输入：nums = [-1,2,1,-4], target = 1<br>
+输出：2<br>
+解释：与 target 最接近的和是 2 (-1 + 2 + 1 = 2) 。</p>
+<p><strong>思路一：双指针</strong><br>
+这道题和上一道 0015 做法类似，使用排序 + 双指针解决。<br>
+首先对原数组排序，然后从第一个元素开始，依次确定一个数，剩下的两个数分别从首尾向中间夹逼。<br>
+我们分别记录三个数的和，当和等于 target 时，说明此时离 target 最近，直接返回 sum；<br>
+如果 sum &lt; target，说明此时和小于 target，比较 sum - target 和 diff，如果小于 diff 就更新 diff，然后将 leftIdx++，否则就 rightIdx–，并且更新 diff，当外层 for 循环遍历结束后就找到 diff。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">threeSumClosest</span><span class="params">(<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums, <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (nums.<span class="built_in">size</span>() &lt; <span class="number">3</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> INT_MIN;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> res = INT_MAX;</span><br><span class="line">        <span class="keyword">int</span> diff = INT_MAX;</span><br><span class="line">        <span class="comment">// 先排序</span></span><br><span class="line">        <span class="built_in">std</span>::sort(nums.<span class="built_in">begin</span>(), nums.<span class="built_in">end</span>());</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.<span class="built_in">size</span>(); ++i) &#123;</span><br><span class="line">            <span class="keyword">int</span> leftIdx = i + <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">int</span> rightIdx = nums.<span class="built_in">size</span>() - <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">while</span>(leftIdx &lt; rightIdx) &#123;</span><br><span class="line">                <span class="comment">// 确定 i, 然后将 leftIdx 与 rightIdx 夹逼</span></span><br><span class="line">                <span class="keyword">int</span> sum = nums[i] + nums[leftIdx] + nums[rightIdx];</span><br><span class="line">                <span class="keyword">if</span> (sum == target) &#123;</span><br><span class="line">                    <span class="keyword">return</span> sum;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">// 新的偏差小于 diff 时才更新 res, 否则只修改左右指针</span></span><br><span class="line">                <span class="keyword">else</span> <span class="keyword">if</span> (sum &lt; target) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (target - sum &lt; diff) &#123;</span><br><span class="line">                        diff = target - sum;</span><br><span class="line">                        res = sum;</span><br><span class="line">                    &#125;</span><br><span class="line">                    leftIdx++;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="keyword">if</span> (sum - target &lt; diff) &#123;</span><br><span class="line">                        diff = sum - target;</span><br><span class="line">                        res = sum;</span><br><span class="line">                    &#125;</span><br><span class="line">                    rightIdx--;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>LeetCode</category>
+      </categories>
+      <tags>
+        <tag>LeetCode</tag>
+        <tag>Array</tag>
+        <tag>Two-Pointers</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>LeetCode 0067. 二进制求和</title>
     <url>/posts/caaaa3d0/</url>
     <content><![CDATA[<blockquote>
@@ -213,8 +244,8 @@ dp[0][j] 只有在类似 “a*b*c*” 这种场合为 true，匹配到空字符�
       </categories>
       <tags>
         <tag>LeetCode</tag>
-        <tag>String</tag>
         <tag>Two-Pointers</tag>
+        <tag>String</tag>
       </tags>
   </entry>
   <entry>
