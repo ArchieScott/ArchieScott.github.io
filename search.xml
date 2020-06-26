@@ -1,6 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>LCCI 02.01. 移除重复结点</title>
+    <url>/posts/6e77f4e/</url>
+    <content><![CDATA[<blockquote>
+<ul>
+<li>使用哈希集合保存遍历结点</li>
+</ul>
+</blockquote>
+<a id="more"></a>
+<p><strong>题目</strong><br>
+编写代码，移除未排序链表中的重复节点。保留最开始出现的节点。</p>
+<p>示例1:<br>
+输入：[1, 2, 3, 3, 2, 1]<br>
+输出：[1, 2, 3]</p>
+<p>示例2:<br>
+输入：[1, 1, 1, 1, 2]<br>
+输出：[1, 2]</p>
+<p><strong>思路一：使用哈希集合保存遍历过的结点</strong><br>
+这题的思路其实挺简单的，如果要保证 O(n) 时间复杂度，就必须用哈希表将遍历的结点值保存下来，需要注意的点有两个，一个是 while 中还需要判断 curNode 不为空，但这其实逻辑上有保证，这个只是写给编译器看的；另外一个是只有当在 nodeSet 中查找不到对应结点值，插入后才需要将 curNode 向后移动，不然只需要将 curNode-&gt;next 指向 curNode-&gt;next-&gt;next 即可，就可以视为 curNode 向后移动了。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">ListNode</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> val;</span><br><span class="line">    ListNode *next;</span><br><span class="line">    ListNode(<span class="keyword">int</span> x) : val(x), next(<span class="literal">NULL</span>) &#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode* <span class="title">removeDuplicateNodes</span><span class="params">(ListNode* head)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!head)</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">nullptr</span>;</span><br><span class="line">        ListNode* curNode = head;</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">unordered_set</span>&lt;<span class="keyword">int</span>&gt; nodeSet;</span><br><span class="line">        nodeSet.insert(head-&gt;val);</span><br><span class="line">        <span class="keyword">while</span> (curNode &amp;&amp; curNode-&gt;next) &#123;</span><br><span class="line">            <span class="keyword">if</span> (nodeSet.<span class="built_in">find</span>(curNode-&gt;next-&gt;val) != nodeSet.<span class="built_in">end</span>()) &#123;</span><br><span class="line">                curNode-&gt;next = curNode-&gt;next-&gt;next;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                nodeSet.insert(curNode-&gt;next-&gt;val);</span><br><span class="line">                curNode = curNode-&gt;next;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> head;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>LeetCode</category>
+      </categories>
+      <tags>
+        <tag>LeetCode</tag>
+        <tag>Linked-List</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>LeetCode 0139. 单词拆分</title>
     <url>/posts/6477fb26/</url>
     <content><![CDATA[<blockquote>
@@ -1226,8 +1255,8 @@ ANSI C 标准允许常量 0 值被强制转换为任何一种类型的指针，<
         <category>Linux</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
         <tag>Linked-List</tag>
+        <tag>Linux</tag>
         <tag>Linux-Kernel</tag>
       </tags>
   </entry>
