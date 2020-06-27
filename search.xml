@@ -1,6 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>LeetCode 0041. 缺失的第一个正数</title>
+    <url>/posts/7531651f/</url>
+    <content><![CDATA[<blockquote>
+<ul>
+<li>原地哈希</li>
+</ul>
+</blockquote>
+<a id="more"></a>
+<p><strong>题目</strong><br>
+给你一个未排序的整数数组，请你找出其中没有出现的最小的正整数。</p>
+<p>示例 1:<br>
+输入: [1,2,0]<br>
+输出: 3</p>
+<p>示例 2:<br>
+输入: [3,4,-1,1]<br>
+输出: 2</p>
+<p>示例 3:<br>
+输入: [7,8,9,11,12]<br>
+输出: 1</p>
+<p>提示：<br>
+你的算法的时间复杂度应为O(n)，并且只能使用常数级别的额外空间。</p>
+<p><strong>思路一：利用数组原地哈希</strong><br>
+题目中要求的最小正整数的范围应该是 1 ~ ArrayLen + 1，也就是说，如果数组中的所有数字正好从 1 ~ ArrayLen，答案就是 ArrayLen + 1。<br>
+本来这道题可以通过额外的哈希表来做到 O(n) - O(n) 的复杂度，但是由于题目要求的是 O(1) 的额外空间复杂度，那么我们可以考虑原地哈希，即将输入的数组作为哈希表。<br>
+那么哈希函数可以这么考虑，在下标为 i 的地方保存 i + 1，这样下标 0 应该保存 1，下标 1 应该保存 2，以此类推，当所有的数都哈希完成后重新遍历数组，找到的第一个 nums[i] != i + 1 的数就是答案。<br>
+在交换过程中需要注意以下几点：<br>
+首先 nums[i] 上的值必须在 1 ~ numsLen 之间，也就是说必须要找到能替换的值才能交换；<br>
+如果要交换的那个数 nums[nums[i] - 1] 已经等于当前值 nums[i] 了，此时就没有必要交换了；<br>
+最后这种写法是不断将当前 nums[i] 换到合适的位置，直到不能换位置，因此无需加上 nums[i] == i + 1的判断。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">firstMissingPositive</span><span class="params">(<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> numsLen = nums.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; numsLen; ++i) &#123;</span><br><span class="line">            <span class="keyword">while</span> (nums[i] &gt; <span class="number">0</span> &amp;&amp; nums[i] &lt;= numsLen &amp;&amp; nums[i] != nums[nums[i] - <span class="number">1</span>]) &#123;</span><br><span class="line">                <span class="built_in">std</span>::swap(nums[i], nums[nums[i] - <span class="number">1</span>]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; numsLen; ++i) &#123;</span><br><span class="line">            <span class="keyword">if</span> (nums[i] != i + <span class="number">1</span>)</span><br><span class="line">                <span class="keyword">return</span> i + <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> numsLen + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>LeetCode</category>
+      </categories>
+      <tags>
+        <tag>LeetCode</tag>
+        <tag>Array</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>LCCI 02.01. 移除重复结点</title>
     <url>/posts/6e77f4e/</url>
     <content><![CDATA[<blockquote>
@@ -1221,8 +1261,8 @@ tcp_v4_connect 函数中，首先通过 ip_route_connect 进行路由选择，�
       </categories>
       <tags>
         <tag>Linux</tag>
-        <tag>Linux-Kernel</tag>
         <tag>Socket</tag>
+        <tag>Linux-Kernel</tag>
       </tags>
   </entry>
   <entry>
@@ -1357,8 +1397,8 @@ inet_csk_wait_for_connect 最主要的功能就是等待客户端连接，为了
       </categories>
       <tags>
         <tag>Linux</tag>
-        <tag>Linux-Kernel</tag>
         <tag>Socket</tag>
+        <tag>Linux-Kernel</tag>
       </tags>
   </entry>
   <entry>
@@ -2297,8 +2337,8 @@ C++14 开始，<code>auto</code> 可以用于函数返回值类型的推导，�
       </categories>
       <tags>
         <tag>C/C++</tag>
-        <tag>Multithreading</tag>
         <tag>Inter-Threading-Communication</tag>
+        <tag>Multithreading</tag>
         <tag>Lock</tag>
       </tags>
   </entry>
@@ -2367,8 +2407,8 @@ C++14 开始，<code>auto</code> 可以用于函数返回值类型的推导，�
       </categories>
       <tags>
         <tag>C/C++</tag>
-        <tag>Inter-Threading-Communication</tag>
         <tag>MultiThreading</tag>
+        <tag>Inter-Threading-Communication</tag>
         <tag>Mutex</tag>
       </tags>
   </entry>
