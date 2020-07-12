@@ -1,6 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>LeetCode 0174. 地下层游戏</title>
+    <url>/posts/f7e2068f/</url>
+    <content><![CDATA[<blockquote>
+<ul>
+<li>动态规划</li>
+</ul>
+</blockquote>
+<a id="more"></a>
+<p><strong>题目</strong><br>
+一些恶魔抓住了公主（P）并将她关在了地下城的右下角。地下城是由 M x N 个房间组成的二维网格。我们英勇的骑士（K）最初被安置在左上角的房间里，他必须穿过地下城并通过对抗恶魔来拯救公主。<br>
+骑士的初始健康点数为一个正整数。如果他的健康点数在某一时刻降至 0 或以下，他会立即死亡。<br>
+有些房间由恶魔守卫，因此骑士在进入这些房间时会失去健康点数（若房间里的值为负整数，则表示骑士将损失健康点数）；其他房间要么是空的（房间里的值为 0），要么包含增加骑士健康点数的魔法球（若房间里的值为正整数，则表示骑士将增加健康点数）。<br>
+为了尽快到达公主，骑士决定每次只向右或向下移动一步。<br>
+编写一个函数来计算确保骑士能够拯救到公主所需的最低初始健康点数。<br>
+例如，考虑到如下布局的地下城，如果骑士遵循最佳路径 右 -&gt; 右 -&gt; 下 -&gt; 下，则骑士的初始健康点数至少为 7。</p>
+<p>-2 (K)  -3     3<br>
+-5      -10    1<br>
+10       30   -5 §</p>
+<p>说明:<br>
+骑士的健康点数没有上限。<br>
+任何房间都可能对骑士的健康点数造成威胁，也可能增加骑士的健康点数，包括骑士进入的左上角房间以及公主被监禁的右下角房间。</p>
+<p><strong>思路一：动态规划</strong><br>
+这道题一个比较关键的点就是动态规划必须要从终点开始向起点推导，原因是从起点向终点推的时候有两个相同重要的因素会影响到后续的走向，一个是使得路径和尽量大，另一个是使得到达当前点的初始值尽可能小（否则骑士就要挂在路上了），这两点使得该问题不再是一个无后效性问题，这样是推不出结果的。<br>
+而从终点向起点推导，我们可以假设 dp[i][j] 表示从坐标 (i, j) 到达终点所需的最小初值，这样就无需再关心路径和了，因为只要能到达 (i, j) 并且保证 dp[i][j] 的最小初值，就一定能到达终点。<br>
+下面来看代码的几个细节，首先 dp 矩阵的大小为 (m + 1) * (n + 1)，初始值设置为 INT_MAX，表示任何位置开始的结果都为无穷大，终点 dp[m - 1][n - 1] 是通过 dp[m][n - 1] 和 dp[m - 1][n] 推出来的，而到达终点后需要保证剩余健康点数大于 0，那么要保证 dp[m - 1][n] = dp[m][n - 1] = 1。<br>
+然后找到 dp[i][j] 能够到达的两个点 dp[i + 1][j] 和 dp[i][j + 1]，取它们俩中的较小值，注意这个较小值才是在最终的路径上的，然后减去 dungeon[i][j]，这表示到达坐标 (i, j) 之前需要达到的值，如果小于 1 就取 1。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">calculateMinimumHP</span><span class="params">(<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;&amp; dungeon)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> m = dungeon.<span class="built_in">size</span>(), n = dungeon[<span class="number">0</span>].<span class="built_in">size</span>();</span><br><span class="line">        <span class="function"><span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; <span class="title">dp</span><span class="params">(m + <span class="number">1</span>, <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;(n + <span class="number">1</span>, INT_MAX))</span></span>;</span><br><span class="line">        dp[m - <span class="number">1</span>][n] = dp[m][n - <span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = m - <span class="number">1</span>; i &gt;= <span class="number">0</span>; --i) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = n - <span class="number">1</span>; j &gt;= <span class="number">0</span>; --j) &#123;</span><br><span class="line">                <span class="keyword">int</span> minblood = <span class="built_in">std</span>::<span class="built_in">min</span>(dp[i][j + <span class="number">1</span>], dp[i + <span class="number">1</span>][j]);</span><br><span class="line">                dp[i][j] = <span class="built_in">std</span>::<span class="built_in">max</span>(minblood - dungeon[i][j], <span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[<span class="number">0</span>][<span class="number">0</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>LeetCode</category>
+      </categories>
+      <tags>
+        <tag>LeetCode</tag>
+        <tag>Dynamic-Programming</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>LeetCode 0063. 不同路径 II</title>
+    <url>/posts/d3ae32e8/</url>
+    <content><![CDATA[<blockquote>
+<ul>
+<li>动态规划</li>
+</ul>
+</blockquote>
+<a id="more"></a>
+<p><strong>题目</strong><br>
+一个机器人位于一个 m x n 网格的左上角。机器人每次只能向下或者向右移动一步。机器人试图达到网格的右下角。<br>
+现在考虑网格中有障碍物。那么从左上角到右下角将会有多少条不同的路径？<br>
+网格中的障碍物和空位置分别用 1 和 0 来表示。<br>
+说明：m 和 n 的值均不超过 100。</p>
+<p>示例 1:<br>
+输入:<br>
+[<br>
+  [0,0,0],<br>
+  [0,1,0],<br>
+  [0,0,0]<br>
+]<br>
+输出: 2<br>
+解释:<br>
+3x3 网格的正中间有一个障碍物。<br>
+从左上角到右下角一共有 2 条不同的路径：<br>
+向右 -&gt; 向右 -&gt; 向下 -&gt; 向下<br>
+向下 -&gt; 向下 -&gt; 向右 -&gt; 向右</p>
+<p><strong>思路一：动态规划</strong><br>
+可以用 dp[i][j] 表示从坐标 (0, 0) 到坐标 (i, j) 的路径数量，用 ob[i][j] 表示是否有障碍物。<br>
+由于机器人每次只能向下或者向右移动，可以得出下面的动态规划转移方程：<br>
+dp[i][j] = dp[i - 1][j] + dp[i][j - 1]<br>
+注意上面的方程只在 ob[i][j] != 0 的时候才成立，否则 dp[i][j] = 0。<br>
+看上面的转移方程不难发现，dp 数组中更新的值只依赖它左边和上面的值，那么我们可以用滚动数组对额外空间复杂度进行优化。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">uniquePathsWithObstacles</span><span class="params">(<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;&amp; obstacleGrid)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> m = obstacleGrid.<span class="built_in">size</span>(), n = obstacleGrid[<span class="number">0</span>].<span class="built_in">size</span>();</span><br><span class="line">        <span class="function"><span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">dp</span><span class="params">(n, <span class="number">0</span>)</span></span>;</span><br><span class="line">        dp[<span class="number">0</span>] = (obstacleGrid[<span class="number">0</span>][<span class="number">0</span>] == <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; m; ++i) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; n; ++j) &#123;</span><br><span class="line">                <span class="keyword">if</span> (obstacleGrid[i][j] == <span class="number">1</span>) &#123;</span><br><span class="line">                    dp[j] = <span class="number">0</span>;</span><br><span class="line">                    <span class="keyword">continue</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (j - <span class="number">1</span> &gt;= <span class="number">0</span> &amp;&amp; obstacleGrid[i][j - <span class="number">1</span>] == <span class="number">0</span>) &#123;</span><br><span class="line">                    dp[j] += dp[j - <span class="number">1</span>];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp.back();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>LeetCode</category>
+      </categories>
+      <tags>
+        <tag>LeetCode</tag>
+        <tag>Dynamic-Programming</tag>
+        <tag>Array</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>LeetCode 0209. 长度最小的子数组</title>
+    <url>/posts/66a7e67f/</url>
+    <content><![CDATA[<blockquote>
+<ul>
+<li>双指针</li>
+</ul>
+</blockquote>
+<a id="more"></a>
+<p><strong>题目</strong><br>
+给定一个含有 n 个正整数的数组和一个正整数 s ，找出该数组中满足其和 ≥ s 的长度最小的连续子数组，并返回其长度。如果不存在符合条件的连续子数组，返回 0。</p>
+<p>示例：<br>
+输入：s = 7, nums = [2,3,1,2,4,3]<br>
+输出：2<br>
+解释：子数组 [4,3] 是该条件下的长度最小的连续子数组。</p>
+<p><strong>思路一：双指针滑动窗口</strong><br>
+首先双指针 left 和 right 都指向起始位置，向右移动 right 的同时累加 nums[right] 到 sum 中，如果 sum 小于 s，就继续向右移动 right 并累加 sum，当 sum 大于等于 s 的时候，计算此时 left 到 right 的长度并且取其与 res 的较小值，然后在循环中向右移动 left 并且更新 sum，直到 sum 小于 s 了跳出循环继续向右移动 right，当 right 到达数组最右端后就可以结束循环了。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">minSubArrayLen</span><span class="params">(<span class="keyword">int</span> s, <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> res = INT_MAX, numsLen = nums.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">int</span> left = <span class="number">0</span>, right = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (right &lt; numsLen) &#123;</span><br><span class="line">            sum += nums[right];</span><br><span class="line">            <span class="keyword">while</span> (sum &gt;= s) &#123;</span><br><span class="line">                res = <span class="built_in">std</span>::<span class="built_in">min</span>(res, right - left + <span class="number">1</span>);</span><br><span class="line">                sum -= nums[left];</span><br><span class="line">                left++;</span><br><span class="line">            &#125;</span><br><span class="line">            right++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res == INT_MAX ? <span class="number">0</span> : res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>LeetCode</category>
+      </categories>
+      <tags>
+        <tag>LeetCode</tag>
+        <tag>Array</tag>
+        <tag>Two-Pointers</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>LeetCode 0041. 缺失的第一个正数</title>
     <url>/posts/7531651f/</url>
     <content><![CDATA[<blockquote>
@@ -1261,8 +1370,8 @@ tcp_v4_connect 函数中，首先通过 ip_route_connect 进行路由选择，�
       </categories>
       <tags>
         <tag>Linux</tag>
-        <tag>Socket</tag>
         <tag>Linux-Kernel</tag>
+        <tag>Socket</tag>
       </tags>
   </entry>
   <entry>
@@ -1397,8 +1506,8 @@ inet_csk_wait_for_connect 最主要的功能就是等待客户端连接，为了
       </categories>
       <tags>
         <tag>Linux</tag>
-        <tag>Socket</tag>
         <tag>Linux-Kernel</tag>
+        <tag>Socket</tag>
       </tags>
   </entry>
   <entry>
@@ -2337,8 +2446,8 @@ C++14 开始，<code>auto</code> 可以用于函数返回值类型的推导，�
       </categories>
       <tags>
         <tag>C/C++</tag>
-        <tag>Inter-Threading-Communication</tag>
         <tag>Multithreading</tag>
+        <tag>Inter-Threading-Communication</tag>
         <tag>Lock</tag>
       </tags>
   </entry>
@@ -2407,8 +2516,8 @@ C++14 开始，<code>auto</code> 可以用于函数返回值类型的推导，�
       </categories>
       <tags>
         <tag>C/C++</tag>
-        <tag>MultiThreading</tag>
         <tag>Inter-Threading-Communication</tag>
+        <tag>MultiThreading</tag>
         <tag>Mutex</tag>
       </tags>
   </entry>
