@@ -1462,8 +1462,8 @@ tcp_v4_connect 函数中，首先通过 ip_route_connect 进行路由选择，�
       </categories>
       <tags>
         <tag>Linux</tag>
-        <tag>Socket</tag>
         <tag>Linux-Kernel</tag>
+        <tag>Socket</tag>
       </tags>
   </entry>
   <entry>
@@ -1598,8 +1598,8 @@ inet_csk_wait_for_connect 最主要的功能就是等待客户端连接，为了
       </categories>
       <tags>
         <tag>Linux</tag>
-        <tag>Socket</tag>
         <tag>Linux-Kernel</tag>
+        <tag>Socket</tag>
       </tags>
   </entry>
   <entry>
@@ -2538,8 +2538,8 @@ C++14 开始，<code>auto</code> 可以用于函数返回值类型的推导，�
       </categories>
       <tags>
         <tag>C/C++</tag>
-        <tag>Inter-Threading-Communication</tag>
         <tag>Multithreading</tag>
+        <tag>Inter-Threading-Communication</tag>
         <tag>Lock</tag>
       </tags>
   </entry>
@@ -2608,8 +2608,8 @@ C++14 开始，<code>auto</code> 可以用于函数返回值类型的推导，�
       </categories>
       <tags>
         <tag>C/C++</tag>
-        <tag>MultiThreading</tag>
         <tag>Inter-Threading-Communication</tag>
+        <tag>MultiThreading</tag>
         <tag>Mutex</tag>
       </tags>
   </entry>
