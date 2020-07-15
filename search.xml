@@ -2538,8 +2538,8 @@ C++14 开始，<code>auto</code> 可以用于函数返回值类型的推导，�
       </categories>
       <tags>
         <tag>C/C++</tag>
-        <tag>Multithreading</tag>
         <tag>Inter-Threading-Communication</tag>
+        <tag>Multithreading</tag>
         <tag>Lock</tag>
       </tags>
   </entry>
@@ -2608,8 +2608,8 @@ C++14 开始，<code>auto</code> 可以用于函数返回值类型的推导，�
       </categories>
       <tags>
         <tag>C/C++</tag>
-        <tag>Inter-Threading-Communication</tag>
         <tag>MultiThreading</tag>
+        <tag>Inter-Threading-Communication</tag>
         <tag>Mutex</tag>
       </tags>
   </entry>
