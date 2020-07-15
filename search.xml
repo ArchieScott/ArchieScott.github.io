@@ -1,6 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>LeetCode 0096. 不同的二叉搜索树</title>
+    <url>/posts/62ecdc8d/</url>
+    <content><![CDATA[<blockquote>
+<ul>
+<li>动态规划</li>
+<li>卡特兰数</li>
+</ul>
+</blockquote>
+<a id="more"></a>
+<p><strong>题目</strong><br>
+给定一个整数 n，求以 1 … n 为节点组成的二叉搜索树有多少种？</p>
+<p>示例:<br>
+输入: 3<br>
+输出: 5<br>
+解释:<br>
+给定 n = 3, 一共有 5 种不同结构的二叉搜索树。</p>
+<p><strong>思路一：动态规划</strong><br>
+题目让我们使用 1 到 n 构造二叉搜索树，那么我们可以遍历所有值，将每个值依次作为根结点，那么比它小的就是它的左子树，比它大的就是它的右子树，并且由于根的不同，能够确保每个搜索二叉树都是唯一的。<br>
+我们用一个 dp 数组来保存长度为 n 的序列能构成的不同二叉搜索树的个数，那么 dp[n] 即为所求。<br>
+接下来我们看 dp[n] 依赖什么，不难看出，dp[n] 其实是一组乘积的和：<br>
+<code>dp[0]*dp[n - 1] + dp[1]*dp[n - 2] + dp[2]*dp[n - 3] + ...</code><br>
+注意这里因为少了根节点，所有左右子树的结点和应该是 n - 1，那么其实 dp[n] 就是依赖 dp[0] 到 dp[n - 1]，我们直接从小到大推 dp 矩阵即可。<br>
+其实这道题也是数学上的<strong>卡特兰数</strong>，出栈顺序的问题也可以用卡特兰数来解决，公式如下：<br>
+<code>H(n) = Cn(2n)/(n + 1)</code></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">numTrees</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">dp</span><span class="params">(n + <span class="number">1</span>, <span class="number">0</span>)</span></span>;</span><br><span class="line">        dp[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">        dp[<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">2</span>; i &lt;= n; ++i) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= i; ++j) &#123;</span><br><span class="line">                dp[i] += dp[j - <span class="number">1</span>] * dp[i - j];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[n];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>LeetCode</category>
+      </categories>
+      <tags>
+        <tag>LeetCode</tag>
+        <tag>Dynamic-Programming</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>LeetCode 0120. 三角形最小路径和</title>
     <url>/posts/8844d94a/</url>
     <content><![CDATA[<blockquote>
@@ -1427,8 +1462,8 @@ tcp_v4_connect 函数中，首先通过 ip_route_connect 进行路由选择，�
       </categories>
       <tags>
         <tag>Linux</tag>
-        <tag>Socket</tag>
         <tag>Linux-Kernel</tag>
+        <tag>Socket</tag>
       </tags>
   </entry>
   <entry>
@@ -1563,8 +1598,8 @@ inet_csk_wait_for_connect 最主要的功能就是等待客户端连接，为了
       </categories>
       <tags>
         <tag>Linux</tag>
-        <tag>Socket</tag>
         <tag>Linux-Kernel</tag>
+        <tag>Socket</tag>
       </tags>
   </entry>
   <entry>
