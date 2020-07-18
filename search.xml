@@ -1494,8 +1494,8 @@ tcp_v4_connect 函数中，首先通过 ip_route_connect 进行路由选择，�
       </categories>
       <tags>
         <tag>Linux</tag>
-        <tag>Socket</tag>
         <tag>Linux-Kernel</tag>
+        <tag>Socket</tag>
       </tags>
   </entry>
   <entry>
@@ -1630,8 +1630,8 @@ inet_csk_wait_for_connect 最主要的功能就是等待客户端连接，为了
       </categories>
       <tags>
         <tag>Linux</tag>
-        <tag>Socket</tag>
         <tag>Linux-Kernel</tag>
+        <tag>Socket</tag>
       </tags>
   </entry>
   <entry>
