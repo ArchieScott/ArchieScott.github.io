@@ -3,7 +3,7 @@
   <entry>
     <title>LeetCode 0097. 交错字符串</title>
     <url>/posts/514d6416/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 <ul>
 <li>动态规划</li>
 </ul>
@@ -35,7 +35,7 @@
   <entry>
     <title>LeetCode 0096. 不同的二叉搜索树</title>
     <url>/posts/62ecdc8d/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 <ul>
 <li>动态规划</li>
 <li>卡特兰数</li>
@@ -70,7 +70,7 @@
   <entry>
     <title>LeetCode 0120. 三角形最小路径和</title>
     <url>/posts/8844d94a/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 <ul>
 <li>动态规划</li>
 </ul>
@@ -103,7 +103,7 @@
   <entry>
     <title>老友记：下班偶遇石头哥</title>
     <url>/posts/e0228b39/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 <ul>
 <li>一次意外的重逢</li>
 </ul>
@@ -111,7 +111,7 @@
 <a id="more"></a>
 <p>忙里偷闲，加班累了在深圳湾人才公园跑了五公里步，回公司坐地铁回去。<br>
 没想到竟然在地铁上碰到了半年未见的石头哥，世界还是挺小的，合影留念。<br>
-<img src="https://i.loli.net/2020/07/13/m5XpBb716VrSnat.jpg" alt="DailyLife0001.jpg"></p>
+<img src= "/img/loading.gif" data-src="https://i.loli.net/2020/07/13/m5XpBb716VrSnat.jpg" alt="DailyLife0001.jpg"></p>
 <p>都说遇到老朋友就像邂逅了从前的自己，想到大家上一次一起出去户外已经差不多一年了，心里突然有无限感慨。今天看到了一句很浪漫的话：<br>
 The light you see looking at a star is light that has travelled across the universe and never touched a thing till hitting the back of your eyes.<br>
 你见到的星光穿越整个宇宙，没有碰到任何物体，直到它照进你的眼睛。</p>
@@ -127,7 +127,7 @@ The light you see looking at a star is light that has travelled across the unive
   <entry>
     <title>LeetCode 0174. 地下层游戏</title>
     <url>/posts/f7e2068f/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 <ul>
 <li>动态规划</li>
 </ul>
@@ -164,7 +164,7 @@ The light you see looking at a star is light that has travelled across the unive
   <entry>
     <title>LeetCode 0063. 不同路径 II</title>
     <url>/posts/d3ae32e8/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 <ul>
 <li>动态规划</li>
 </ul>
@@ -208,7 +208,7 @@ dp[i][j] = dp[i - 1][j] + dp[i][j - 1]<br>
   <entry>
     <title>LeetCode 0209. 长度最小的子数组</title>
     <url>/posts/66a7e67f/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 <ul>
 <li>双指针</li>
 </ul>
@@ -236,7 +236,7 @@ dp[i][j] = dp[i - 1][j] + dp[i][j - 1]<br>
   <entry>
     <title>LeetCode 0041. 缺失的第一个正数</title>
     <url>/posts/7531651f/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 <ul>
 <li>原地哈希</li>
 </ul>
@@ -276,7 +276,7 @@ dp[i][j] = dp[i - 1][j] + dp[i][j - 1]<br>
   <entry>
     <title>LCCI 02.01. 移除重复结点</title>
     <url>/posts/6e77f4e/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 <ul>
 <li>使用哈希集合保存遍历结点</li>
 </ul>
@@ -305,7 +305,7 @@ dp[i][j] = dp[i - 1][j] + dp[i][j - 1]<br>
   <entry>
     <title>LeetCode 0139. 单词拆分</title>
     <url>/posts/6477fb26/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 <ul>
 <li>动态规划</li>
 </ul>
@@ -345,7 +345,7 @@ dp[i][j] = dp[i - 1][j] + dp[i][j - 1]<br>
   <entry>
     <title>LeetCode 0016. 最接近的三数之和</title>
     <url>/posts/fffdcab5/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 <ul>
 <li>双指针</li>
 </ul>
@@ -376,7 +376,7 @@ dp[i][j] = dp[i - 1][j] + dp[i][j - 1]<br>
   <entry>
     <title>LeetCode 0067. 二进制求和</title>
     <url>/posts/caaaa3d0/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 <ul>
 <li>模拟二进制加法</li>
 </ul>
@@ -411,7 +411,7 @@ dp[i][j] = dp[i - 1][j] + dp[i][j - 1]<br>
   <entry>
     <title>LCCI 16.18. 模式匹配</title>
     <url>/posts/f7de8451/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 <ul>
 <li>枚举</li>
 </ul>
@@ -455,7 +455,7 @@ dp[i][j] = dp[i - 1][j] + dp[i][j - 1]<br>
   <entry>
     <title>LeetCode 0124. 二叉树中的最大路径和</title>
     <url>/posts/3aca13e1/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 <ul>
 <li>深度优先遍历</li>
 </ul>
@@ -482,7 +482,7 @@ dp[i][j] = dp[i - 1][j] + dp[i][j - 1]<br>
   <entry>
     <title>LeetCode 0010. 正则表达式匹配</title>
     <url>/posts/1d0f76d0/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 <ul>
 <li>动态规划</li>
 <li>回溯算法</li>
@@ -561,7 +561,7 @@ dp[0][j] 只有在类似 “a*b*c*” 这种场合为 true，匹配到空字符�
   <entry>
     <title>LeetCode 0125. 验证回文串</title>
     <url>/posts/a2269cdc/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 <ul>
 <li>双指针</li>
 </ul>
@@ -593,7 +593,7 @@ dp[0][j] 只有在类似 “a*b*c*” 这种场合为 true，匹配到空字符�
   <entry>
     <title>LeetCode 1028. 从先序遍历还原二叉树</title>
     <url>/posts/226d7f4f/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 <ul>
 <li>使用迭代模拟先序遍历的过程</li>
 </ul>
@@ -634,7 +634,7 @@ dp[0][j] 只有在类似 “a*b*c*” 这种场合为 true，匹配到空字符�
   <entry>
     <title>LeetCode 1014. 最佳观光组合</title>
     <url>/posts/91fc620f/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 <ul>
 <li>枚举优化</li>
 </ul>
@@ -665,7 +665,7 @@ dp[0][j] 只有在类似 “a*b*c*” 这种场合为 true，匹配到空字符�
   <entry>
     <title>LeetCode 0297. 二叉树的序列化与反序列化</title>
     <url>/posts/feb973b3/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 <ul>
 <li>二叉树的先序序列化与反序列化</li>
 <li>二叉树的按层序列化与反序列化</li>
@@ -700,7 +700,7 @@ root - rootleft - rootright - rootleftleft -rootleftright…<br>
   <entry>
     <title>LeetCode 0014. 最长公共前缀</title>
     <url>/posts/dd58770a/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 <ul>
 <li>字符串的水平扫描和竖直扫描</li>
 </ul>
@@ -740,7 +740,7 @@ root - rootleft - rootright - rootleftleft -rootleftright…<br>
   <entry>
     <title>LeetCode 1095. 山脉数组中查找目标值</title>
     <url>/posts/be6ffd0a/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 <ul>
 <li>二分查找</li>
 </ul>
@@ -788,7 +788,7 @@ MountainArray.length() - 会返回该数组的长度<br>
   <entry>
     <title>LeetCode 1300. 转变数组后最接近目标值的数组和</title>
     <url>/posts/f69a90a8/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 <ul>
 <li>二分查找</li>
 </ul>
@@ -828,7 +828,7 @@ MountainArray.length() - 会返回该数组的长度<br>
   <entry>
     <title>LeetCode 0070. 爬楼梯</title>
     <url>/posts/cb014bbd/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 <ul>
 <li>动态规划/斐波那契数列</li>
 </ul>
@@ -867,7 +867,7 @@ MountainArray.length() - 会返回该数组的长度<br>
   <entry>
     <title>LeetCode 0015. 三数之和</title>
     <url>/posts/ff4ea7f5/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 <ul>
 <li>双指针</li>
 </ul>
@@ -909,7 +909,7 @@ leftIdx 与 rightIdx 应该一直指向重复字符/已计算字符的下一个�
   <entry>
     <title>LeetCode 0739. 每日温度</title>
     <url>/posts/f0d754cf/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 <ul>
 <li>单调栈</li>
 </ul>
@@ -937,7 +937,7 @@ leftIdx 与 rightIdx 应该一直指向重复字符/已计算字符的下一个�
   <entry>
     <title>LeetCode 0009. 回文数</title>
     <url>/posts/1441cd76/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 <ul>
 <li>反转一半的数字</li>
 </ul>
@@ -972,7 +972,7 @@ leftIdx 与 rightIdx 应该一直指向重复字符/已计算字符的下一个�
   <entry>
     <title>LCOF 046. 把数字翻译成字符串</title>
     <url>/posts/2c3483d5/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 <ul>
 <li>动态规划</li>
 </ul>
@@ -1002,7 +1002,7 @@ leftIdx 与 rightIdx 应该一直指向重复字符/已计算字符的下一个�
   <entry>
     <title>FFmpeg 结构体分析：AVFormatContext</title>
     <url>/posts/a8931316/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 <ul>
 <li>详细分析了 AVFormatContext 结构体中的变量与功能</li>
 </ul>
@@ -1021,7 +1021,7 @@ leftIdx 与 rightIdx 应该一直指向重复字符/已计算字符的下一个�
   <entry>
     <title>FFmpeg 结构体分析：AVStream</title>
     <url>/posts/e1e5fd1d/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 <ul>
 <li>详细分析了 AVStream 结构体中的变量与功能</li>
 </ul>
@@ -1040,7 +1040,7 @@ leftIdx 与 rightIdx 应该一直指向重复字符/已计算字符的下一个�
   <entry>
     <title>LeetCode 0990. 等式方程的可满足性</title>
     <url>/posts/bd1b2c1f/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 <ul>
 <li>并查集</li>
 </ul>
@@ -1092,7 +1092,7 @@ equations[i][2] 是 ‘=’</p>
   <entry>
     <title>LeetCode 0127. 单词接龙</title>
     <url>/posts/50059886/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 <ul>
 <li>双向广度优先遍历</li>
 </ul>
@@ -1141,7 +1141,7 @@ beginSet 中的每个单词都是 wordList 中我们能够通过修改一个字�
   <entry>
     <title>LeetCode 0126. 单词接龙 II</title>
     <url>/posts/2aafb794/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 <ul>
 <li>广度优先遍历</li>
 <li>深度优先遍历</li>
@@ -1195,7 +1195,7 @@ beginSet 中保存的是当前走 n 步后能够到达的单词集合，首先�
   <entry>
     <title>LeetCode 0128. 最长连续序列</title>
     <url>/posts/190e4ad0/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 <ul>
 <li>并查集</li>
 <li>哈希集合</li>
@@ -1233,7 +1233,7 @@ beginSet 中保存的是当前走 n 步后能够到达的单词集合，首先�
   <entry>
     <title>LeetCode 0054. 螺旋矩阵</title>
     <url>/posts/fcfca138/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 <ul>
 <li>按层从外到内依次处理矩阵</li>
 </ul>
@@ -1272,7 +1272,7 @@ beginSet 中保存的是当前走 n 步后能够到达的单词集合，首先�
   <entry>
     <title>LeetCode 0238. 除自身以外数组的乘积</title>
     <url>/posts/cc86ed49/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 <ul>
 <li>前缀积与后缀积</li>
 <li>复用输出数组以保证 O(1) 额外空间复杂度</li>
@@ -1303,7 +1303,7 @@ beginSet 中保存的是当前走 n 步后能够到达的单词集合，首先�
   <entry>
     <title>LeetCode 0837. 新 21 点</title>
     <url>/posts/3da3e5d5/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 <ul>
 <li>从后向前反向递推的动态规划</li>
 </ul>
@@ -1342,7 +1342,7 @@ beginSet 中保存的是当前走 n 步后能够到达的单词集合，首先�
   <entry>
     <title>LCOF 064. 求 1+2+...+n</title>
     <url>/posts/5559b584/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 <ul>
 <li>通过逻辑运算符短路来设置递归终止条件</li>
 </ul>
@@ -1371,7 +1371,7 @@ beginSet 中保存的是当前走 n 步后能够到达的单词集合，首先�
   <entry>
     <title>LeetCode 1431. 拥有最多糖果的孩子</title>
     <url>/posts/d68966ad/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 <ul>
 <li>儿童节快乐！！！</li>
 </ul>
@@ -1406,7 +1406,7 @@ beginSet 中保存的是当前走 n 步后能够到达的单词集合，首先�
   <entry>
     <title>LeetCode 101. 对称二叉树</title>
     <url>/posts/3c1e41f/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 <ul>
 <li>深度优先遍历</li>
 <li>广度优先遍历</li>
@@ -1442,7 +1442,7 @@ beginSet 中保存的是当前走 n 步后能够到达的单词集合，首先�
   <entry>
     <title>浅析 Linux 内核：connect 与三次握手</title>
     <url>/posts/4bc0bb9f/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 <ul>
 <li>剖析 connect 系统调用的内核实现</li>
 <li>剖析内核网络协议栈中三次握手的细节</li>
@@ -1494,14 +1494,14 @@ tcp_v4_connect 函数中，首先通过 ip_route_connect 进行路由选择，�
       </categories>
       <tags>
         <tag>Linux</tag>
-        <tag>Socket</tag>
         <tag>Linux-Kernel</tag>
+        <tag>Socket</tag>
       </tags>
   </entry>
   <entry>
     <title>浅析 Linux 内核：链表的实现</title>
     <url>/posts/e0e3a2af/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 <ul>
 <li>解析 Linux 内核中链表的实现方式</li>
 </ul>
@@ -1536,7 +1536,7 @@ ANSI C 标准允许常量 0 值被强制转换为任何一种类型的指针，<
   <entry>
     <title>浅析 Linux 内核：Socket 的创建与相关系统调用的实现</title>
     <url>/posts/89581d24/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 <ul>
 <li>剖析 socket 系统调用的内核实现</li>
 <li>剖析 bind、listen、accept 系统调用的内核实现</li>
@@ -1630,14 +1630,14 @@ inet_csk_wait_for_connect 最主要的功能就是等待客户端连接，为了
       </categories>
       <tags>
         <tag>Linux</tag>
-        <tag>Socket</tag>
         <tag>Linux-Kernel</tag>
+        <tag>Socket</tag>
       </tags>
   </entry>
   <entry>
     <title>decltype 陷阱</title>
     <url>/posts/a4099fa0/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 <ul>
 <li>decltype 的一般应用场景</li>
 <li>decltype(auto) 的用法示例</li>
@@ -1684,7 +1684,7 @@ inet_csk_wait_for_connect 最主要的功能就是等待客户端连接，为了
   <entry>
     <title>CMake 项目链接时找不到静态库</title>
     <url>/posts/1c6f4546/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 <ul>
 <li>解决 CLion 项目链接时找不到链接库的问题</li>
 </ul>
@@ -1714,7 +1714,7 @@ inet_csk_wait_for_connect 最主要的功能就是等待客户端连接，为了
   <entry>
     <title>Windows 下配置 CLion + Cygwin 开发环境</title>
     <url>/posts/1f8822d7/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 <ul>
 <li>Windows 下配置 CLion Toolchain 为 Cygwin</li>
 </ul>
@@ -1763,7 +1763,7 @@ inet_csk_wait_for_connect 最主要的功能就是等待客户端连接，为了
   <entry>
     <title>C++ Quiz 题解 201~300</title>
     <url>/posts/7651320d/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 <ul>
 <li>C++ Quiz 题解 101~200 整理</li>
 <li>有趣的题目：</li>
@@ -1970,7 +1970,7 @@ x 和 y 在运算之前都会被转换成另外一种类型，在大多数系统
   <entry>
     <title>C++ Quiz 题解 101~200</title>
     <url>/posts/467b42a7/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 <ul>
 <li>C++ Quiz 题解 101~200 整理</li>
 <li>有趣的题目：</li>
@@ -2284,7 +2284,7 @@ C++ 标准规定，出现在不同命名空间范围中的具有相同名称的 
   <entry>
     <title>C++ Quiz 题解 001~100</title>
     <url>/posts/e24af74a/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 <ul>
 <li>C++ Quiz 题解 001~100 整理</li>
 <li>有趣的题目：</li>
@@ -2452,7 +2452,7 @@ C++14 开始，<code>auto</code> 可以用于函数返回值类型的推导，�
   <entry>
     <title>在博客中显示文章阅读量排行</title>
     <url>/posts/a510178f/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 <p>解决 Hexo 博客升级后文章阅读量排行失效的问题</p>
 </blockquote>
 <a id="more"></a>
@@ -2478,7 +2478,7 @@ C++14 开始，<code>auto</code> 可以用于函数返回值类型的推导，�
   <entry>
     <title>C++ 中的 syncPrimitives：lock</title>
     <url>/posts/47473230/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 <ul>
 <li>最基础的锁管理 lock_guard</li>
 <li>支持同时锁定多个互斥量的 lock 方法</li>
@@ -2578,7 +2578,7 @@ C++14 开始，<code>auto</code> 可以用于函数返回值类型的推导，�
   <entry>
     <title>C++ 中的 syncPrimitives：mutex</title>
     <url>/posts/2f6c672d/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 <ul>
 <li>最基础的互斥量 mutex</li>
 <li>能够定时尝试上锁的互斥量 timed_mutex</li>
@@ -2648,7 +2648,7 @@ C++14 开始，<code>auto</code> 可以用于函数返回值类型的推导，�
   <entry>
     <title>C++ 和 Java：区别到底在哪里</title>
     <url>/posts/54e19ff4/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 <ul>
 <li>从语言特性上来说，主要是变量语义与编程范式的区别</li>
 <li>从编码方式上来说，它们申请对象的方式、资源管理、错误处理都不太相同</li>
@@ -2699,7 +2699,7 @@ Java 是将源文件 .java 编译成 .class 字节码，再<strong>通过 Jvm �
   <entry>
     <title>从 RAII 到 smartPtr：智能指针剖析</title>
     <url>/posts/3a3d14bc/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 <ul>
 <li>介绍了 RAII 的基本概念</li>
 <li>介绍了智能指针的基本概念</li>
@@ -2870,7 +2870,7 @@ Java 是将源文件 .java 编译成 .class 字节码，再<strong>通过 Jvm �
   <entry>
     <title>使用简单的逻辑方法进行独立思考【转】</title>
     <url>/posts/8cfab1d1/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 <ul>
 <li>可考证的数据很重要很重要很重要</li>
 <li>理解集合的包含与被包含，以小见大往往不具有科学性严谨性</li>

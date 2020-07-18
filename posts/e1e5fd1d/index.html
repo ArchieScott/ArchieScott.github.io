@@ -1,287 +1,101 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-<meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.ico">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.ico">
-  <link rel="mask-icon" href="/images/newlogo.svg" color="#222">
-
-<link rel="stylesheet" href="/css/main.css">
-
-<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
-
-<script id="hexo-configurations">
-    var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"github.com","root":"/","scheme":"Gemini","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
-  </script>
-
-  <meta name="description" content="详细分析了 AVStream 结构体中的变量与功能">
-<meta property="og:type" content="article">
-<meta property="og:title" content="FFmpeg 结构体分析：AVStream">
-<meta property="og:url" content="https://github.com/ArchieScott/posts/e1e5fd1d/index.html">
-<meta property="og:site_name" content="夏の終わり">
-<meta property="og:description" content="详细分析了 AVStream 结构体中的变量与功能">
-<meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-06-08T15:07:03.000Z">
-<meta property="article:modified_time" content="2020-06-09T15:41:50.502Z">
-<meta property="article:author" content="Archie Scott">
-<meta property="article:tag" content="FFmpeg">
-<meta name="twitter:card" content="summary">
-
-<link rel="canonical" href="https://github.com/ArchieScott/posts/e1e5fd1d/">
-
-
-<script id="page-configurations">
-  // https://hexo.io/docs/variables.html
-  CONFIG.page = {
-    sidebar: "",
-    isHome: false,
-    isPost: true
-  };
-</script>
-
-  <title>FFmpeg 结构体分析：AVStream | 夏の終わり</title>
-  
-
-
-
-
-
-
-  <noscript>
-  <style>
-  .use-motion .brand,
-  .use-motion .menu-item,
-  .sidebar-inner,
-  .use-motion .post-block,
-  .use-motion .pagination,
-  .use-motion .comments,
-  .use-motion .post-header,
-  .use-motion .post-body,
-  .use-motion .collection-header { opacity: initial; }
-
-  .use-motion .site-title,
-  .use-motion .site-subtitle {
-    opacity: initial;
-    top: initial;
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>FFmpeg 结构体分析：AVStream | 夏の終わり</title><meta name="description" content="详细分析了 AVStream 结构体中的变量与功能    AVStream 是存储每一个音视频流信息的结构体，定义位于 avformat.h 文件中。 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656"><meta name="keywords" content="FFmpeg"><meta name="author" content="Archie Scott"><meta name="copyright" content="Archie Scott"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon-32x32.ico"><link rel="canonical" href="https://github.com/ArchieScott/posts/e1e5fd1d/"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin="crossorigin"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta property="og:type" content="article"><meta property="og:title" content="FFmpeg 结构体分析：AVStream"><meta property="og:url" content="https://github.com/ArchieScott/posts/e1e5fd1d/"><meta property="og:site_name" content="夏の終わり"><meta property="og:description" content="详细分析了 AVStream 结构体中的变量与功能    AVStream 是存储每一个音视频流信息的结构体，定义位于 avformat.h 文件中。 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656"><meta property="og:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><meta property="article:published_time" content="2020-06-08T15:07:03.000Z"><meta property="article:modified_time" content="2020-06-09T15:41:50.502Z"><meta name="twitter:card" content="summary"><script>var activateDarkMode = function () {
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#000')
   }
+}
+var activateLightMode = function () {
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#fff')
+  }
+}
 
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
-  </style>
-</noscript>
+var getCookies = function (name) {
+  const value = `; ${document.cookie}`
+  const parts = value.split(`; ${name}=`)
+  if (parts.length === 2) return parts.pop().split(';').shift()
+}
 
-</head>
+var autoChangeMode = 'false'
+var t = getCookies('theme')
+if (autoChangeMode === '1') {
+  var isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+  var isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+  var isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
 
-<body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
-    <div class="headband"></div>
-
-    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-container">
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切换导航栏">
-      <span class="toggle-line toggle-line-first"></span>
-      <span class="toggle-line toggle-line-middle"></span>
-      <span class="toggle-line toggle-line-last"></span>
-    </div>
-  </div>
-
-  <div class="site-meta">
-
-    <div>
-      <a href="/" class="brand" rel="start">
-        <span class="logo-line-before"><i></i></span>
-        <span class="site-title">夏の終わり</span>
-        <span class="logo-line-after"><i></i></span>
-      </a>
-    </div>
-        <p class="site-subtitle">Summer is Over</p>
-  </div>
-
-  <div class="site-nav-right"></div>
-</div>
-
-
-<nav class="site-nav">
-  
-  <ul id="menu" class="menu">
-        <li class="menu-item menu-item-home">
-
-    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
-
-  </li>
-        <li class="menu-item menu-item-top">
-
-    <a href="/top/" rel="section"><i class="fa fa-fw fa-signal"></i>排行</a>
-
-  </li>
-        <li class="menu-item menu-item-about">
-
-    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
-
-  </li>
-        <li class="menu-item menu-item-categories">
-
-    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">9</span></a>
-
-  </li>
-        <li class="menu-item menu-item-archives">
-
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">54</span></a>
-
-  </li>
-        <li class="menu-item menu-item-tags">
-
-    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">40</span></a>
-
-  </li>
-      <li class="menu-item menu-item-search">
-        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
-        </a>
-      </li>
-  </ul>
-
-</nav>
-  <div class="site-search">
-    <div class="popup search-popup">
-    <div class="search-header">
-  <span class="search-icon">
-    <i class="fa fa-search"></i>
-  </span>
-  <div class="search-input-container">
-    <input autocomplete="off" autocorrect="off" autocapitalize="off"
-           placeholder="搜索..." spellcheck="false"
-           type="search" class="search-input">
-  </div>
-  <span class="popup-btn-close">
-    <i class="fa fa-times-circle"></i>
-  </span>
-</div>
-<div id="search-result"></div>
-
-</div>
-<div class="search-pop-overlay"></div>
-
-  </div>
-</div>
-    </header>
-
-    
-  <div class="reading-progress-bar"></div>
-
-  <a href="https://github.com/ArchieScott" class="github-corner" title="进来看看 ((٩(&#x2F;&#x2F;̀Д&#x2F;́&#x2F;)۶))" aria-label="进来看看 ((٩(&#x2F;&#x2F;̀Д&#x2F;́&#x2F;)۶))"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
-
-
-    <main class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
-
-          <div class="content">
-            
-
-  <div class="posts-expand">
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://github.com/ArchieScott/posts/e1e5fd1d/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpeg">
-      <meta itemprop="name" content="Archie Scott">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="夏の終わり">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          FFmpeg 结构体分析：AVStream
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-06-08 23:07:03" itemprop="dateCreated datePublished" datetime="2020-06-08T23:07:03+08:00">2020-06-08</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-06-09 23:41:50" itemprop="dateModified" datetime="2020-06-09T23:41:50+08:00">2020-06-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Audio-Video/" itemprop="url" rel="index">
-                    <span itemprop="name">Audio/Video</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span id="/posts/e1e5fd1d/" class="post-meta-item leancloud_visitors" data-flag-title="FFmpeg 结构体分析：AVStream" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/posts/e1e5fd1d/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/posts/e1e5fd1d/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>8.3k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>8 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-        <blockquote>
+  if (t === undefined) {
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport) {
+      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour <= 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+    }
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+      if (Cookies.get('theme') === undefined) {
+        e.matches ? activateDarkMode() : activateLightMode()
+      }
+    })
+  } else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else if (autoChangeMode === '2') {
+  now = new Date()
+  hour = now.getHours()
+  isNight = hour <= 6 || hour >= 18
+  if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else {
+  if (t === 'dark') activateDarkMode()
+  else if (t === 'light') activateLightMode()
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="prev" title="FFmpeg 结构体分析：AVFormatContext" href="https://github.com/ArchieScott/posts/a8931316/"><link rel="next" title="LeetCode 0990. 等式方程的可满足性" href="https://github.com/ArchieScott/posts/bd1b2c1f/"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  runtime: false,
+  copyright: {"languages":{"author":"作者: Archie Scott","link":"链接: ","source":"来源: 夏の終わり","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  baiduPush: false,
+  highlightCopy: true,
+  highlightLang: true,
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isanchor: false    
+}</script><script>var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isSidebar: false
+  }</script><noscript><style>
+#nav {
+  opacity: 1
+}
+.justified-gallery img{
+  opacity: 1
+}
+</style></noscript><meta name="generator" content="Hexo 4.2.0"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/avatar.jpeg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">54</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">40</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">9</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/top/"><i class="fa-fw fas fa-signal"></i><span> 排行</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page"><i class="fa-fw fas fa-list"></i><span> 娱乐</span><i class="fas fa-chevron-down menus-expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page" href="/Gallery"><i class="fa-fw fas fa-photo-video"></i><span> 照片</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-user"></i><span> 关于我</span></a></div></div></div></div><div id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg)"><nav id="nav"><span class="pull-left" id="blog_name"><a class="blog_title" id="site-name" href="/">夏の終わり</a></span><span class="pull-right menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/top/"><i class="fa-fw fas fa-signal"></i><span> 排行</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page"><i class="fa-fw fas fa-list"></i><span> 娱乐</span><i class="fas fa-chevron-down menus-expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page" href="/Gallery"><i class="fa-fw fas fa-photo-video"></i><span> 照片</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-user"></i><span> 关于我</span></a></div></div><span class="toggle-menu close"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">FFmpeg 结构体分析：AVStream</div></div><div id="post-meta"><div class="meta-firstline"><time class="post-meta__date"><span class="post-meta__date-created" title="发表于 2020-06-08 23:07:03"><i class="far fa-calendar-alt fa-fw"></i> 发表于 2020-06-08</span><span class="post-meta__separator">|</span><span class="post-meta__date-updated" title="更新于 2020-06-09 23:41:50"><i class="fas fa-history fa-fw"></i> 更新于 2020-06-09</span></time><span class="post-meta__categories"><span class="post-meta__separator">|</span><i class="fas fa-inbox fa-fw post-meta__icon"></i><a class="post-meta__categories" href="/categories/Audio-Video/">Audio/Video</a></span></div><div class="meta-secondline"> </div><div class="meta-thirdline"><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta__icon"></i><span>阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-commentcount"></span></div></div></div></header><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><blockquote>
 <ul>
 <li>详细分析了 AVStream 结构体中的变量与功能</li>
 </ul>
@@ -289,347 +103,4 @@
 <a id="more"></a>
 <p>AVStream 是存储每一个音视频流信息的结构体，定义位于 avformat.h 文件中。</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">AVStream</span> &#123;</span></span><br><span class="line">    <span class="comment">// AVFormatContext 结构体中流的索引号, 用于唯一标识该数据流</span></span><br><span class="line">    <span class="keyword">int</span> index;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 指定格式流 ID</span></span><br><span class="line">    <span class="comment">// 解码时由 libavformat 指定</span></span><br><span class="line">    <span class="comment">// 编码时用户指定</span></span><br><span class="line">    <span class="keyword">int</span> id;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> FF_API_LAVF_AVCTX</span></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * @deprecated use the codecpar struct instead</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    attribute_deprecated</span><br><span class="line">    AVCodecContext *codec;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">    <span class="keyword">void</span> *priv_data;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 时间基, PTS 和 DTS 需要通过该值才能转换为真正的时间(PTS * time_base)</span></span><br><span class="line">    <span class="comment">// 解码时由 libavformat 设置</span></span><br><span class="line">    <span class="comment">// 编码时调用者需要在 avformat_write_header 之前设置, 用于向混流器提供所需的时间基</span></span><br><span class="line">    <span class="comment">// 在 avformat_write_header 中, 混流器会使用实际写入文件的时间戳来覆盖该字段</span></span><br><span class="line">    AVRational time_base;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 解码时的展示序列流第一帧的 pts</span></span><br><span class="line">    <span class="keyword">int64_t</span> start_time;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 解码时表示流的持续时间, 如果指定了比特率却没有指定该值, 可以通过比特率和文件大小推算出来</span></span><br><span class="line">    <span class="comment">// 编码时由调用者在 avformat_write_header 之前设置</span></span><br><span class="line">    <span class="keyword">int64_t</span> duration;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 该流中的帧数</span></span><br><span class="line">    <span class="keyword">int64_t</span> nb_frames;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> disposition;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 选择哪些 packet 可以被丢弃, 不需要被分流</span></span><br><span class="line">    <span class="keyword">enum</span> AVDiscard discard;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 采样率, 编码时用户设置, 解码时 libavformat 设置</span></span><br><span class="line">    AVRational sample_aspect_ratio;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 元数据</span></span><br><span class="line">    AVDictionary *metadata;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 平均帧率</span></span><br><span class="line">    <span class="comment">// 分流时由 libavformat 在创建新流或在 avformat_find_stream_info 中设置</span></span><br><span class="line">    <span class="comment">// 混流时由调用者在 avformat_write_header 之前设置</span></span><br><span class="line">    AVRational avg_frame_rate;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 附带的图片, 流需要有 AV_DISPOSITION_ATTACHED_PIC 标志</span></span><br><span class="line">    <span class="comment">// 解码时使用, libavformat 设置</span></span><br><span class="line">    AVPacket attached_pic;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * An array of side data that applies to the whole stream (i.e. the</span></span><br><span class="line"><span class="comment">     * container does not allow it to change between packets).</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * There may be no overlap between the side data in this array and side data</span></span><br><span class="line"><span class="comment">     * in the packets. I.e. a given side data is either exported by the muxer</span></span><br><span class="line"><span class="comment">     * (demuxing) / set by the caller (muxing) in this array, then it never</span></span><br><span class="line"><span class="comment">     * appears in the packets, or the side data is exported / sent through</span></span><br><span class="line"><span class="comment">     * the packets (always in the first packet where the value becomes known or</span></span><br><span class="line"><span class="comment">     * changes), then it does not appear in this array.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * - demuxing: Set by libavformat when the stream is created.</span></span><br><span class="line"><span class="comment">     * - muxing: May be set by the caller before avformat_write_header().</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * Freed by libavformat in avformat_free_context().</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * @see av_format_inject_global_side_data()</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    AVPacketSideData *side_data;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * The number of elements in the AVStream.side_data array.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">int</span>            nb_side_data;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Flags for the user to detect events happening on the stream. Flags must</span></span><br><span class="line"><span class="comment">     * be cleared by the user once the event has been handled.</span></span><br><span class="line"><span class="comment">     * A combination of AVSTREAM_EVENT_FLAG_*.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">int</span> event_flags;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> AVSTREAM_EVENT_FLAG_METADATA_UPDATED 0x0001 <span class="comment">///&lt; The call resulted in updated metadata.</span></span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Real base framerate of the stream.</span></span><br><span class="line"><span class="comment">     * This is the lowest framerate with which all timestamps can be</span></span><br><span class="line"><span class="comment">     * represented accurately (it is the least common multiple of all</span></span><br><span class="line"><span class="comment">     * framerates in the stream). Note, this value is just a guess!</span></span><br><span class="line"><span class="comment">     * For example, if the time base is 1/90000 and all frames have either</span></span><br><span class="line"><span class="comment">     * approximately 3600 or 1800 timer ticks, then r_frame_rate will be 50/1.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    AVRational r_frame_rate;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> FF_API_LAVF_FFSERVER</span></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * String containing pairs of key and values describing recommended encoder configuration.</span></span><br><span class="line"><span class="comment">     * Pairs are separated by ','.</span></span><br><span class="line"><span class="comment">     * Keys are separated from values by '='.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * @deprecated unused</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    attribute_deprecated</span><br><span class="line">    <span class="keyword">char</span> *recommended_encoder_configuration;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Codec parameters associated with this stream. Allocated and freed by</span></span><br><span class="line"><span class="comment">     * libavformat in avformat_new_stream() and avformat_free_context()</span></span><br><span class="line"><span class="comment">     * respectively.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * - demuxing: filled by libavformat on stream creation or in</span></span><br><span class="line"><span class="comment">     *             avformat_find_stream_info()</span></span><br><span class="line"><span class="comment">     * - muxing: filled by the caller before avformat_write_header()</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    AVCodecParameters *codecpar;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*****************************************************************</span></span><br><span class="line"><span class="comment">     * All fields below this line are not part of the public API. They</span></span><br><span class="line"><span class="comment">     * may not be used outside of libavformat and can be changed and</span></span><br><span class="line"><span class="comment">     * removed at will.</span></span><br><span class="line"><span class="comment">     * Internal note: be aware that physically removing these fields</span></span><br><span class="line"><span class="comment">     * will break ABI. Replace removed fields with dummy fields, and</span></span><br><span class="line"><span class="comment">     * add new fields to AVStreamInternal.</span></span><br><span class="line"><span class="comment">     *****************************************************************</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAX_STD_TIMEBASES (30*12+30+3+6)</span></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Stream information used internally by avformat_find_stream_info()</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">        <span class="keyword">int64_t</span> last_dts;</span><br><span class="line">        <span class="keyword">int64_t</span> duration_gcd;</span><br><span class="line">        <span class="keyword">int</span> duration_count;</span><br><span class="line">        <span class="keyword">int64_t</span> rfps_duration_sum;</span><br><span class="line">        <span class="keyword">double</span> (*duration_error)[<span class="number">2</span>][MAX_STD_TIMEBASES];</span><br><span class="line">        <span class="keyword">int64_t</span> codec_info_duration;</span><br><span class="line">        <span class="keyword">int64_t</span> codec_info_duration_fields;</span><br><span class="line">        <span class="keyword">int</span> frame_delay_evidence;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 0  -&gt; decoder has not been searched for yet.</span></span><br><span class="line"><span class="comment">         * &gt;0 -&gt; decoder found</span></span><br><span class="line"><span class="comment">         * &lt;0 -&gt; decoder with codec_id == -found_decoder has not been found</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="keyword">int</span> found_decoder;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int64_t</span> last_duration;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * Those are used for average framerate estimation.</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="keyword">int64_t</span> fps_first_dts;</span><br><span class="line">        <span class="keyword">int</span>     fps_first_dts_idx;</span><br><span class="line">        <span class="keyword">int64_t</span> fps_last_dts;</span><br><span class="line">        <span class="keyword">int</span>     fps_last_dts_idx;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125; *info;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> pts_wrap_bits; <span class="comment">/**&lt; number of bits in pts (used for wrapping control) */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// Timestamp generation support:</span></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Timestamp corresponding to the last dts sync point.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * Initialized when AVCodecParserContext.dts_sync_point &gt;= 0 and</span></span><br><span class="line"><span class="comment">     * a DTS is received from the underlying container. Otherwise set to</span></span><br><span class="line"><span class="comment">     * AV_NOPTS_VALUE by default.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">int64_t</span> first_dts;</span><br><span class="line">    <span class="keyword">int64_t</span> cur_dts;</span><br><span class="line">    <span class="keyword">int64_t</span> last_IP_pts;</span><br><span class="line">    <span class="keyword">int</span> last_IP_duration;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Number of packets to buffer for codec probing</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">int</span> probe_packets;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Number of frames that have been demuxed during avformat_find_stream_info()</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">int</span> codec_info_nb_frames;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* av_read_frame() support */</span></span><br><span class="line">    <span class="keyword">enum</span> AVStreamParseType need_parsing;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">AVCodecParserContext</span> *<span class="title">parser</span>;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * last packet in packet_buffer for this stream when muxing.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">AVPacketList</span> *<span class="title">last_in_packet_buffer</span>;</span></span><br><span class="line">    AVProbeData probe_data;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAX_REORDER_DELAY 16</span></span><br><span class="line">    <span class="keyword">int64_t</span> pts_buffer[MAX_REORDER_DELAY+<span class="number">1</span>];</span><br><span class="line"></span><br><span class="line">    AVIndexEntry *index_entries; <span class="comment">/**&lt; Only used if the format does not</span></span><br><span class="line"><span class="comment">                                    support seeking natively. */</span></span><br><span class="line">    <span class="keyword">int</span> nb_index_entries;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> index_entries_allocated_size;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Stream Identifier</span></span><br><span class="line"><span class="comment">     * This is the MPEG-TS stream identifier +1</span></span><br><span class="line"><span class="comment">     * 0 means unknown</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">int</span> stream_identifier;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Details of the MPEG-TS program which created this stream.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">int</span> program_num;</span><br><span class="line">    <span class="keyword">int</span> pmt_version;</span><br><span class="line">    <span class="keyword">int</span> pmt_stream_idx;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int64_t</span> interleaver_chunk_size;</span><br><span class="line">    <span class="keyword">int64_t</span> interleaver_chunk_duration;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * stream probing state</span></span><br><span class="line"><span class="comment">     * -1   -&gt; probing finished</span></span><br><span class="line"><span class="comment">     *  0   -&gt; no probing requested</span></span><br><span class="line"><span class="comment">     * rest -&gt; perform probing with request_probe being the minimum score to accept.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">int</span> request_probe;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Indicates that everything up to the next keyframe</span></span><br><span class="line"><span class="comment">     * should be discarded.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">int</span> skip_to_keyframe;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Number of samples to skip at the start of the frame decoded from the next packet.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">int</span> skip_samples;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * If not 0, the number of samples that should be skipped from the start of</span></span><br><span class="line"><span class="comment">     * the stream (the samples are removed from packets with pts==0, which also</span></span><br><span class="line"><span class="comment">     * assumes negative timestamps do not happen).</span></span><br><span class="line"><span class="comment">     * Intended for use with formats such as mp3 with ad-hoc gapless audio</span></span><br><span class="line"><span class="comment">     * support.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">int64_t</span> start_skip_samples;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * If not 0, the first audio sample that should be discarded from the stream.</span></span><br><span class="line"><span class="comment">     * This is broken by design (needs global sample count), but can't be</span></span><br><span class="line"><span class="comment">     * avoided for broken by design formats such as mp3 with ad-hoc gapless</span></span><br><span class="line"><span class="comment">     * audio support.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">int64_t</span> first_discard_sample;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * The sample after last sample that is intended to be discarded after</span></span><br><span class="line"><span class="comment">     * first_discard_sample. Works on frame boundaries only. Used to prevent</span></span><br><span class="line"><span class="comment">     * early EOF if the gapless info is broken (considered concatenated mp3s).</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">int64_t</span> last_discard_sample;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Number of internally decoded frames, used internally in libavformat, do not access</span></span><br><span class="line"><span class="comment">     * its lifetime differs from info which is why it is not in that structure.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">int</span> nb_decoded_frames;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Timestamp offset added to timestamps before muxing</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">int64_t</span> mux_ts_offset;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Internal data to check for wrapping of the time stamp</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">int64_t</span> pts_wrap_reference;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Options for behavior, when a wrap is detected.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * Defined by AV_PTS_WRAP_ values.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * If correction is enabled, there are two possibilities:</span></span><br><span class="line"><span class="comment">     * If the first time stamp is near the wrap point, the wrap offset</span></span><br><span class="line"><span class="comment">     * will be subtracted, which will create negative time stamps.</span></span><br><span class="line"><span class="comment">     * Otherwise the offset will be added.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">int</span> pts_wrap_behavior;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Internal data to prevent doing update_initial_durations() twice</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">int</span> update_initial_durations_done;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Internal data to generate dts from pts</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">int64_t</span> pts_reorder_error[MAX_REORDER_DELAY+<span class="number">1</span>];</span><br><span class="line">    <span class="keyword">uint8_t</span> pts_reorder_error_count[MAX_REORDER_DELAY+<span class="number">1</span>];</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Internal data to analyze DTS and detect faulty mpeg streams</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">int64_t</span> last_dts_for_order_check;</span><br><span class="line">    <span class="keyword">uint8_t</span> dts_ordered;</span><br><span class="line">    <span class="keyword">uint8_t</span> dts_misordered;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Internal data to inject global side data</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">int</span> inject_global_side_data;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * display aspect ratio (0 if unknown)</span></span><br><span class="line"><span class="comment">     * - encoding: unused</span></span><br><span class="line"><span class="comment">     * - decoding: Set by libavformat to calculate sample_aspect_ratio internally</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    AVRational display_aspect_ratio;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * An opaque field for libavformat internal usage.</span></span><br><span class="line"><span class="comment">     * Must not be accessed in any way by callers.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    AVStreamInternal *internal;</span><br><span class="line">&#125; AVStream;</span><br></pre></td></tr></table></figure>
-
-    </div>
-
-    
-    
-    <div>
-    
-        <div style="text-align:center;color: #ccc;font-size:14px;">
-        -------------本文结束 <i class="fa fa-paw"></i> 感谢阅读-------------
-        </div>
-    
-</div>
-        <div class="reward-container">
-  <div>赏颗卤蛋呗 ๑乛◡乛๑</div>
-  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
-    打赏
-  </button>
-  <div id="qr" style="display: none;">
-      
-      <div style="display: inline-block;">
-        <img src="/images/wechatpay.png" alt="Archie Scott 微信支付">
-        <p>微信支付</p>
-      </div>
-      
-      <div style="display: inline-block;">
-        <img src="/images/alipay.jpg" alt="Archie Scott 支付宝">
-        <p>支付宝</p>
-      </div>
-
-  </div>
-</div>
-
-        
-
-<div>
-<ul class="post-copyright">
-  <li class="post-copyright-author">
-    <strong>本文作者： </strong>Archie Scott
-  </li>
-  <li class="post-copyright-link">
-    <strong>本文链接：</strong>
-    <a href="https://github.com/ArchieScott/posts/e1e5fd1d/" title="FFmpeg 结构体分析：AVStream">https://github.com/ArchieScott/posts/e1e5fd1d/</a>
-  </li>
-  <li class="post-copyright-license">
-    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
-  </li>
-</ul>
-</div>
-
-
-      <footer class="post-footer">
-          
-          <div class="post-tags">
-              <a href="/tags/FFmpeg/" rel="tag"><i class="fa fa-tag"></i> FFmpeg</a>
-          </div>
-
-        
-
-
-        
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/posts/bd1b2c1f/" rel="prev" title="LeetCode 0990. 等式方程的可满足性">
-      <i class="fa fa-chevron-left"></i> LeetCode 0990. 等式方程的可满足性
-    </a></div>
-      <div class="post-nav-item">
-    <a href="/posts/a8931316/" rel="next" title="FFmpeg 结构体分析：AVFormatContext">
-      FFmpeg 结构体分析：AVFormatContext <i class="fa fa-chevron-right"></i>
-    </a></div>
-    </div>
-      </footer>
-    
-  </article>
-  
-  
-  
-
-  </div>
-
-
-          </div>
-          
-    <div class="comments" id="valine-comments"></div>
-
-<script>
-  window.addEventListener('tabs:register', () => {
-    let activeClass = CONFIG.comments.activeClass;
-    if (CONFIG.comments.storage) {
-      activeClass = localStorage.getItem('comments_active') || activeClass;
-    }
-    if (activeClass) {
-      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
-      if (activeTab) {
-        activeTab.click();
-      }
-    }
-  });
-  if (CONFIG.comments.storage) {
-    window.addEventListener('tabs:click', event => {
-      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      let commentClass = event.target.classList[1];
-      localStorage.setItem('comments_active', commentClass);
-    });
-  }
-</script>
-
-        </div>
-          
-  
-  <div class="toggle sidebar-toggle">
-    <span class="toggle-line toggle-line-first"></span>
-    <span class="toggle-line toggle-line-middle"></span>
-    <span class="toggle-line toggle-line-last"></span>
-  </div>
-
-  <aside class="sidebar">
-    <div class="sidebar-inner">
-
-      <ul class="sidebar-nav motion-element">
-        <li class="sidebar-nav-toc">
-          文章目录
-        </li>
-        <li class="sidebar-nav-overview">
-          站点概览
-        </li>
-      </ul>
-
-      <!--noindex-->
-      <div class="post-toc-wrap sidebar-panel">
-      </div>
-      <!--/noindex-->
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="Archie Scott"
-      src="/images/avatar.jpeg">
-  <p class="site-author-name" itemprop="name">Archie Scott</p>
-  <div class="site-description" itemprop="description"></div>
-</div>
-<div class="site-state-wrap motion-element">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/archives/">
-        
-          <span class="site-state-item-count">54</span>
-          <span class="site-state-item-name">日志</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-            <a href="/categories/">
-          
-        <span class="site-state-item-count">9</span>
-        <span class="site-state-item-name">分类</span></a>
-      </div>
-      <div class="site-state-item site-state-tags">
-            <a href="/tags/">
-          
-        <span class="site-state-item-count">40</span>
-        <span class="site-state-item-name">标签</span></a>
-      </div>
-  </nav>
-</div>
-  <div class="links-of-author motion-element">
-      <span class="links-of-author-item">
-        <a href="https://github.com/ArchScott" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ArchScott"><i class="fa fa-fw fa-github"></i></a>
-      </span>
-      <span class="links-of-author-item">
-        <a href="mailto:zhousc91@163.com" title="E-Mail → mailto:zhousc91@163.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i></a>
-      </span>
-      <span class="links-of-author-item">
-        <a href="https://steamcommunity.com/id/zhousc91/" title="steam → https:&#x2F;&#x2F;steamcommunity.com&#x2F;id&#x2F;zhousc91&#x2F;" rel="noopener" target="_blank"><i class="fa fa-fw fa-steam"></i></a>
-      </span>
-      <span class="links-of-author-item">
-        <a href="https://blog.csdn.net/zhousc91" title="csdn → https:&#x2F;&#x2F;blog.csdn.net&#x2F;zhousc91" rel="noopener" target="_blank"><i class="fa fa-fw fa-contao"></i></a>
-      </span>
-  </div>
-  <div class="cc-license motion-element" itemprop="license">
-    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
-  </div>
-
-
-
-      </div>
-        <div class="back-to-top motion-element">
-          <i class="fa fa-arrow-up"></i>
-          <span>0%</span>
-        </div>
-
-    </div>
-  </aside>
-  <div id="sidebar-dimmer"></div>
-
-
-      </div>
-    </main>
-
-    <footer class="footer">
-      <div class="footer-inner">
-        
-
-<div class="copyright">
-  
-  &copy; 2019 – 
-  <span itemprop="copyrightYear">2020</span>
-  <span class="with-love">
-    <i class="fa fa-battery-1"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Archie Scott</span>
-    <span class="post-meta-divider">|</span>
-    <span class="post-meta-item-icon">
-      <i class="fa fa-area-chart"></i>
-    </span>
-      <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">219k</span>
-    <span class="post-meta-divider">|</span>
-    <span class="post-meta-item-icon">
-      <i class="fa fa-coffee"></i>
-    </span>
-      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">3:19</span>
-</div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.0
-  </div>
-  <span class="post-meta-divider">|</span>
-  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.1
-  </div>
-
-        
-<div class="busuanzi-count">
-  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
-      <span class="post-meta-item-icon">
-        <i class="fa fa-user"></i>
-      </span>
-      <span class="site-uv" title="总访客量">
-        <span id="busuanzi_value_site_uv"></span>
-      </span>
-    </span>
-    <span class="post-meta-divider">|</span>
-    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
-      <span class="post-meta-item-icon">
-        <i class="fa fa-eye"></i>
-      </span>
-      <span class="site-pv" title="总访问量">
-        <span id="busuanzi_value_site_pv"></span>
-      </span>
-    </span>
-</div>
-
-
-
-
-
-
-
-
-      </div>
-    </footer>
-  </div>
-
-  
-  
-  <script color='0,0,255' opacity='0.6' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
-  <script src="/lib/anime.min.js"></script>
-  <script src="/lib/velocity/velocity.min.js"></script>
-  <script src="/lib/velocity/velocity.ui.min.js"></script>
-
-<script src="/js/utils.js"></script>
-
-<script src="/js/motion.js"></script>
-
-
-<script src="/js/schemes/pisces.js"></script>
-
-
-<script src="/js/next-boot.js"></script>
-
-
-
-
-  
-  <script>
-    (function(){
-      var bp = document.createElement('script');
-      var curProtocol = window.location.protocol.split(':')[0];
-      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
-      var s = document.getElementsByTagName("script")[0];
-      s.parentNode.insertBefore(bp, s);
-    })();
-  </script>
-
-
-
-
-  
-<script src="/js/local-search.js"></script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-  
-
-
-<script>
-NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
-  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
-    var GUEST = ['nick', 'mail', 'link'];
-    var guest = 'nick,mail,link';
-    guest = guest.split(',').filter(item => {
-      return GUEST.includes(item);
-    });
-    new Valine({
-      el         : '#valine-comments',
-      verify     : false,
-      notify     : false,
-      appId      : '8Q0H1FlCSwH5h7HQWC46LjKJ-MdYXbMMI',
-      appKey     : 'j08JUoxyhUwEvKHN2JOA6w98',
-      placeholder: "404 Not Found",
-      avatar     : 'mm',
-      meta       : guest,
-      pageSize   : '10' || 10,
-      visitor    : true,
-      lang       : 'zh-cn' || 'zh-cn',
-      path       : location.pathname,
-      recordIP   : true,
-      serverURLs : ''
-    });
-  }, window.Valine);
-});
-</script>
-
-<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false});</script></body>
-</html>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Archie Scott</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://github.com/ArchieScott/posts/e1e5fd1d/">https://github.com/ArchieScott/posts/e1e5fd1d/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://github.com/ArchieScott" target="_blank">夏の終わり</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/FFmpeg/">FFmpeg</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"/><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js"></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/a8931316/"><img class="prev-cover" data-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">FFmpeg 结构体分析：AVFormatContext</div></div></a></div><div class="next-post pull-right"><a href="/posts/bd1b2c1f/"><img class="next-cover" data-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">LeetCode 0990. 等式方程的可满足性</div></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts_list"><div class="relatedPosts_item"><a href="/posts/a8931316/" title="FFmpeg 结构体分析：AVFormatContext"><img class="relatedPosts_cover" data-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="far fa-calendar-alt fa-fw"></i> 2020-06-08</div><div class="relatedPosts_title">FFmpeg 结构体分析：AVFormatContext</div></div></a></div></div></div></article></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2020 By Archie Scott</div><div class="framework-info"><span>驱动 </span><a href="https://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly"><span>Butterfly</span></a></div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><button id="readmode" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="font_plus" title="放大字体"><i class="fas fa-plus"></i></button><button id="font_minus" title="缩小字体"><i class="fas fa-minus"></i></button><button class="translate_chn_to_cht" id="translateLink" title="简繁转换">繁</button><button id="darkmode" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" title="设置"><i class="fas fa-cog"></i></button><button id="go-up" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module" defer></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js" async></script><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false});</script></body></html>
