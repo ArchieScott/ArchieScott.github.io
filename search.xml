@@ -164,27 +164,20 @@ The light you see looking at a star is light that has travelled across the unive
   <entry>
     <title>LeetCode 0174. 地下层游戏</title>
     <url>/posts/f7e2068f/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><blockquote>
-<ul>
-<li>动态规划</li>
-</ul>
-</blockquote>
-<a id="more"></a>
-<p><strong>题目</strong><br>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h3 id="题目">题目</h3>
+<p><a href="https://leetcode-cn.com/problems/dungeon-game/" target="_blank" rel="noopener">题目链接</a><br>
 一些恶魔抓住了公主（P）并将她关在了地下城的右下角。地下城是由 M x N 个房间组成的二维网格。我们英勇的骑士（K）最初被安置在左上角的房间里，他必须穿过地下城并通过对抗恶魔来拯救公主。<br>
 骑士的初始健康点数为一个正整数。如果他的健康点数在某一时刻降至 0 或以下，他会立即死亡。<br>
 有些房间由恶魔守卫，因此骑士在进入这些房间时会失去健康点数（若房间里的值为负整数，则表示骑士将损失健康点数）；其他房间要么是空的（房间里的值为 0），要么包含增加骑士健康点数的魔法球（若房间里的值为正整数，则表示骑士将增加健康点数）。<br>
 为了尽快到达公主，骑士决定每次只向右或向下移动一步。<br>
 编写一个函数来计算确保骑士能够拯救到公主所需的最低初始健康点数。<br>
 例如，考虑到如下布局的地下城，如果骑士遵循最佳路径 右 -&gt; 右 -&gt; 下 -&gt; 下，则骑士的初始健康点数至少为 7。</p>
-<p>-2 (K)  -3     3<br>
--5      -10    1<br>
-10       30   -5 §</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="number">-2</span> (K)  <span class="number">-3</span>     <span class="number">3</span></span><br><span class="line"><span class="number">-5</span>      <span class="number">-10</span>    <span class="number">1</span></span><br><span class="line"><span class="number">10</span>       <span class="number">30</span>   <span class="number">-5</span> (P)</span><br></pre></td></tr></table></figure>
 <p>说明:<br>
 骑士的健康点数没有上限。<br>
 任何房间都可能对骑士的健康点数造成威胁，也可能增加骑士的健康点数，包括骑士进入的左上角房间以及公主被监禁的右下角房间。</p>
-<p><strong>思路一：动态规划</strong><br>
-这道题一个比较关键的点就是动态规划必须要从终点开始向起点推导，原因是从起点向终点推的时候有两个相同重要的因素会影响到后续的走向，一个是使得路径和尽量大，另一个是使得到达当前点的初始值尽可能小（否则骑士就要挂在路上了），这两点使得该问题不再是一个无后效性问题，这样是推不出结果的。<br>
+<h3 id="思路一：动态规划">思路一：动态规划</h3>
+<p>这道题一个比较关键的点就是动态规划必须要从终点开始向起点推导，原因是从起点向终点推的时候有两个相同重要的因素会影响到后续的走向，一个是使得路径和尽量大，另一个是使得到达当前点的初始值尽可能小（否则骑士就要挂在路上了），这两点使得该问题不再是一个无后效性问题，这样是推不出结果的。<br>
 而从终点向起点推导，我们可以假设 dp[i][j] 表示从坐标 (i, j) 到达终点所需的最小初值，这样就无需再关心路径和了，因为只要能到达 (i, j) 并且保证 dp[i][j] 的最小初值，就一定能到达终点。<br>
 下面来看代码的几个细节，首先 dp 矩阵的大小为 (m + 1) * (n + 1)，初始值设置为 INT_MAX，表示任何位置开始的结果都为无穷大，终点 dp[m - 1][n - 1] 是通过 dp[m][n - 1] 和 dp[m - 1][n] 推出来的，而到达终点后需要保证剩余健康点数大于 0，那么要保证 dp[m - 1][n] = dp[m][n - 1] = 1。<br>
 然后找到 dp[i][j] 能够到达的两个点 dp[i + 1][j] 和 dp[i][j + 1]，取它们俩中的较小值，注意这个较小值才是在最终的路径上的，然后减去 dungeon[i][j]，这表示到达坐标 (i, j) 之前需要达到的值，如果小于 1 就取 1。</p>
@@ -245,20 +238,15 @@ dp[i][j] = dp[i - 1][j] + dp[i][j - 1]<br>
   <entry>
     <title>LeetCode 0209. 长度最小的子数组</title>
     <url>/posts/66a7e67f/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><blockquote>
-<ul>
-<li>双指针</li>
-</ul>
-</blockquote>
-<a id="more"></a>
-<p><strong>题目</strong><br>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h3 id="题目">题目</h3>
+<p><a href="https://leetcode-cn.com/problems/minimum-size-subarray-sum/" target="_blank" rel="noopener">题目链接</a><br>
 给定一个含有 n 个正整数的数组和一个正整数 s ，找出该数组中满足其和 ≥ s 的长度最小的连续子数组，并返回其长度。如果不存在符合条件的连续子数组，返回 0。</p>
 <p>示例：<br>
 输入：s = 7, nums = [2,3,1,2,4,3]<br>
 输出：2<br>
 解释：子数组 [4,3] 是该条件下的长度最小的连续子数组。</p>
-<p><strong>思路一：双指针滑动窗口</strong><br>
-首先双指针 left 和 right 都指向起始位置，向右移动 right 的同时累加 nums[right] 到 sum 中，如果 sum 小于 s，就继续向右移动 right 并累加 sum，当 sum 大于等于 s 的时候，计算此时 left 到 right 的长度并且取其与 res 的较小值，然后在循环中向右移动 left 并且更新 sum，直到 sum 小于 s 了跳出循环继续向右移动 right，当 right 到达数组最右端后就可以结束循环了。</p>
+<h3 id="思路一：双指针滑动窗口">思路一：双指针滑动窗口</h3>
+<p>首先双指针 left 和 right 都指向起始位置，向右移动 right 的同时累加 nums[right] 到 sum 中，如果 sum 小于 s，就继续向右移动 right 并累加 sum，当 sum 大于等于 s 的时候，计算此时 left 到 right 的长度并且取其与 res 的较小值，然后在循环中向右移动 left 并且更新 sum，直到 sum 小于 s 了跳出循环继续向右移动 right，当 right 到达数组最右端后就可以结束循环了。</p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">minSubArrayLen</span><span class="params">(<span class="keyword">int</span> s, <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> res = INT_MAX, numsLen = nums.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">int</span> left = <span class="number">0</span>, right = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (right &lt; numsLen) &#123;</span><br><span class="line">            sum += nums[right];</span><br><span class="line">            <span class="keyword">while</span> (sum &gt;= s) &#123;</span><br><span class="line">                res = <span class="built_in">std</span>::<span class="built_in">min</span>(res, right - left + <span class="number">1</span>);</span><br><span class="line">                sum -= nums[left];</span><br><span class="line">                left++;</span><br><span class="line">            &#125;</span><br><span class="line">            right++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res == INT_MAX ? <span class="number">0</span> : res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
@@ -342,13 +330,8 @@ dp[i][j] = dp[i - 1][j] + dp[i][j - 1]<br>
   <entry>
     <title>LeetCode 0139. 单词拆分</title>
     <url>/posts/6477fb26/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><blockquote>
-<ul>
-<li>动态规划</li>
-</ul>
-</blockquote>
-<a id="more"></a>
-<p><strong>题目</strong><br>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h3 id="题目">题目</h3>
+<p><a href="https://leetcode-cn.com/problems/word-break/" target="_blank" rel="noopener">题目链接</a><br>
 给定一个非空字符串 s 和一个包含非空单词列表的字典 wordDict，判定 s 是否可以被空格拆分为一个或多个在字典中出现的单词。</p>
 <p>说明：<br>
 拆分时可以重复使用字典中的单词。<br>
@@ -365,8 +348,8 @@ dp[i][j] = dp[i - 1][j] + dp[i][j - 1]<br>
 <p>示例 3：<br>
 输入: s = “catsandog”, wordDict = [“cats”, “dog”, “sand”, “and”, “cat”]<br>
 输出: false</p>
-<p><strong>思路一：动态规划</strong><br>
-我们用一个长度为 s.size() + 1 的 dp 数组来表示字符串的前 i 个字符能否在 wordDict 中查找到，为了便于查找，我们将 wordDict 先放入一个 unordered_set 中。<br>
+<h3 id="思路一：动态规划">思路一：动态规划</h3>
+<p>我们用一个长度为 s.size() + 1 的 dp 数组来表示字符串的前 i 个字符能否在 wordDict 中查找到，为了便于查找，我们将 wordDict 先放入一个 unordered_set 中。<br>
 假设 dp[i] 为 true，说明 s 的前 i 个字符能够在 wordSet 中查找到，那么对于大于 i 的 j 来说，dp[j] 是否为 true 取决于 s.substr(i, j - i) 这个字符串能否在 wordSet 中查找到。<br>
 那么答案就显而易见了，我们从左到右更新 dp 数组，先逐个确定字符串的左半部分，然后依次判断右半部分是否在 wordSet 中，最后的 dp[s.size()] 即为答案。</p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">wordBreak</span><span class="params">(<span class="built_in">std</span>::<span class="built_in">string</span> s, <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;&amp; wordDict)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (wordDict.empty())</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="function"><span class="built_in">std</span>::<span class="built_in">unordered_set</span>&lt;<span class="built_in">std</span>::<span class="built_in">string</span>&gt; <span class="title">wordSet</span><span class="params">(wordDict.<span class="built_in">begin</span>(), wordDict.<span class="built_in">end</span>())</span></span>;</span><br><span class="line">        <span class="function"><span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">bool</span>&gt; <span class="title">dp</span><span class="params">(s.<span class="built_in">size</span>() + <span class="number">1</span>, <span class="literal">false</span>)</span></span>;</span><br><span class="line">        dp[<span class="number">0</span>] = <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; s.<span class="built_in">size</span>(); ++i) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = i + <span class="number">1</span>; j &lt;= s.<span class="built_in">size</span>(); ++j) &#123;</span><br><span class="line">                <span class="keyword">if</span> (i &gt; <span class="number">0</span> &amp;&amp; !dp[i])</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">if</span> (wordSet.<span class="built_in">find</span>(s.substr(i, j - i)) != wordSet.<span class="built_in">end</span>())</span><br><span class="line">                    dp[j] = <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[s.<span class="built_in">size</span>()];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
@@ -692,26 +675,20 @@ dp[0][j] 只有在类似 “a*b*c*” 这种场合为 true，匹配到空字符�
   <entry>
     <title>LeetCode 0297. 二叉树的序列化与反序列化</title>
     <url>/posts/feb973b3/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><blockquote>
-<ul>
-<li>二叉树的先序序列化与反序列化</li>
-<li>二叉树的按层序列化与反序列化</li>
-</ul>
-</blockquote>
-<a id="more"></a>
-<p><strong>题目</strong><br>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h3 id="题目">题目</h3>
+<p><a href="https://leetcode-cn.com/problems/serialize-and-deserialize-binary-tree/" target="_blank" rel="noopener">题目链接</a><br>
 序列化是将一个数据结构或者对象转换为连续的比特位的操作，进而可以将转换后的数据存储在一个文件或者内存中，同时也可以通过网络传输到另一个计算机环境，采取相反方式重构得到原数据。<br>
 请设计一个算法来实现二叉树的序列化与反序列化。这里不限定你的序列 / 反序列化算法执行逻辑，你只需要保证一个二叉树可以被序列化为一个字符串并且将这个字符串反序列化为原始的树结构。</p>
-<p><strong>思路一：按层序列化与反序列化</strong><br>
-按层序列化的过程其实就是 BFS 遍历二叉树的过程。<br>
+<h3 id="思路一：按层序列化与反序列化">思路一：按层序列化与反序列化</h3>
+<p>按层序列化的过程其实就是 BFS 遍历二叉树的过程。<br>
 首先将 root 入队，然后出队时依次将它的左右子结点入队，需要注意 nullptr 也要入队（用 ‘#’ 表示），不然在序列化后的字符串中无法区分左右结点。结点与结点之间需要加符号分隔，这里使用的是 ‘!’，最后返回得到的字符串。<br>
 反序列化需要按照序列化的方法来进行，也就是说怎么序列化就怎么反序列化。首先我们使用 left 和 right 两个 index 将每个结点按照 ‘!’ 依次分隔出来，循环开始时先要令 right = left，从 left 处开始分隔，这里需要注意的是可能存在负数，因此最后分出来的 val 还需要乘以 sign。<br>
 确认结点值后按照顺序将分隔出来的结点值 new 出 TreeNode 放入 vector 中，不难看出 nodeVec[0] 就是 root，后面的顺序正好是按照二叉树层序遍历的顺序排列的，即：<br>
 root - rootleft - rootright - rootleftleft -rootleftright…<br>
 依次恢复即可。</p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">TreeNode</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> val;</span><br><span class="line">    TreeNode *left;</span><br><span class="line">    TreeNode *right;</span><br><span class="line">    TreeNode(<span class="keyword">int</span> x) : val(x), left(<span class="literal">NULL</span>), right(<span class="literal">NULL</span>) &#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Codec</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="built_in">std</span>::<span class="built_in">string</span> <span class="title">serialize</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">string</span> res;</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">queue</span>&lt;TreeNode*&gt; nodeQueue;</span><br><span class="line">        nodeQueue.push(root);</span><br><span class="line">        <span class="keyword">while</span> (!nodeQueue.empty()) &#123;</span><br><span class="line">            TreeNode* curNode = nodeQueue.front();</span><br><span class="line">            nodeQueue.pop();</span><br><span class="line">            <span class="keyword">if</span> (curNode) &#123;</span><br><span class="line">                res += <span class="built_in">std</span>::to_string(curNode-&gt;val) + <span class="string">'!'</span>;</span><br><span class="line">                nodeQueue.push(curNode-&gt;left);</span><br><span class="line">                nodeQueue.push(curNode-&gt;right);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                res += <span class="string">"#!"</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function">TreeNode* <span class="title">deserialize</span><span class="params">(<span class="built_in">std</span>::<span class="built_in">string</span> data)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;TreeNode*&gt; nodeVec;</span><br><span class="line">        <span class="keyword">int</span> left = <span class="number">0</span>, right = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (left &lt; data.<span class="built_in">size</span>()) &#123;</span><br><span class="line">            right = left;</span><br><span class="line">            <span class="keyword">while</span> (data[right] != <span class="string">'!'</span>) &#123;</span><br><span class="line">                right++;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (data[left] == <span class="string">'#'</span>) &#123;</span><br><span class="line">                nodeVec.push_back(<span class="literal">nullptr</span>);</span><br><span class="line">                left = right + <span class="number">1</span>;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">int</span> curVal = <span class="number">0</span>, sign = <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">if</span> (left &lt; right &amp;&amp; data[left] == <span class="string">'-'</span>) &#123;</span><br><span class="line">                sign = <span class="number">-1</span>;</span><br><span class="line">                left++;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">while</span> (left &lt; right) &#123;</span><br><span class="line">                curVal = curVal * <span class="number">10</span> + data[left] - <span class="string">'0'</span>;</span><br><span class="line">                left++;</span><br><span class="line">            &#125;</span><br><span class="line">            curVal *= sign;</span><br><span class="line">            nodeVec.emplace_back(<span class="keyword">new</span> TreeNode(curVal));</span><br><span class="line">            left = right + <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        TreeNode* root = nodeVec[<span class="number">0</span>];</span><br><span class="line">        TreeNode* curNode = root;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>, j = <span class="number">1</span>; i &lt; nodeVec.<span class="built_in">size</span>(), j &lt; nodeVec.<span class="built_in">size</span>(); ++i) &#123;</span><br><span class="line">            <span class="keyword">if</span> (!curNode) &#123;</span><br><span class="line">                curNode = nodeVec[i];</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            curNode-&gt;left = nodeVec[j];</span><br><span class="line">            curNode-&gt;right = nodeVec[j + <span class="number">1</span>];</span><br><span class="line">            <span class="comment">// 连接完更新下一次连接的父结点</span></span><br><span class="line">            curNode = nodeVec[i];</span><br><span class="line">            j += <span class="number">2</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> root;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p><strong>思路二：先序序列化与反序列化</strong><br>
-先序序列化的方法和层序序列化的思想是一样的，仍然是如何序列化就如何反序列化。<br>
+<h3 id="思路二：先序序列化与反序列化">思路二：先序序列化与反序列化</h3>
+<p>先序序列化的方法和层序序列化的思想是一样的，仍然是如何序列化就如何反序列化。<br>
 先序遍历的代码就不多说了，要点和上面一样。<br>
 在反序列化的时候，我们每次都解析出一个结点，并且在递归的时候将 idx 索引不断向后移动，因此在递归函数的同一层中，指向左结点和右结点的 idx 是不同的，这里有点类似迭代，因此我们需要将 idx 的引用传入。</p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">TreeNode</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> val;</span><br><span class="line">    TreeNode *left;</span><br><span class="line">    TreeNode *right;</span><br><span class="line">    TreeNode(<span class="keyword">int</span> x) : val(x), left(<span class="literal">NULL</span>), right(<span class="literal">NULL</span>) &#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Codec</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="built_in">std</span>::<span class="built_in">string</span> <span class="title">serialize</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!root)</span><br><span class="line">            <span class="keyword">return</span> <span class="string">"#!"</span>;</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">string</span> res = <span class="built_in">std</span>::to_string(root-&gt;val) + <span class="string">"!"</span>;</span><br><span class="line">        res += serialize(root-&gt;left);</span><br><span class="line">        res += serialize(root-&gt;right);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function">TreeNode* <span class="title">deserialize</span><span class="params">(<span class="built_in">std</span>::<span class="built_in">string</span> data)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> idx = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">return</span> dfs(data, idx);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function">TreeNode* <span class="title">dfs</span><span class="params">(<span class="built_in">std</span>::<span class="built_in">string</span>&amp; data, <span class="keyword">int</span>&amp; idx)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (idx &gt;= data.<span class="built_in">size</span>())</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">nullptr</span>;</span><br><span class="line">        <span class="keyword">if</span> (data[idx] == <span class="string">'#'</span>) &#123;</span><br><span class="line">            idx += <span class="number">2</span>;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">nullptr</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> curVal = <span class="number">0</span>, sign = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span> (data[idx] == <span class="string">'-'</span>) &#123;</span><br><span class="line">            sign = <span class="number">-1</span>;</span><br><span class="line">            idx++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span> (data[idx] != <span class="string">'!'</span>) &#123;</span><br><span class="line">            curVal = curVal * <span class="number">10</span> + data[idx] - <span class="string">'0'</span>;</span><br><span class="line">            idx++;</span><br><span class="line">        &#125;</span><br><span class="line">        curVal *= sign;</span><br><span class="line">        idx++;</span><br><span class="line">        TreeNode* node = <span class="keyword">new</span> TreeNode(curVal);</span><br><span class="line">        node-&gt;left = dfs(data, idx);</span><br><span class="line">        node-&gt;right = dfs(data, idx);</span><br><span class="line">        <span class="keyword">return</span> node;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
@@ -1202,29 +1179,23 @@ beginSet 中保存的是当前走 n 步后能够到达的单词集合，首先�
   <entry>
     <title>LeetCode 0128. 最长连续序列</title>
     <url>/posts/190e4ad0/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><blockquote>
-<ul>
-<li>并查集</li>
-<li>哈希集合</li>
-</ul>
-</blockquote>
-<a id="more"></a>
-<p><strong>题目</strong><br>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h3 id="题目">题目</h3>
+<p><a href="https://leetcode-cn.com/problems/longest-consecutive-sequence/" target="_blank" rel="noopener">题目链接</a><br>
 给定一个未排序的整数数组，找出最长连续序列的长度。<br>
 要求算法的时间复杂度为 O(n)。</p>
 <p>示例:<br>
 输入: [100, 4, 200, 1, 3, 2]<br>
 输出: 4<br>
 解释: 最长连续序列是 [1, 2, 3, 4]。它的长度为 4。</p>
-<p><strong>思路一：哈希集合</strong><br>
-暴力解法的缺陷在于一个被统计过的序列可能还会被统计多次。<br>
-首先我们将 nums 数组中的所有数去重放入哈希集合中，然后有一个很简单的方法来判断某一个数是否在某个队列中被统计过了：<br>
-对于集合中的一个元素 elem 来说，如果 elem - 1 也在集合中，那么 elem 以及被统计过了，直接判断下一个元素；<br>
+<h3 id="思路一：哈希集合">思路一：哈希集合</h3>
+<p>暴力解法的缺陷在于一个被统计过的序列可能还会被统计多次。<br>
+首先我们<strong>将 nums 数组中的所有数去重</strong>放入哈希集合中，然后有一个很简单的方法来判断某一个数是否在某个队列中被统计过了：<br>
+对于集合中的一个元素 elem 来说，如果 elem - 1 也在集合中，那么 elem 已经被统计过了，直接判断下一个元素；<br>
 如果 elem - 1 不在 numSet 中，这个 elem 就是某个序列的起始点，依次增加 elem 并在 numSet 中查找，直到找不到，计算当前的长度；<br>
 遍历完 numSet，也就找到了最长的连续序列。</p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">longestConsecutive</span><span class="params">(<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="built_in">std</span>::<span class="built_in">unordered_set</span>&lt;<span class="keyword">int</span>&gt; <span class="title">numSet</span><span class="params">(nums.<span class="built_in">begin</span>(), nums.<span class="built_in">end</span>())</span></span>;</span><br><span class="line">        <span class="keyword">int</span> res = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">auto</span> elem : numSet) &#123;</span><br><span class="line">            <span class="keyword">if</span> (!numSet.count(elem - <span class="number">1</span>)) &#123;</span><br><span class="line">                <span class="keyword">int</span> curLen = <span class="number">1</span>;</span><br><span class="line">                <span class="keyword">while</span> (numSet.<span class="built_in">find</span>(elem + <span class="number">1</span>) != numSet.<span class="built_in">end</span>()) &#123;</span><br><span class="line">                    elem++;</span><br><span class="line">                    curLen++;</span><br><span class="line">                &#125;</span><br><span class="line">                res = <span class="built_in">std</span>::<span class="built_in">max</span>(res, curLen);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p><strong>思路二：并查集</strong><br>
-对于 nums 中的每一个元素 elem，我们都在 ufSet 中初始化对应的 value 为 elem + 1，之所以这么做其实是将并查集的查 root 结点的行为与连续序列中查找下一个元素的行为保持一致。<br>
+<h3 id="思路二：并查集">思路二：并查集</h3>
+<p>对于 nums 中的每一个元素 elem，我们都在 ufSet 中初始化对应的 value 为 elem + 1，之所以这么做其实是将并查集的查 root 结点的行为与连续序列中查找下一个元素的行为保持一致。<br>
 再遍历一边 nums 数组，只要 elem 的父结点在 nums 中，我们就继续查找它父结点的父结点，这个过程有点像链表的遍历，直到找到 root 结点才退出当前循环，将 elem 的父结点更新为 root 结点并计算连续序列的长度。</p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">longestConsecutive</span><span class="params">(<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> res = <span class="number">0</span>;</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">unordered_map</span>&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; ufSet;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">auto</span>&amp; elem : nums) &#123;</span><br><span class="line">            ufSet[elem] = elem + <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">auto</span>&amp; elem : nums) &#123;</span><br><span class="line">            <span class="keyword">int</span> parent = ufSet[elem];</span><br><span class="line">            <span class="keyword">while</span> (ufSet.<span class="built_in">find</span>(parent) != ufSet.<span class="built_in">end</span>()) &#123;</span><br><span class="line">                parent = ufSet[parent];</span><br><span class="line">            &#125;</span><br><span class="line">            ufSet[elem] = parent;</span><br><span class="line">            res = <span class="built_in">std</span>::<span class="built_in">max</span>(res, parent - elem);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 ]]></content>
@@ -1279,22 +1250,16 @@ beginSet 中保存的是当前走 n 步后能够到达的单词集合，首先�
   <entry>
     <title>LeetCode 0238. 除自身以外数组的乘积</title>
     <url>/posts/cc86ed49/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><blockquote>
-<ul>
-<li>前缀积与后缀积</li>
-<li>复用输出数组以保证 O(1) 额外空间复杂度</li>
-</ul>
-</blockquote>
-<a id="more"></a>
-<p><strong>题目</strong><br>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h3 id="题目">题目</h3>
+<p><a href="https://leetcode-cn.com/problems/product-of-array-except-self/" target="_blank" rel="noopener">题目链接</a><br>
 给你一个长度为 n 的整数数组 nums，其中 n &gt; 1，返回输出数组 output，其中 output[i] 等于 nums 中除 nums[i] 之外其余各元素的乘积。</p>
 <p>示例:<br>
 输入: [1,2,3,4]<br>
 输出: [24,12,8,6]<br>
 提示：题目数据保证数组之中任意元素的全部前缀元素和后缀（甚至是整个数组）的乘积都在 32 位整数范围内。<br>
 说明: 请不要使用除法，且在 O(n) 时间复杂度与常数空间复杂度内完成此题。</p>
-<p><strong>思路一：前缀后缀积</strong><br>
-数组中除掉某一个数后其他数的乘积其实就相当于该数左边子数组的乘积乘以右边子数组的乘积，那么我们可以维护两个数组，分别保存从左至右和从右至左两次遍历计算的元素乘积，也就是说，对于数组 arr 中的某一个元素 arr[i] 来说，left[i] 等于从 arr[0] 一直乘到 arr[i - 1] 的积，right[i] 等于从 arr[n] 一直乘到 arr[i + 1] 的积，那么 res[i] 其实就等于 left[i] * right[i]。<br>
+<h3 id="思路一：前缀后缀积">思路一：前缀后缀积</h3>
+<p>数组中除掉某一个数后其他数的乘积其实就相当于该数左边子数组的乘积乘以右边子数组的乘积，那么我们可以维护两个数组，分别保存从左至右和从右至左两次遍历计算的元素乘积，也就是说，对于数组 arr 中的某一个元素 arr[i] 来说，left[i] 等于从 arr[0] 一直乘到 arr[i - 1] 的积，right[i] 等于从 arr[n] 一直乘到 arr[i + 1] 的积，那么 res[i] 其实就等于 left[i] * right[i]。<br>
 进一步，因为计算 left 和 right 数组是两个独立的过程，我们可以直接复用 res 数组：<br>
 将 left 数组直接放入 res 数组中，那么 res[i] 表示的其实就是 arr 数组中第 i 个元素之前所有元素的乘积，计算完之后，我们再在 res 数组上直接计算结果，假设变量 right = 1，它的含义就是上面说的 right 数组中当前元素的值，那么从 res[n] 开始，依次将 right 的值乘入 res 数组中，最后得到的 res 即为所求。</p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">productExceptSelf</span><span class="params">(<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">res</span><span class="params">(nums.<span class="built_in">size</span>(), <span class="number">0</span>)</span></span>;</span><br><span class="line">        res[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; nums.<span class="built_in">size</span>(); ++i) &#123;</span><br><span class="line">            res[i] = res[i - <span class="number">1</span>] * nums[i - <span class="number">1</span>];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> right = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = nums.<span class="built_in">size</span>() - <span class="number">1</span>; i &gt;= <span class="number">0</span>; --i) &#123;</span><br><span class="line">            res[i] = res[i] * right;</span><br><span class="line">            right *= nums[i];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
