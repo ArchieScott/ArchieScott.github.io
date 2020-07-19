@@ -46,7 +46,8 @@
 </ul>
 </blockquote>
 <a id="more"></a>
-<p><strong>题目</strong><br>
+<h3 id="题目">题目</h3>
+<p><a href="https://leetcode-cn.com/problems/valid-palindrome/" target="_blank" rel="noopener">题目链接</a><br>
 给定三个字符串 s1, s2, s3, 验证 s3 是否是由 s1 和 s2 交错组成的。</p>
 <p>示例 1:<br>
 输入: s1 = “aabcc”, s2 = “dbbca”, s3 = “aadbbcbcac”<br>
@@ -79,7 +80,8 @@
 </ul>
 </blockquote>
 <a id="more"></a>
-<p><strong>题目</strong><br>
+<h3 id="题目">题目</h3>
+<p><a href="https://leetcode-cn.com/problems/valid-palindrome/" target="_blank" rel="noopener">题目链接</a><br>
 给定一个整数 n，求以 1 … n 为节点组成的二叉搜索树有多少种？</p>
 <p>示例:<br>
 输入: 3<br>
@@ -107,13 +109,8 @@
   <entry>
     <title>LeetCode 0120. 三角形最小路径和</title>
     <url>/posts/8844d94a/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><blockquote>
-<ul>
-<li>动态规划</li>
-</ul>
-</blockquote>
-<a id="more"></a>
-<p><strong>题目</strong><br>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h3 id="题目">题目</h3>
+<p><a href="https://leetcode-cn.com/problems/triangle/" target="_blank" rel="noopener">题目链接</a><br>
 给定一个三角形，找出自顶向下的最小路径和。每一步只能移动到下一行中相邻的结点上。<br>
 相邻的结点在这里指的是下标与上一层结点下标相同或者等于上一层结点下标 + 1 的两个结点。<br>
 例如，给定三角形：<br>
@@ -124,8 +121,8 @@
 [4,1,8,3]<br>
 ]<br>
 自顶向下的最小路径和为 11（即，2 + 3 + 5 + 1 = 11）。</p>
-<p><strong>思路一：动态规划</strong><br>
-题目要求最小路径和，那么我们可以将每一步路径的和都保存下来存入 dp 数组，dp[i][j] 表示从顶部走到坐标 (i, j) 处的最小路径和，考虑到三角形的特性，如果要走到坐标 (i, j)，它的前一个位置必须是 (i - 1, j) 或 (i - 1, j - 1)，dp[i][j] 中应该保存这两者中的较小值与 triangle[i][j] 的和。<br>
+<h3 id="思路一：动态规划">思路一：动态规划</h3>
+<p>题目要求最小路径和，那么我们可以将每一步路径的和都保存下来存入 dp 数组，dp[i][j] 表示从顶部走到坐标 (i, j) 处的最小路径和，考虑到三角形的特性，如果要走到坐标 (i, j)，它的前一个位置必须是 (i - 1, j) 或 (i - 1, j - 1)，dp[i][j] 中应该保存这两者中的较小值与 triangle[i][j] 的和。<br>
 编写代码的时候需要注意，三角形的边不能再向两边移动了，因此 dp[i][0] 和 dp[i][i] 都只能从 dp[i - 1][0] 与 dp[i - 1][i - 1] 转移过来，最后还需要花一个 O(n) 的时间复杂度在 dp[i - 1] 这个数组中找到最小值即为结果。</p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">minimumTotal</span><span class="params">(<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;&amp; triangle)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> n = triangle.<span class="built_in">size</span>();</span><br><span class="line">        <span class="function"><span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; <span class="title">dp</span><span class="params">(n, <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;(n, <span class="number">0</span>))</span></span>;</span><br><span class="line">        dp[<span class="number">0</span>][<span class="number">0</span>] = triangle[<span class="number">0</span>][<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; n; ++i) &#123;</span><br><span class="line">            dp[i][<span class="number">0</span>] = dp[i - <span class="number">1</span>][<span class="number">0</span>] + triangle[i][<span class="number">0</span>];</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt; i; ++j) &#123;</span><br><span class="line">                dp[i][j] = <span class="built_in">std</span>::<span class="built_in">min</span>(dp[i - <span class="number">1</span>][j], dp[i - <span class="number">1</span>][j - <span class="number">1</span>]) + triangle[i][j];</span><br><span class="line">            &#125;</span><br><span class="line">            dp[i][i] = dp[i - <span class="number">1</span>][i - <span class="number">1</span>] + triangle[i][i];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> *min_element(dp[n - <span class="number">1</span>].<span class="built_in">begin</span>(), dp[n - <span class="number">1</span>].<span class="built_in">end</span>());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 ]]></content>
@@ -200,7 +197,8 @@ The light you see looking at a star is light that has travelled across the unive
 </ul>
 </blockquote>
 <a id="more"></a>
-<p><strong>题目</strong><br>
+<h3 id="题目">题目</h3>
+<p><a href="https://leetcode-cn.com/problems/valid-palindrome/" target="_blank" rel="noopener">题目链接</a><br>
 一个机器人位于一个 m x n 网格的左上角。机器人每次只能向下或者向右移动一步。机器人试图达到网格的右下角。<br>
 现在考虑网格中有障碍物。那么从左上角到右下角将会有多少条不同的路径？<br>
 网格中的障碍物和空位置分别用 1 和 0 来表示。<br>
@@ -267,7 +265,8 @@ dp[i][j] = dp[i - 1][j] + dp[i][j - 1]<br>
 </ul>
 </blockquote>
 <a id="more"></a>
-<p><strong>题目</strong><br>
+<h3 id="题目">题目</h3>
+<p><a href="https://leetcode-cn.com/problems/valid-palindrome/" target="_blank" rel="noopener">题目链接</a><br>
 给你一个未排序的整数数组，请你找出其中没有出现的最小的正整数。</p>
 <p>示例 1:<br>
 输入: [1,2,0]<br>
@@ -307,7 +306,8 @@ dp[i][j] = dp[i - 1][j] + dp[i][j - 1]<br>
 </ul>
 </blockquote>
 <a id="more"></a>
-<p><strong>题目</strong><br>
+<h3 id="题目">题目</h3>
+<p><a href="https://leetcode-cn.com/problems/valid-palindrome/" target="_blank" rel="noopener">题目链接</a><br>
 编写代码，移除未排序链表中的重复节点。保留最开始出现的节点。</p>
 <p>示例1:<br>
 输入：[1, 2, 3, 3, 2, 1]<br>
@@ -371,7 +371,8 @@ dp[i][j] = dp[i - 1][j] + dp[i][j - 1]<br>
 </ul>
 </blockquote>
 <a id="more"></a>
-<p><strong>题目</strong><br>
+<h3 id="题目">题目</h3>
+<p><a href="https://leetcode-cn.com/problems/valid-palindrome/" target="_blank" rel="noopener">题目链接</a><br>
 给定一个包括 n 个整数的数组 nums 和 一个目标值 target。找出 nums 中的三个整数，使得它们的和与 target 最接近。返回这三个数的和。假定每组输入只存在唯一答案。</p>
 <p>示例：<br>
 输入：nums = [-1,2,1,-4], target = 1<br>
@@ -402,7 +403,8 @@ dp[i][j] = dp[i - 1][j] + dp[i][j - 1]<br>
 </ul>
 </blockquote>
 <a id="more"></a>
-<p><strong>题目</strong><br>
+<h3 id="题目">题目</h3>
+<p><a href="https://leetcode-cn.com/problems/valid-palindrome/" target="_blank" rel="noopener">题目链接</a><br>
 给你两个二进制字符串，返回它们的和（用二进制表示）。<br>
 输入为 非空 字符串且只包含数字 1 和 0。</p>
 <p>示例 1:<br>
@@ -437,7 +439,8 @@ dp[i][j] = dp[i - 1][j] + dp[i][j - 1]<br>
 </ul>
 </blockquote>
 <a id="more"></a>
-<p><strong>题目</strong><br>
+<h3 id="题目">题目</h3>
+<p><a href="https://leetcode-cn.com/problems/valid-palindrome/" target="_blank" rel="noopener">题目链接</a><br>
 你有两个字符串，即 pattern 和 value。pattern 字符串由字母 “a” 和 “b” 组成，用于描述字符串中的模式。<br>
 例如，字符串 “catcatgocatgo” 匹配模式 “aabab”（其中 “cat” 是 “a”，“go” 是 “b”），该字符串也匹配像 “a”、“ab” 和 “b” 这样的模式。但需注意 “a” 和 “b” 不能同时表示相同的字符串。编写一个方法判断 value 字符串是否匹配 pattern 字符串。</p>
 <p>示例 1：<br>
@@ -475,17 +478,12 @@ dp[i][j] = dp[i - 1][j] + dp[i][j - 1]<br>
   <entry>
     <title>LeetCode 0124. 二叉树中的最大路径和</title>
     <url>/posts/3aca13e1/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><blockquote>
-<ul>
-<li>深度优先遍历</li>
-</ul>
-</blockquote>
-<a id="more"></a>
-<p><strong>题目</strong><br>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h3 id="题目">题目</h3>
+<p><a href="https://leetcode-cn.com/problems/binary-tree-maximum-path-sum/" target="_blank" rel="noopener">题目链接</a><br>
 给定一个非空二叉树，返回其最大路径和。<br>
 本题中，路径被定义为一条从树中任意节点出发，达到任意节点的序列。该路径至少包含一个节点，且不一定经过根节点。</p>
-<p><strong>思路一：深度优先遍历</strong><br>
-这道题思路其实比较简单，既然是二叉树，首先就要想到递归。<br>
+<h3 id="思路一：深度优先遍历">思路一：深度优先遍历</h3>
+<p>这道题思路其实比较简单，既然是二叉树，首先就要想到递归。<br>
 题目要求树中两个结点之间路径上结点和的最大值，不难看出，对于任意一个结点来说，经过该结点的路径和等于该结点的值加上他左子树的结点和与右子树的结点和，那么递归的方式就呼之欲出了：<br>
 递归计算经过每个结点并且以该结点为 root 的路径和，并在递归过程中找到最大值。在递归处理函数中，首先判断当前结点是否为 nullptr，如果不是，则计算当前结点与左右分支最大值的和并且同步更新最大值，这里需要注意的是递归函数的返回值不是左右结点子树的和，而是该结点的值与左右子树中较大路径和的和。</p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">TreeNode</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> val;</span><br><span class="line">    TreeNode *left;</span><br><span class="line">    TreeNode *right;</span><br><span class="line">    TreeNode(<span class="keyword">int</span> x) : val(x), left(<span class="literal">NULL</span>), right(<span class="literal">NULL</span>) &#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">maxPathSum</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">        maxSum(root);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">maxSum</span><span class="params">(TreeNode* node)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!node)</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> leftNodeSum = <span class="built_in">std</span>::<span class="built_in">max</span>(maxSum(node-&gt;left), <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">int</span> rightNodeSum = <span class="built_in">std</span>::<span class="built_in">max</span>(maxSum(node-&gt;right), <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">int</span> curNodeSum = node-&gt;val + leftNodeSum + rightNodeSum;</span><br><span class="line">        res = <span class="built_in">std</span>::<span class="built_in">max</span>(res, curNodeSum);</span><br><span class="line">        <span class="comment">// 只选取和更大的那个分支</span></span><br><span class="line">        <span class="keyword">return</span> node-&gt;val + <span class="built_in">std</span>::<span class="built_in">max</span>(leftNodeSum, rightNodeSum);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> res&#123;INT_MIN&#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
@@ -509,7 +507,8 @@ dp[i][j] = dp[i - 1][j] + dp[i][j - 1]<br>
 </ul>
 </blockquote>
 <a id="more"></a>
-<p><strong>题目</strong><br>
+<h3 id="题目">题目</h3>
+<p><a href="https://leetcode-cn.com/problems/valid-palindrome/" target="_blank" rel="noopener">题目链接</a><br>
 给你一个字符串 s 和一个字符规律 p，请你来实现一个支持 ‘.’ 和 ‘<em>’ 的正则表达式匹配。<br>
 ‘.’ 匹配任意单个字符<br>
 '</em>’ 匹配零个或多个前面的那一个元素<br>
@@ -581,13 +580,8 @@ dp[0][j] 只有在类似 “a*b*c*” 这种场合为 true，匹配到空字符�
   <entry>
     <title>LeetCode 0125. 验证回文串</title>
     <url>/posts/a2269cdc/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><blockquote>
-<ul>
-<li>双指针</li>
-</ul>
-</blockquote>
-<a id="more"></a>
-<p><strong>题目</strong><br>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h3 id="题目">题目</h3>
+<p><a href="https://leetcode-cn.com/problems/valid-palindrome/" target="_blank" rel="noopener">题目链接</a><br>
 给定一个字符串，验证它是否是回文串，只考虑字母和数字字符，可以忽略字母的大小写。<br>
 说明：本题中，我们将空字符串定义为有效的回文串。</p>
 <p>示例 1:<br>
@@ -596,8 +590,8 @@ dp[0][j] 只有在类似 “a*b*c*” 这种场合为 true，匹配到空字符�
 <p>示例 2:<br>
 输入: “race a car”<br>
 输出: false</p>
-<p><strong>思路一：双指针遍历</strong><br>
-这道题思路还是很清晰的，使用两个指针分别从头尾开始遍历，当它们相遇的时候如果还没有发现不同的字符，则返回 true。<br>
+<h3 id="思路一：双指针遍历">思路一：双指针遍历</h3>
+<p>这道题思路还是很清晰的，使用两个指针分别从头尾开始遍历，当它们相遇的时候如果还没有发现不同的字符，则返回 true。<br>
 需要注意的是我们要忽略字母大小写，空格和其他符号，因此遍历过程中要跳过非字母数字的字符，并且要将所有大写字母通过 tolower 函数转换成小写字母再比较，判断是否是字母或数字使用 isalnum。</p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isPalindrome</span><span class="params">(<span class="built_in">std</span>::<span class="built_in">string</span> s)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (s.empty())</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>, j = s.<span class="built_in">size</span>() - <span class="number">1</span>; i &lt; j; ++i, --j) &#123;</span><br><span class="line">            <span class="keyword">while</span>(!<span class="built_in">isalnum</span>(s[i]) &amp;&amp; i &lt; j) ++i;</span><br><span class="line">            <span class="keyword">while</span>(!<span class="built_in">isalnum</span>(s[j]) &amp;&amp; i &lt; j) --j;</span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">tolower</span>(s[i]) != <span class="built_in">tolower</span>(s[j]))</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 ]]></content>
@@ -710,7 +704,8 @@ root - rootleft - rootright - rootleftleft -rootleftright…<br>
 </ul>
 </blockquote>
 <a id="more"></a>
-<p><strong>题目</strong><br>
+<h3 id="题目">题目</h3>
+<p><a href="https://leetcode-cn.com/problems/valid-palindrome/" target="_blank" rel="noopener">题目链接</a><br>
 编写一个函数来查找字符串数组中的最长公共前缀。<br>
 如果不存在公共前缀，返回空字符串 “”。</p>
 <p>示例 1:<br>
@@ -828,7 +823,8 @@ MountainArray.length() - 会返回该数组的长度<br>
 </ul>
 </blockquote>
 <a id="more"></a>
-<p><strong>题目</strong><br>
+<h3 id="题目">题目</h3>
+<p><a href="https://leetcode-cn.com/problems/valid-palindrome/" target="_blank" rel="noopener">题目链接</a><br>
 假设你正在爬楼梯。需要 n 阶你才能到达楼顶。<br>
 每次你可以爬 1 或 2 个台阶。你有多少种不同的方法可以爬到楼顶呢？<br>
 注意：给定 n 是一个正整数。</p>
@@ -867,7 +863,8 @@ MountainArray.length() - 会返回该数组的长度<br>
 </ul>
 </blockquote>
 <a id="more"></a>
-<p><strong>题目</strong><br>
+<h3 id="题目">题目</h3>
+<p><a href="https://leetcode-cn.com/problems/valid-palindrome/" target="_blank" rel="noopener">题目链接</a><br>
 给你一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？请你找出所有满足条件且不重复的三元组。<br>
 注意：答案中不可以包含重复的三元组。</p>
 <p>示例：<br>
@@ -932,7 +929,8 @@ leftIdx 与 rightIdx 应该一直指向重复字符/已计算字符的下一个�
 </ul>
 </blockquote>
 <a id="more"></a>
-<p><strong>题目</strong><br>
+<h3 id="题目">题目</h3>
+<p><a href="https://leetcode-cn.com/problems/valid-palindrome/" target="_blank" rel="noopener">题目链接</a><br>
 判断一个整数是否是回文数。回文数是指正序（从左向右）和倒序（从右向左）读都是一样的整数。</p>
 <p>示例 1:<br>
 输入: 121<br>
@@ -967,7 +965,8 @@ leftIdx 与 rightIdx 应该一直指向重复字符/已计算字符的下一个�
 </ul>
 </blockquote>
 <a id="more"></a>
-<p><strong>题目</strong><br>
+<h3 id="题目">题目</h3>
+<p><a href="https://leetcode-cn.com/problems/valid-palindrome/" target="_blank" rel="noopener">题目链接</a><br>
 给定一个数字，我们按照如下规则把它翻译为字符串：0 翻译成 a，1 翻译成 b，25 翻译成 z。<br>
 一个数字可能有多个翻译。请编程实现一个函数，用来计算一个数字有多少种不同的翻译方法。</p>
 <p>示例 1:<br>
@@ -1076,13 +1075,8 @@ equations[i][2] 是 ‘=’</p>
   <entry>
     <title>LeetCode 0127. 单词接龙</title>
     <url>/posts/50059886/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><blockquote>
-<ul>
-<li>双向广度优先遍历</li>
-</ul>
-</blockquote>
-<a id="more"></a>
-<p><strong>题目</strong><br>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h3 id="题目">题目</h3>
+<p><a href="https://leetcode-cn.com/problems/word-ladder/" target="_blank" rel="noopener">题目链接</a><br>
 给定两个单词（beginWord 和 endWord）和一个字典，找到从 beginWord 到 endWord 的最短转换序列的长度。转换需遵循如下规则：<br>
 每次转换只能改变一个字母。<br>
 转换过程中的中间单词必须是字典中的单词。</p>
@@ -1106,8 +1100,8 @@ endWord = “cog”<br>
 wordList = [“hot”,“dot”,“dog”,“lot”,“log”]<br>
 输出: 0<br>
 解释: endWord “cog” 不在字典中，所以无法进行转换。</p>
-<p><strong>思路一：双向 BFS</strong><br>
-不难看出，这是一道最短路径的题目，首先要想到 BFS。<br>
+<h3 id="思路一：双向-BFS">思路一：双向 BFS</h3>
+<p>不难看出，这是一道最短路径的题目，首先要想到 BFS。<br>
 在二叉树的 BFS 中常用的是队列，因为每个结点只可能访问一次，而在图中每个结点可能访问多次，为了消除影响，我们采用这样的策略：<br>
 将 beginWord 加入 beginSet 中，然后从 wordSet 中删除 beginSet 中的单词，因为后面即使还能够得到这些单词，步数也肯定大于当前的步数。<br>
 beginSet 中的每个单词都是 wordList 中我们能够通过修改一个字母依次得到的，我们beginSet 集合中每个单词的每个字母都用字母 a ~ z 遍历一遍，遍历的同时在 wordSet 中查找，如果没有找到就 continue 继续循环，如果找到了我们再看 endSet 能否找到，如果能找到直接返回结果，否则我们将这个修改过的 str 插入一个 tempSet，这个 tempSet 表示的是 beginSet 中的单词修改一个字母就能够到达的 wordSet 中某个单词的集合。<br>
@@ -1125,14 +1119,8 @@ beginSet 中的每个单词都是 wordList 中我们能够通过修改一个字�
   <entry>
     <title>LeetCode 0126. 单词接龙 II</title>
     <url>/posts/2aafb794/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><blockquote>
-<ul>
-<li>广度优先遍历</li>
-<li>深度优先遍历</li>
-</ul>
-</blockquote>
-<a id="more"></a>
-<p><strong>题目</strong><br>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h3 id="题目">题目</h3>
+<p><a href="https://leetcode-cn.com/problems/word-ladder-ii/" target="_blank" rel="noopener">题目链接</a><br>
 给定两个单词（beginWord 和 endWord）和一个字典 wordList，找出所有从 beginWord 到 endWord 的最短转换序列。转换需遵循如下规则：<br>
 每次转换只能改变一个字母。<br>
 转换后得到的单词必须是字典中的单词。</p>
@@ -1159,8 +1147,8 @@ endWord = “cog”<br>
 wordList = [“hot”,“dot”,“dog”,“lot”,“log”]<br>
 输出: []<br>
 解释: endWord “cog” 不在字典中，所以不存在符合要求的转换序列。</p>
-<p><strong>思路一：广度优先遍历 + 深度优先遍历</strong><br>
-这道题和单词接龙 1 的区别就是需要打印出所有满足条件的单词序列，那么我们需要用一个哈希表来保存 wordList 中每个单词只修改一个字符后能够变成的单词，这些单词与原单词的路径都为 1。<br>
+<h3 id="思路一：广度优先遍历-深度优先遍历">思路一：广度优先遍历 + 深度优先遍历</h3>
+<p>这道题和单词接龙 1 的区别就是需要打印出所有满足条件的单词序列，那么我们需要用一个哈希表来保存 wordList 中每个单词只修改一个字符后能够变成的单词，这些单词与原单词的路径都为 1。<br>
 beginSet 中保存的是当前走 n 步后能够到达的单词集合，首先从 wordSet 中剔除 beginSet 中的结点，表示在此之后不会再访问这些结点了，然后对 beginSet 中的每一个单词，我们都将其中的每一个字符分别替换为 a ~ z 的每一个字符，并且在 wordSet 中查找经过修改的 word，一旦能找到就将该 word 加入 tempSet 并且加入 wordTrace 中对应 elem 的集合中。一轮循环后，将 tempSet 赋给 beginSet 用于下一轮遍历。<br>
 一旦在上面的循环中遇到了 endWord，说明 BFS 应该停止了，考虑到可能有多条路径到 endWord，这里不能直接 break，而是需要等这一轮遍历完成才行，因此只置起 endFlag 标志，下一轮循环就不会进入了。<br>
 如果 beginSet 中没有元素了，说明所有元素都遍历完成了，此时如果 endFlag 仍然为 false，说明无法到达 endWord，返回空；<br>
@@ -1217,7 +1205,8 @@ beginSet 中保存的是当前走 n 步后能够到达的单词集合，首先�
 </ul>
 </blockquote>
 <a id="more"></a>
-<p><strong>题目</strong><br>
+<h3 id="题目">题目</h3>
+<p><a href="https://leetcode-cn.com/problems/valid-palindrome/" target="_blank" rel="noopener">题目链接</a><br>
 给定一个包含 m x n 个元素的矩阵，请按照顺时针螺旋顺序，返回矩阵中的所有元素。</p>
 <p>示例 1:<br>
 输入:<br>
@@ -1315,7 +1304,8 @@ beginSet 中保存的是当前走 n 步后能够到达的单词集合，首先�
 </ul>
 </blockquote>
 <a id="more"></a>
-<p><strong>题目</strong><br>
+<h3 id="题目">题目</h3>
+<p><a href="https://leetcode-cn.com/problems/valid-palindrome/" target="_blank" rel="noopener">题目链接</a><br>
 求 1+2+…+n，要求不能使用乘除法、for、while、if、else、switch、case 等关键字及条件判断语句（A?B:C）。</p>
 <p>示例 1：<br>
 输入: n = 3<br>
@@ -1368,25 +1358,19 @@ beginSet 中保存的是当前走 n 步后能够到达的单词集合，首先�
   <entry>
     <title>LeetCode 101. 对称二叉树</title>
     <url>/posts/3c1e41f/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><blockquote>
-<ul>
-<li>深度优先遍历</li>
-<li>广度优先遍历</li>
-</ul>
-</blockquote>
-<a id="more"></a>
-<p><strong>题目</strong><br>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h3 id="题目">题目</h3>
+<p><a href="https://leetcode-cn.com/problems/symmetric-tree/" target="_blank" rel="noopener">题目链接</a><br>
 给定一个二叉树，检查它是否是镜像对称的。<br>
 例如，二叉树 [1,2,2,3,4,4,3] 是对称的，<br>
 而 [1,2,2,null,3,null,3] 则不是镜像对称的。</p>
-<p><strong>思路一：深度优先遍历</strong><br>
-如果一个树的左子树与右子树是对称的，那么这个树就是镜像对称的；<br>
+<h3 id="思路一：深度优先遍历">思路一：深度优先遍历</h3>
+<p>如果一个树的左子树与右子树是对称的，那么这个树就是镜像对称的；<br>
 也就是说，如果两个子树根节点值相等，并且每个结点左子树与另一个结点右子树对称，两棵树就是镜像对称的，我们让两个指针分别从左右子树的相同结点出发，对称遍历，如果对应结点值相等，再将指针分别向左右对称移动。<br>
 时间复杂度：由于需要遍历整棵树，时间复杂度为 O(n)。<br>
 空间复杂度：递归需要额外使用空间为 O(n) 的递归栈。</p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">TreeNode</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> val;</span><br><span class="line">    TreeNode *left;</span><br><span class="line">    TreeNode *right;</span><br><span class="line">    TreeNode(<span class="keyword">int</span> x) : val(x), left(<span class="literal">nullptr</span>), right(<span class="literal">nullptr</span>) &#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isSymmetric</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!root)</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">return</span> isMirror(root-&gt;left, root-&gt;right);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isMirror</span><span class="params">(TreeNode* leftChild, TreeNode* rightChild)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!leftChild &amp;&amp; !rightChild) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (!leftChild || !rightChild) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (leftChild-&gt;val == rightChild-&gt;val) &#123;</span><br><span class="line">            <span class="keyword">return</span> isMirror(leftChild-&gt;left, rightChild-&gt;right) &amp;&amp; isMirror(leftChild-&gt;right, rightChild-&gt;left);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p><strong>思路二：广度优先遍历</strong><br>
-思路一中的递归可以改写为迭代的方法，迭代需要使用一个队列 nodeQueue，每次需要出队两个结点进行比较，那么我们在入队的时候就需要将镜像对应的结点依次入队；也就是当前出队结点的 a 的左子节点和 b 的右子节点。<br>
+<h3 id="思路二：广度优先遍历">思路二：广度优先遍历</h3>
+<p>思路一中的递归可以改写为迭代的方法，迭代需要使用一个队列 nodeQueue，每次需要出队两个结点进行比较，那么我们在入队的时候就需要将镜像对应的结点依次入队；也就是当前出队结点的 a 的左子节点和 b 的右子节点。<br>
 时间复杂度：每个结点都需要遍历一次，为 O(n)。<br>
 空间复杂度：需要用队列来维护节点，每个节点最多进队一次，出队一次，空间复杂度为 O(n)。</p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">TreeNode</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> val;</span><br><span class="line">    TreeNode *left;</span><br><span class="line">    TreeNode *right;</span><br><span class="line">    TreeNode(<span class="keyword">int</span> x) : val(x), left(<span class="literal">nullptr</span>), right(<span class="literal">nullptr</span>) &#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isSymmetric</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!root) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">queue</span>&lt;TreeNode*&gt; nodeQueue;</span><br><span class="line">        nodeQueue.push(root-&gt;left);</span><br><span class="line">        nodeQueue.push(root-&gt;right);</span><br><span class="line">        <span class="keyword">while</span>(!nodeQueue.empty()) &#123;</span><br><span class="line">            <span class="keyword">auto</span> node1 = nodeQueue.front();</span><br><span class="line">            nodeQueue.pop();</span><br><span class="line">            <span class="keyword">auto</span> node2 = nodeQueue.front();</span><br><span class="line">            nodeQueue.pop();</span><br><span class="line">            <span class="keyword">if</span> (!node1 &amp;&amp; !node2) &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (!node1 || !node2) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (node1-&gt;val != node2-&gt;val) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            nodeQueue.push(node1-&gt;left);</span><br><span class="line">            nodeQueue.push(node2-&gt;right);</span><br><span class="line">            nodeQueue.push(node1-&gt;right);</span><br><span class="line">            nodeQueue.push(node2-&gt;left);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
@@ -1456,8 +1440,8 @@ tcp_v4_connect 函数中，首先通过 ip_route_connect 进行路由选择，�
       </categories>
       <tags>
         <tag>Linux</tag>
-        <tag>Socket</tag>
         <tag>Linux-Kernel</tag>
+        <tag>Socket</tag>
       </tags>
   </entry>
   <entry>
@@ -1592,8 +1576,8 @@ inet_csk_wait_for_connect 最主要的功能就是等待客户端连接，为了
       </categories>
       <tags>
         <tag>Linux</tag>
-        <tag>Socket</tag>
         <tag>Linux-Kernel</tag>
+        <tag>Socket</tag>
       </tags>
   </entry>
   <entry>
@@ -2480,8 +2464,8 @@ C++14 开始，<code>auto</code> 可以用于函数返回值类型的推导，�
       </categories>
       <tags>
         <tag>C/C++</tag>
-        <tag>Multithreading</tag>
         <tag>Inter-Threading-Communication</tag>
+        <tag>Multithreading</tag>
         <tag>Lock</tag>
       </tags>
   </entry>
@@ -2541,8 +2525,8 @@ C++14 开始，<code>auto</code> 可以用于函数返回值类型的推导，�
       </categories>
       <tags>
         <tag>C/C++</tag>
-        <tag>Inter-Threading-Communication</tag>
         <tag>MultiThreading</tag>
+        <tag>Inter-Threading-Communication</tag>
         <tag>Mutex</tag>
       </tags>
   </entry>
