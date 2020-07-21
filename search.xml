@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>LeetCode 0095. 不同的二叉搜索树 II</title>
+    <url>/posts/c0ca1b63/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h3 id="题目">题目</h3>
+<p><a href="https://leetcode-cn.com/problems/unique-binary-search-trees-ii/" target="_blank" rel="noopener">题目链接</a><br>
+给定一个整数 n，生成所有由 1 … n 为节点所组成的二叉搜索树。</p>
+<p>示例：<br>
+输入：3<br>
+输出：<br>
+[ [1,null,3,2], [3,2,null,1], [3,1,null,null,2], [2,1,3], [1,null,2,null,3] ]</p>
+<h3 id="思路一：回溯法">思路一：回溯法</h3>
+<p>考虑二叉搜索树的性质，当我们以结点 i 为根节点时，则结点 [1, i - 1] 在结点 i 的左子树，结点 [i + 1, n] 在结点 i 的右子树，之后我们可以递归对这两个区间分别进行递归，递归函数 process 用于生成区间 [left, right] 之间的所有可能的搜索二叉树。<br>
+需要注意的是，process 函数处理左右子树的时候，得到的也都是不同形状子二叉树的集合，那么对于每种左子树，都要完整地遍历一边右子树可能的形状才能确保不漏掉结果。<br>
+最后子区间返回对应子区间中可能的所有二叉树，与根节点连接后即为结果。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">TreeNode</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> val;</span><br><span class="line">    TreeNode *left;</span><br><span class="line">    TreeNode *right;</span><br><span class="line">    TreeNode() : val(<span class="number">0</span>), left(<span class="literal">nullptr</span>), right(<span class="literal">nullptr</span>) &#123;&#125;</span><br><span class="line">    TreeNode(<span class="keyword">int</span> x) : val(x), left(<span class="literal">nullptr</span>), right(<span class="literal">nullptr</span>) &#123;&#125;</span><br><span class="line">    TreeNode(<span class="keyword">int</span> x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) &#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="built_in">std</span>::<span class="built_in">vector</span>&lt;TreeNode*&gt; <span class="title">generateTrees</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (n &lt; <span class="number">1</span>)</span><br><span class="line">            <span class="keyword">return</span> &#123;&#125;;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">process</span>(<span class="number">1</span>, n);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="built_in">std</span>::<span class="built_in">vector</span>&lt;TreeNode*&gt; <span class="title">process</span><span class="params">(<span class="keyword">int</span> start, <span class="keyword">int</span> <span class="built_in">end</span>)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (start &gt; <span class="built_in">end</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> &#123;<span class="literal">nullptr</span>&#125;;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;TreeNode*&gt; res;</span><br><span class="line">        <span class="comment">// 对于区间内的每个结点都要遍历, 尝试将其设置为根结点</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = start; i &lt;= <span class="built_in">end</span>; i++) &#123;</span><br><span class="line">            <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;TreeNode*&gt; leftSubTree = <span class="built_in">process</span>(start, i - <span class="number">1</span>);</span><br><span class="line">            <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;TreeNode*&gt; rightSubTree = <span class="built_in">process</span>(i + <span class="number">1</span>, <span class="built_in">end</span>);</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">auto</span>&amp; leftNode : leftSubTree) &#123;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">auto</span>&amp; rightNode : rightSubTree) &#123;</span><br><span class="line">                    TreeNode* curNode = <span class="keyword">new</span> TreeNode(i);</span><br><span class="line">                    curNode-&gt;left = leftNode;</span><br><span class="line">                    curNode-&gt;right = rightNode;</span><br><span class="line">                    res.emplace_back(curNode);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>LeetCode</category>
+      </categories>
+      <tags>
+        <tag>LeetCode</tag>
+        <tag>Backtracking</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>LeetCode 0312. 戳气球</title>
     <url>/posts/6ebf1ac6/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h3 id="题目">题目</h3>
@@ -536,8 +560,8 @@ dp[0][j] 只有在类似 “a*b*c*” 这种场合为 true，匹配到空字符�
       </categories>
       <tags>
         <tag>LeetCode</tag>
-        <tag>String</tag>
         <tag>Two-Pointers</tag>
+        <tag>String</tag>
       </tags>
   </entry>
   <entry>
@@ -1304,8 +1328,8 @@ tcp_v4_connect 函数中，首先通过 ip_route_connect 进行路由选择，�
       </categories>
       <tags>
         <tag>Linux</tag>
-        <tag>Socket</tag>
         <tag>Linux-Kernel</tag>
+        <tag>Socket</tag>
       </tags>
   </entry>
   <entry>
@@ -1426,8 +1450,8 @@ inet_csk_wait_for_connect 最主要的功能就是等待客户端连接，为了
       </categories>
       <tags>
         <tag>Linux</tag>
-        <tag>Socket</tag>
         <tag>Linux-Kernel</tag>
+        <tag>Socket</tag>
       </tags>
   </entry>
   <entry>
@@ -2310,8 +2334,8 @@ C++14 开始，<code>auto</code> 可以用于函数返回值类型的推导，�
       </categories>
       <tags>
         <tag>C/C++</tag>
-        <tag>Inter-Threading-Communication</tag>
         <tag>Multithreading</tag>
+        <tag>Inter-Threading-Communication</tag>
         <tag>Lock</tag>
       </tags>
   </entry>
@@ -2371,8 +2395,8 @@ C++14 开始，<code>auto</code> 可以用于函数返回值类型的推导，�
       </categories>
       <tags>
         <tag>C/C++</tag>
-        <tag>MultiThreading</tag>
         <tag>Inter-Threading-Communication</tag>
+        <tag>MultiThreading</tag>
         <tag>Mutex</tag>
       </tags>
   </entry>
