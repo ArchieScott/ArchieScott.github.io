@@ -1,6 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>LCOF 011. 旋转数组的最小数字</title>
+    <url>/posts/5c665bd6/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h3 id="题目">题目</h3>
+<p><a href="https://leetcode-cn.com/problems/xuan-zhuan-shu-zu-de-zui-xiao-shu-zi-lcof/solution/mian-shi-ti-11-xuan-zhuan-shu-zu-de-zui-xiao-shu-3/" target="_blank" rel="noopener">题目链接</a><br>
+把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。输入一个递增排序的数组的一个旋转，输出旋转数组的最小元素。例如，数组 [3,4,5,1,2] 为 [1,2,3,4,5] 的一个旋转，该数组的最小值为 1。</p>
+<p>示例 1：<br>
+输入：[3,4,5,1,2]<br>
+输出：1</p>
+<p>示例 2：<br>
+输入：[2,2,2,0,1]<br>
+输出：0</p>
+<h3 id="思路一：二分查找">思路一：二分查找</h3>
+<p>按照题目要求旋转后的数组满足这样的性质：<br>
+设该数组的最后一个数为 x，那么我们要找的最小值左边的所有元素都大于这个 x，右边所有元素都小于等于这个 x，那么我们可以使用在 LeetCode 1095 中介绍的二分方法来写这个二分查找。<br>
+如果在二分的时候，我们取到的 mid 下标对应的值小于区间最右边的值，说明 mid 右边是递增的顺序，最小值肯定在 mid 的左边；<br>
+同理，如果取到的 mid 下标对应的值大于区间最右边的值，说明 mid 左边是递增的顺序，最小值肯定在 mid 的右边；<br>
+但是如果相等，我们是无法判断此时最小值在 mid 的左边或者右边，而因为值相等，此时可以缩小右边界消除一个重复值，继续查找；<br>
+按照上面的规律不断缩小查找范围，直到找到最小值退出循环。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">minArray</span><span class="params">(<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; numbers)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> left = <span class="number">0</span>, right = numbers.<span class="built_in">size</span>() - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (left &lt; right) &#123;</span><br><span class="line">            <span class="keyword">int</span> mid = left + (right - left)/<span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span> (numbers[mid] &lt; numbers[right]) &#123;</span><br><span class="line">                right = mid;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (numbers[mid] &gt; numbers[right]) &#123;</span><br><span class="line">                left = mid + <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                right -= <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> numbers[left];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>LeetCode</category>
+      </categories>
+      <tags>
+        <tag>LeetCode</tag>
+        <tag>Binary-Search</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>LeetCode 0095. 不同的二叉搜索树 II</title>
     <url>/posts/c0ca1b63/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h3 id="题目">题目</h3>
@@ -560,8 +589,8 @@ dp[0][j] 只有在类似 “a*b*c*” 这种场合为 true，匹配到空字符�
       </categories>
       <tags>
         <tag>LeetCode</tag>
-        <tag>Two-Pointers</tag>
         <tag>String</tag>
+        <tag>Two-Pointers</tag>
       </tags>
   </entry>
   <entry>
@@ -764,8 +793,8 @@ MountainArray.length() - 会返回该数组的长度<br>
       </categories>
       <tags>
         <tag>LeetCode</tag>
-        <tag>Array</tag>
         <tag>Binary-Search</tag>
+        <tag>Array</tag>
       </tags>
   </entry>
   <entry>
@@ -1328,8 +1357,8 @@ tcp_v4_connect 函数中，首先通过 ip_route_connect 进行路由选择，�
       </categories>
       <tags>
         <tag>Linux</tag>
-        <tag>Linux-Kernel</tag>
         <tag>Socket</tag>
+        <tag>Linux-Kernel</tag>
       </tags>
   </entry>
   <entry>
@@ -1450,8 +1479,8 @@ inet_csk_wait_for_connect 最主要的功能就是等待客户端连接，为了
       </categories>
       <tags>
         <tag>Linux</tag>
-        <tag>Linux-Kernel</tag>
         <tag>Socket</tag>
+        <tag>Linux-Kernel</tag>
       </tags>
   </entry>
   <entry>
