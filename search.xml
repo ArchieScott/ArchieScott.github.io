@@ -1,6 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>LeetCode 0064. 最小路径和</title>
+    <url>/posts/7aef5434/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h3 id="题目">题目</h3>
+<p><a href="https://leetcode-cn.com/problems/minimum-path-sum/" target="_blank" rel="noopener">题目链接</a><br>
+给定一个包含非负整数的 m x n 网格，请找出一条从左上角到右下角的路径，使得路径上的数字总和为最小。<br>
+说明：每次只能向下或者向右移动一步。</p>
+<p>示例:<br>
+输入:<br>
+[ [1,3,1], [1,5,1], [4,2,1] ]<br>
+输出: 7<br>
+解释: 因为路径 1→3→1→1→1 的总和最小。</p>
+<h3 id="思路一：动态规划">思路一：动态规划</h3>
+<p>看到这种路径问题，首先想到动态规划。<br>
+矩阵中的坐标 (i, j) 可以通过 (i - 1, j) 或者 (i, j - 1) 移动而来，我们用 dp[i][j] 表示从左上角到达该坐标的最小路径和，那么可以推出下面的等式：<br>
+<code>dp[i][j] = std::min(dp[i - 1][j], dp[i][j - 1]) + grid[i][j]</code><br>
+最后得到的 dp[m - 1][n - 1] 即为所求最小路径和。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">minPathSum</span><span class="params">(<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;&amp; grid)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> m = grid.<span class="built_in">size</span>(), n = grid[<span class="number">0</span>].<span class="built_in">size</span>();</span><br><span class="line">        <span class="function"><span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; <span class="title">dp</span><span class="params">(m, <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;(n, <span class="number">0</span>))</span></span>;</span><br><span class="line">        dp[<span class="number">0</span>][<span class="number">0</span>] = grid[<span class="number">0</span>][<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; m; ++i) &#123;</span><br><span class="line">            dp[i][<span class="number">0</span>] = dp[i - <span class="number">1</span>][<span class="number">0</span>] + grid[i][<span class="number">0</span>];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt; n; ++j) &#123;</span><br><span class="line">            dp[<span class="number">0</span>][j] = dp[<span class="number">0</span>][j - <span class="number">1</span>] + grid[<span class="number">0</span>][j];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; m; ++i) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt; n; ++j) &#123;</span><br><span class="line">                dp[i][j] = <span class="built_in">std</span>::<span class="built_in">min</span>(dp[i - <span class="number">1</span>][j], dp[i][j - <span class="number">1</span>]) + grid[i][j];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[m - <span class="number">1</span>][n - <span class="number">1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>LeetCode</category>
+      </categories>
+      <tags>
+        <tag>LeetCode</tag>
+        <tag>Dynamic-Programming</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>LCOF 011. 旋转数组的最小数字</title>
     <url>/posts/5c665bd6/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h3 id="题目">题目</h3>
@@ -408,7 +435,7 @@ dp[i][j] = dp[i - 1][j] + dp[i][j - 1]<br>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h3 id="题目">题目</h3>
 <p><a href="https://leetcode-cn.com/problems/add-binary/" target="_blank" rel="noopener">题目链接</a><br>
 给你两个二进制字符串，返回它们的和（用二进制表示）。<br>
-输入为 非空 字符串且只包含数字 1 和 0。</p>
+输入为非空字符串且只包含数字 1 和 0。</p>
 <p>示例 1:<br>
 输入: a = “11”, b = “1”<br>
 输出: “100”</p>
@@ -2363,8 +2390,8 @@ C++14 开始，<code>auto</code> 可以用于函数返回值类型的推导，�
       </categories>
       <tags>
         <tag>C/C++</tag>
-        <tag>Multithreading</tag>
         <tag>Inter-Threading-Communication</tag>
+        <tag>Multithreading</tag>
         <tag>Lock</tag>
       </tags>
   </entry>
@@ -2424,8 +2451,8 @@ C++14 开始，<code>auto</code> 可以用于函数返回值类型的推导，�
       </categories>
       <tags>
         <tag>C/C++</tag>
-        <tag>Inter-Threading-Communication</tag>
         <tag>MultiThreading</tag>
+        <tag>Inter-Threading-Communication</tag>
         <tag>Mutex</tag>
       </tags>
   </entry>
