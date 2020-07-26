@@ -1,6 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>LeetCode 0329. 矩阵中的最长递增路径</title>
+    <url>/posts/8a13b6f/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h3 id="题目">题目</h3>
+<p><a href="https://leetcode-cn.com/problems/longest-increasing-path-in-a-matrix/" target="_blank" rel="noopener">题目链接</a><br>
+给定一个整数矩阵，找出最长递增路径的长度。<br>
+对于每个单元格，你可以往上，下，左，右四个方向移动。 你不能在对角线方向上移动或移动到边界外（即不允许环绕）。</p>
+<p>示例 1:<br>
+输入: nums = [ [9,9,4], [6,6,8], [2,1,1] ]<br>
+输出: 4<br>
+解释: 最长递增路径为 [1, 2, 6, 9]。</p>
+<p>示例 2:<br>
+输入: nums = [ [3,4,5], [3,2,6], [2,2,1] ]<br>
+输出: 4<br>
+解释: 最长递增路径是 [3, 4, 5, 6]。注意不允许在对角线方向上移动。</p>
+<h3 id="思路一：记忆化深度优先搜索">思路一：记忆化深度优先搜索</h3>
+<p>首先，深度优先搜索是非常直观也是非常容易想到的方法。从一个单元格开始进行深度优先搜索，即可找到从该单元格开始的最长递增路径。<br>
+但是如果只是单纯地对所有单元格都进行同样的深搜处理，时间复杂度是指数级的，此时需要用一个 memo 矩阵将已经访问过的单元格的最长递增路径长度保存下来，直接查找即可。<br>
+这里有一点需要注意的就是，每一次查找单元格的时候，我们都只找比当前单元格的值大的数作为下一次移动的位置，而比当前单元格小的数，在访问其他单元格的时候也会查找到。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">longestIncreasingPath</span><span class="params">(<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;&amp; matrix)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (matrix.<span class="built_in">size</span>() == <span class="number">0</span> || matrix[<span class="number">0</span>].<span class="built_in">size</span>() == <span class="number">0</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> m = matrix.<span class="built_in">size</span>(), n = matrix[<span class="number">0</span>].<span class="built_in">size</span>();</span><br><span class="line">        <span class="function"><span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; <span class="title">memo</span><span class="params">(m, <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;(n, <span class="number">0</span>))</span></span>;</span><br><span class="line">        <span class="keyword">int</span> res = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; m; ++i) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; n; ++j) &#123;</span><br><span class="line">                res = <span class="built_in">std</span>::<span class="built_in">max</span>(res, dfs(matrix, i, j, memo));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">dfs</span><span class="params">(<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;&amp; matrix, <span class="keyword">int</span> i, <span class="keyword">int</span> j, <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;&amp; memo)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (memo[i][j] != <span class="number">0</span>)</span><br><span class="line">            <span class="keyword">return</span> memo[i][j];</span><br><span class="line">        <span class="comment">// 至少最长路径为 1</span></span><br><span class="line">        memo[i][j] = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; <span class="number">4</span>; ++k) &#123;</span><br><span class="line">            <span class="keyword">int</span> newRow = i + dirs[k][<span class="number">0</span>], newCol = j + dirs[k][<span class="number">1</span>];</span><br><span class="line">            <span class="keyword">if</span> (newRow &gt;= <span class="number">0</span> &amp;&amp; newRow &lt; matrix.<span class="built_in">size</span>() &amp;&amp; \</span><br><span class="line">                newCol &gt;= <span class="number">0</span> &amp;&amp; newCol &lt; matrix[<span class="number">0</span>].<span class="built_in">size</span>() &amp;&amp; \</span><br><span class="line">                matrix[i][j] &lt; matrix[newRow][newCol]) &#123;</span><br><span class="line">                memo[i][j] = <span class="built_in">std</span>::<span class="built_in">max</span>(memo[i][j], dfs(matrix, newRow, newCol, memo) + <span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> memo[i][j];</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; dirs&#123; &#123;<span class="number">0</span>, <span class="number">1</span>&#125;, &#123;<span class="number">0</span>, <span class="number">-1</span>&#125;, &#123;<span class="number">-1</span>, <span class="number">0</span>&#125;, &#123;<span class="number">1</span>, <span class="number">0</span>&#125; &#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>LeetCode</category>
+      </categories>
+      <tags>
+        <tag>LeetCode</tag>
+        <tag>Dynamic-Programming</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>LeetCode 0410. 分割数组的最大值</title>
+    <url>/posts/1cea38cd/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h3 id="题目">题目</h3>
+<p><a href="https://leetcode-cn.com/problems/split-array-largest-sum/" target="_blank" rel="noopener">题目链接</a><br>
+给定一个非负整数数组和一个整数 m，你需要将这个数组分成 m 个非空的连续子数组。设计一个算法使得这 m 个子数组各自和的最大值最小。</p>
+<p>注意:<br>
+数组长度 n 满足以下条件:<br>
+1 ≤ n ≤ 1000<br>
+1 ≤ m ≤ min(50, n)</p>
+<p>示例:<br>
+输入:<br>
+nums = [7,2,5,10,8]<br>
+m = 2<br>
+输出:<br>
+18<br>
+解释:<br>
+一共有四种方法将nums分割为2个子数组。<br>
+其中最好的方式是将其分为 [7,2,5] 和 [10,8]，<br>
+因为此时这两个子数组各自的和的最大值为18，在所有情况中最小。</p>
+<h3 id="思路一：二分查找">思路一：二分查找</h3>
+<p>看到使最大值尽可能小的问法，应该想到二分查找。<br>
+我们可以选择一个合适的值，假设为 sum，然后遍历数组，每当数组中元素的和超过了 sum，就分割出一个子数组，然后继续遍历，这样结束的时候能够分割出 cnt 个子数组，当 cnt 小于 m 的时候，说明分出的子数组数量少了，也就是 sum 的值偏大了，反之如果分出的子数组 cnt 大于 m 的时候，分出的子数组多，sum 的值偏小，就在这个过程中不断修改 sum 的值。<br>
+二分的下界 left 等于所有元素中的最大值，上界 right 等于所有元素的和。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">splitArray</span><span class="params">(<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums, <span class="keyword">int</span> m)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">long</span> <span class="keyword">long</span> left = <span class="number">0</span>, right = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.<span class="built_in">size</span>(); ++i) &#123;</span><br><span class="line">            right += nums[i];</span><br><span class="line">            <span class="keyword">if</span> (left &lt; nums[i]) &#123;</span><br><span class="line">                left = nums[i];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span> (left &lt; right) &#123;</span><br><span class="line">            <span class="keyword">long</span> <span class="keyword">long</span> mid = left + (right - left) / <span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">process</span>(nums, mid, m)) &#123;</span><br><span class="line">                right = mid;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                left = mid + <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> left;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">process</span><span class="params">(<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums, <span class="keyword">int</span> x, <span class="keyword">int</span> m)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">long</span> <span class="keyword">long</span> sum = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> cnt = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.<span class="built_in">size</span>(); ++i) &#123;</span><br><span class="line">            <span class="keyword">if</span> (sum + nums[i] &gt; x) &#123;</span><br><span class="line">                cnt++;</span><br><span class="line">                <span class="comment">// 如果加上当前 nums[i] 超过了 x, 当前 nums[i] 要算到下一个 sum 中去</span></span><br><span class="line">                sum = nums[i];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                sum += nums[i];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> cnt &lt;= m;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="思路二：动态规划">思路二：动态规划</h3>
+<p>看到分割数组的问题，还需要想到动态规划。题目让我们求将数组分割成 m 段，那么我们可以定义一个 dp 数组，其中 dp[i][j] 表示将数组的前 i 个元素分割成 j 段时每个子数组和的最小值。<br>
+假设在前 i 个元素中，前 k 个位于前面 j - 1 段中，第 k + 1 个到第 i 个位于第 j 段中，那么此时的 dp[i][j] 就等于 dp[k][j - 1] 和 sum(nums[k + 1], nums[i]) 不同 k 下最大值的最小值。对应的状态转移式为：<br>
+dp[i][j] = std::min(std::max(dp[k][j - 1], sum(nums[k + 1], nums[i]))); (0 &lt;= k &lt;= i - 1)<br>
+其中 sum(nums[k + 1], nums[i]) 我们可以通过保存前缀和来降低时间复杂度。<br>
+考虑到不能有空的子数组，必须有 i &gt;= j，那么对于 i &lt; j 的情况，统一初始化为子数组和的最大值为 LLONG_MAX，这样不会对结果造成影响。<br>
+此外，还有初值 dp[0][0] 的设定，它表示前 0 个元素分割成 0 段的最大值，我们将其设置为 0 即可。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">splitArray</span><span class="params">(<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums, <span class="keyword">int</span> m)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> n = nums.<span class="built_in">size</span>();</span><br><span class="line">        <span class="function"><span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">long</span> <span class="keyword">long</span>&gt;&gt; <span class="title">dp</span><span class="params">(n + <span class="number">1</span>, <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">long</span> <span class="keyword">long</span>&gt;(m + <span class="number">1</span>, LLONG_MAX))</span></span>;</span><br><span class="line">        dp[<span class="number">0</span>][<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">        <span class="comment">// 前缀和</span></span><br><span class="line">        <span class="function"><span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">long</span> <span class="keyword">long</span>&gt; <span class="title">subSum</span><span class="params">(n + <span class="number">1</span>, <span class="number">0</span>)</span></span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; ++i) &#123;</span><br><span class="line">            subSum[i + <span class="number">1</span>] = subSum[i] + nums[i];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// j 是分割数组个数, 必须小于等于数组元素</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; ++i) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= <span class="built_in">std</span>::<span class="built_in">min</span>(i, m); ++j) &#123;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; i; ++k) &#123;</span><br><span class="line">                    dp[i][j] = <span class="built_in">std</span>::<span class="built_in">min</span>(dp[i][j], <span class="built_in">std</span>::<span class="built_in">max</span>(dp[k][j - <span class="number">1</span>], subSum[i] - subSum[k]));</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">static_cast</span>&lt;<span class="keyword">int</span>&gt;(dp[n][m]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>LeetCode</category>
+      </categories>
+      <tags>
+        <tag>LeetCode</tag>
+        <tag>Dynamic-Programming</tag>
+        <tag>Binary-Search</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>LeetCode 1025. 除数博弈</title>
     <url>/posts/21f84c53/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h3 id="题目">题目</h3>
@@ -1421,8 +1493,8 @@ tcp_v4_connect 函数中，首先通过 ip_route_connect 进行路由选择，�
       </categories>
       <tags>
         <tag>Linux</tag>
-        <tag>Linux-Kernel</tag>
         <tag>Socket</tag>
+        <tag>Linux-Kernel</tag>
       </tags>
   </entry>
   <entry>
@@ -1543,8 +1615,8 @@ inet_csk_wait_for_connect 最主要的功能就是等待客户端连接，为了
       </categories>
       <tags>
         <tag>Linux</tag>
-        <tag>Linux-Kernel</tag>
         <tag>Socket</tag>
+        <tag>Linux-Kernel</tag>
       </tags>
   </entry>
   <entry>
@@ -2427,8 +2499,8 @@ C++14 开始，<code>auto</code> 可以用于函数返回值类型的推导，�
       </categories>
       <tags>
         <tag>C/C++</tag>
-        <tag>Inter-Threading-Communication</tag>
         <tag>Multithreading</tag>
+        <tag>Inter-Threading-Communication</tag>
         <tag>Lock</tag>
       </tags>
   </entry>
@@ -2488,8 +2560,8 @@ C++14 开始，<code>auto</code> 可以用于函数返回值类型的推导，�
       </categories>
       <tags>
         <tag>C/C++</tag>
-        <tag>MultiThreading</tag>
         <tag>Inter-Threading-Communication</tag>
+        <tag>MultiThreading</tag>
         <tag>Mutex</tag>
       </tags>
   </entry>
