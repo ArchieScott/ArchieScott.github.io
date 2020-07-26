@@ -68,8 +68,8 @@ dp[i][j] = std::min(std::max(dp[k][j - 1], sum(nums[k + 1], nums[i]))); (0 &lt;=
       </categories>
       <tags>
         <tag>LeetCode</tag>
-        <tag>Dynamic-Programming</tag>
         <tag>Binary-Search</tag>
+        <tag>Dynamic-Programming</tag>
       </tags>
   </entry>
   <entry>
