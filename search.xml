@@ -1,6 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>LeetCode 0114. 二叉树展开为链表</title>
+    <url>/posts/cea3e2c0/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h3 id="题目">题目</h3>
+<p><a href="https://leetcode-cn.com/problems/flatten-binary-tree-to-linked-list/" target="_blank" rel="noopener">题目链接</a><br>
+给定一个二叉树，按照前序遍历的顺序原地将它展开为一个单链表。</p>
+<h3 id="思路一：递归查找前驱结点">思路一：递归查找前驱结点</h3>
+<p>首先注意这道题要求原地修改，那么我们必须直接修改原树。<br>
+这道题有一个坑的地方，就是答案要求结点必须使用 right 连接，这里我们就按照 right 来写。<br>
+对于树中一个结点来说，如果它的左子结点为 nullptr，该结点无需处理，如果它的左子结点不为 nullptr，那么我们需要将该结点右子树挂载左子树中最右边的结点，然后将当前结点的左子结点挂载右子结点的位置上，之后<strong>将左子结点置为 nullptr</strong>。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">TreeNode</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> val;</span><br><span class="line">    TreeNode *left;</span><br><span class="line">    TreeNode *right;</span><br><span class="line">    TreeNode() : val(<span class="number">0</span>), left(<span class="literal">nullptr</span>), right(<span class="literal">nullptr</span>) &#123;&#125;</span><br><span class="line">    TreeNode(<span class="keyword">int</span> x) : val(x), left(<span class="literal">nullptr</span>), right(<span class="literal">nullptr</span>) &#123;&#125;</span><br><span class="line">    TreeNode(<span class="keyword">int</span> x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) &#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">flatten</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!root)</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        <span class="keyword">if</span> (root-&gt;left) &#123;</span><br><span class="line">            TreeNode* last = root-&gt;left;</span><br><span class="line">            <span class="comment">// 找到左子树最右边的结点</span></span><br><span class="line">            <span class="keyword">while</span> (last-&gt;right) &#123;</span><br><span class="line">                last = last-&gt;right;</span><br><span class="line">            &#125;</span><br><span class="line">            last-&gt;right = root-&gt;right;</span><br><span class="line">            root-&gt;right = root-&gt;left;</span><br><span class="line">            root-&gt;left = <span class="literal">nullptr</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 左子树已经被挂在右子树的位置了</span></span><br><span class="line">        flatten(root-&gt;right);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>LeetCode</category>
+      </categories>
+      <tags>
+        <tag>LeetCode</tag>
+        <tag>Recursion</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>LeetCode 0104. 二叉树的最大深度</title>
     <url>/posts/9c1b5ca1/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h3 id="题目">题目</h3>
@@ -2567,8 +2587,8 @@ C++14 开始，<code>auto</code> 可以用于函数返回值类型的推导，�
       </categories>
       <tags>
         <tag>C/C++</tag>
+        <tag>MultiThreading</tag>
         <tag>Inter-Threading-Communication</tag>
-        <tag>Multithreading</tag>
         <tag>Lock</tag>
       </tags>
   </entry>
