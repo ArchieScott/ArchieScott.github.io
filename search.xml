@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>FFmpeg 结构体分析：AVClass 和 AVOption</title>
+    <url>/posts/3a04fc2f/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h3 id="AVOption-简介">AVOption 简介</h3>
+<p>AVOption 的作用是<strong>设置 FFmpeg 中变量值的结构体</strong>，它可以使用字符串为任何类型的变量赋值。例如给 int 型变量赋值，我们只需要通过 AVOption 需要传递进去一个相同内容的字符串即可。<br>
+当然，不仅仅是值，AVOption 中变量的名称也使用字符串来表示。结合上面提到的使用字符串赋值的特性，我们可以发现使用 AVOption 之后，传递两个字符串（一个是变量的名称，一个是变量的值）就可以改变系统中变量的值。<br>
+当我们从外部系统中调用 FFmpeg 时，将名称 - 值这样的字符串传递给内部系统，就能够通过 AVOption 改变 FFmpeg 内部变量的值。</p>
+<h3 id="AVClass-简介">AVClass 简介</h3>
+<p>AVClass 的作用是结构体与 AVOption 之间的桥梁，它可以为 AVFormatContext 之类的 Context 结构体提供 AVOption 的功能。</p>
+]]></content>
+      <categories>
+        <category>Audio/Video</category>
+      </categories>
+      <tags>
+        <tag>FFmpeg</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>LeetCode 0114. 二叉树展开为链表</title>
     <url>/posts/cea3e2c0/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h3 id="题目">题目</h3>
@@ -156,8 +173,8 @@ dp[i][j] = std::min(std::max(dp[k][j - 1], sum(nums[k + 1], nums[i]))); (0 &lt;=
       </categories>
       <tags>
         <tag>LeetCode</tag>
-        <tag>Binary-Search</tag>
         <tag>Dynamic-Programming</tag>
+        <tag>Binary-Search</tag>
       </tags>
   </entry>
   <entry>
@@ -713,8 +730,8 @@ dp[i][j] = dp[i - 1][j] + dp[i][j - 1]<br>
       </categories>
       <tags>
         <tag>LeetCode</tag>
-        <tag>DFS</tag>
         <tag>Binary-Tree</tag>
+        <tag>DFS</tag>
       </tags>
   </entry>
   <entry>
@@ -849,8 +866,8 @@ dp[0][j] 只有在类似 “a*b*c*” 这种场合为 true，匹配到空字符�
       </categories>
       <tags>
         <tag>LeetCode</tag>
-        <tag>DFS</tag>
         <tag>Binary-Tree</tag>
+        <tag>DFS</tag>
       </tags>
   </entry>
   <entry>
@@ -1528,9 +1545,9 @@ beginSet 中保存的是当前走 n 步后能够到达的单词集合，首先�
       </categories>
       <tags>
         <tag>LeetCode</tag>
+        <tag>Binary-Tree</tag>
         <tag>DFS</tag>
         <tag>BFS</tag>
-        <tag>Binary-Tree</tag>
       </tags>
   </entry>
   <entry>
@@ -1581,8 +1598,8 @@ tcp_v4_connect 函数中，首先通过 ip_route_connect 进行路由选择，�
       </categories>
       <tags>
         <tag>Linux</tag>
-        <tag>Socket</tag>
         <tag>Linux-Kernel</tag>
+        <tag>Socket</tag>
       </tags>
   </entry>
   <entry>
@@ -1703,8 +1720,8 @@ inet_csk_wait_for_connect 最主要的功能就是等待客户端连接，为了
       </categories>
       <tags>
         <tag>Linux</tag>
-        <tag>Socket</tag>
         <tag>Linux-Kernel</tag>
+        <tag>Socket</tag>
       </tags>
   </entry>
   <entry>
